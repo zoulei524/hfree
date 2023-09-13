@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 
+import me.zoulei.exception.myException;
+
 /**
  * 2023年9月6日18:20:06 zoulei
  * 数据源
@@ -32,7 +34,7 @@ public class DataSource {
 		String forname = "dm.jdbc.driver.DmDriver";
 		String url = "jdbc:dm://10.32.184.100:5236?useServerPrepStmts=true";
 		String user = "HY_GBGL_ZZGB";
-		String password = "HY_GBGL_ZZGB";
+		String password = "HY_GBGL_ZZGB123";
 		Connection con = null;
 		try {
 			Class.forName(forname).newInstance();
@@ -42,4 +44,34 @@ public class DataSource {
 		}
 		return con;
 	}
+	
+	
+	public static Properties dsprop = new Properties();
+	static {
+		dsprop.setProperty("forname", "dm.jdbc.driver.DmDriver");
+	}
+	/**
+	 * 测试连接
+	 * @return
+	 * @throws myException 
+	 * @throws Exception 
+	 */
+	public static void testDMConn() throws myException{
+		
+		Connection con = null;
+		try {
+			Class.forName(dsprop.getProperty("forname")).newInstance();
+			con = DriverManager.getConnection(dsprop.getProperty("url"),dsprop);
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new myException(e.getMessage());
+		}
+		
+	}
+	
+	
+	
+	
+	
 }
