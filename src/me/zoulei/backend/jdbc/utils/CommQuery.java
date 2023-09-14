@@ -121,7 +121,6 @@ public class CommQuery {
 			try{
 				if(rs!=null) rs.close();
 				if(stmt!=null) stmt.close();
-				if(conn!=null) conn.close();
 			}catch(SQLException ex){
 				throw new Exception(ex.toString());
 			}
@@ -130,7 +129,7 @@ public class CommQuery {
 	}
 	
 	public void setConnection() {
-		conn = DataSource.getDMConn();
+		conn = DataSource.openDMConn();
 	}
 	
 	/**

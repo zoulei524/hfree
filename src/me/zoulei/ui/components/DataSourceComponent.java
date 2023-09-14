@@ -17,10 +17,15 @@ import javax.swing.border.LineBorder;
 
 import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.exception.myException;
+import me.zoulei.ui.mainApp.MainApp;
 
+/**
+ * 2023年9月14日11:28:15  zoulei  
+ * 该组件用于配置数据库连接参数，若连接成功，则加载 搜索数据库表的组件。
+ */
 public class DataSourceComponent {
 
-	public void setComp(JFrame mainFrame) {
+	public void setComp(SearchComponent sch) {
 		JLabel  dslabel= new JLabel("数据库: ", JLabel.LEFT);
 		JTextField dsText = new JTextField("达梦",5);
 		
@@ -33,7 +38,7 @@ public class DataSourceComponent {
 		JLabel  passwordLabel = new JLabel("密码: ", JLabel.CENTER);
 		JTextField passwordText = new JTextField("HY_GBGL_ZZGB123",12);      
 
-		JButton loginButton = new JButton("连接测试");
+		JButton loginButton = new JButton("连接数据库");
 		loginButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {     
 	            //测试数据库连接
@@ -42,9 +47,14 @@ public class DataSourceComponent {
 	            DataSource.dsprop.setProperty("url", urlText.getText());
 	            try {
 					DataSource.testDMConn();
-					JOptionPane.showMessageDialog(mainFrame, "连接成功！");    
+					//JOptionPane.showMessageDialog(MainApp.mainFrame, "连接成功！");    
+					//表格配置组件
+			        //GridComponent grid = new GridComponent();
+			        //grid.setComp();
+			        sch.setComp();
+			        loginButton.setEnabled(false);
 				} catch (myException e1) {
-					JOptionPane.showMessageDialog(mainFrame, "连接失败："+e1.getMessage());    
+					JOptionPane.showMessageDialog(MainApp.mainFrame, "连接失败："+e1.getMessage());    
 				}
 	            
 	         }
@@ -65,7 +75,7 @@ public class DataSourceComponent {
 	    controlPanel.setBounds(0, 5, 1700, 35);
 	    controlPanel.setBorder(new LineBorder(Color.red));
 	    
-	    Container contentPane = mainFrame.getContentPane();
+	    Container contentPane = MainApp.mainFrame.getContentPane();
 	    contentPane.add(controlPanel,BorderLayout.PAGE_START);
 	}
 	

@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import me.zoulei.ui.components.DataSourceComponent;
 import me.zoulei.ui.components.GridComponent;
+import me.zoulei.ui.components.SearchComponent;
 
 /**
  * 2023年9月12日14:59:17 zoulei
@@ -14,24 +15,27 @@ import me.zoulei.ui.components.GridComponent;
  */
 public class MainApp {
 	
+	public static JFrame mainFrame;
+	
 	public static void main(String[] args) {
 		Container c = new Container();
 		
-		JFrame f = new JFrame("代码生成工具");
-        f.setSize(1720, 980);
-        f.setLocation(20, 20);
+		mainFrame = new JFrame("代码生成工具");
+		mainFrame.setSize(1720, 980);
+		mainFrame.setLocation(20, 20);
         //setLayOut是设置布局的意思，当我们传入null，那后面新建的组件的位置就完全由我们所定义(即我想怎么摆就怎么摆），不受Frame约束。
-        f.setLayout(null);
-        f.setResizable(true);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setLayout(null);
+		mainFrame.setResizable(true);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //数据库连接
         DataSourceComponent dsf = new DataSourceComponent();
-        dsf.setComp(f);
+        //表名搜索
+        SearchComponent sch = new SearchComponent();
+        dsf.setComp(sch);
         
-        //表格配置组件
-        GridComponent grid = new GridComponent();
-        grid.setComp(f);
-        f.setVisible(true);
+        
+        
+        mainFrame.setVisible(true);
 	}
 	
 }

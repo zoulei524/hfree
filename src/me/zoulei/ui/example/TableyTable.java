@@ -129,7 +129,7 @@ public class TableyTable extends JPanel {
         table.setRowHeight(MIN_ROW_HEIGHT);
         TableColumnModel cm = table.getColumnModel();
         for(int i = 0; i < table.getColumnModel().getColumnCount(); i++)
-            cm.getColumn(i).setWidth(200);
+            cm.getColumn(i).setWidth(400);
         table.setColumnModel(cm);
         setLayout(new BorderLayout());
         
@@ -316,7 +316,7 @@ public class TableyTable extends JPanel {
             return this;
         }
     }
-/*
+
     public static void main(String[] args) {
         JFrame frame = new JFrame("Tabley");
 
@@ -330,6 +330,6 @@ public class TableyTable extends JPanel {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-*/
+
 
 }

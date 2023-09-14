@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import me.zoulei.exception.myException;
+import me.zoulei.ui.mainApp.MainApp;
 
 /**
  * 2023年9月6日18:20:06 zoulei
@@ -28,19 +31,21 @@ public class DataSource {
 	}
 	
 	
-	public static Connection getDMConn(){
-		Properties info = new Properties();
+	
+	
+	
+	
+	
+	static Connection con;
+	public static Connection openDMConn(){
+		if(con!=null)return con;
 		//设置dm信息
-		String forname = "dm.jdbc.driver.DmDriver";
-		String url = "jdbc:dm://10.32.184.100:5236?useServerPrepStmts=true";
-		String user = "HY_GBGL_ZZGB";
-		String password = "HY_GBGL_ZZGB123";
-		Connection con = null;
 		try {
-			Class.forName(forname).newInstance();
-			con = DriverManager.getConnection(url, user, password);
+			Class.forName(dsprop.getProperty("forname")).newInstance();
+			con = DriverManager.getConnection(dsprop.getProperty("url"),dsprop);
 		} catch (Exception e) {
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(MainApp.mainFrame, "连接失败："+e.getMessage());    
 		}
 		return con;
 	}

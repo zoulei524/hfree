@@ -26,10 +26,10 @@ public class TableMetaDataConfig {
 	 */
 	private String type;
 	private String sql = "select t.column_name,nvl(c.comments,t.column_name) comments,data_type,to_char(data_length) data_length ,nvl(pk.p,0) p  "
-			+ " from user_tab_cols t,user_col_comments c, "
-			+ " (select 1 p,cu.column_name from user_cons_columns cu, user_constraints au where cu.constraint_name = au.constraint_name and au.constraint_type = 'P' and au.table_name = upper('%s')) pk"
+			+ " from ALL_tab_cols t,ALL_col_comments c, "
+			+ " (select 1 p,cu.column_name from ALL_cons_columns cu, ALL_constraints au where cu.constraint_name = au.constraint_name and au.constraint_type = 'P' and au.table_name=cu.table_name and au.table_name = upper('%s')) pk"
 			+ " where t.TABLE_NAME=c.table_name and t.COLUMN_NAME=c.column_name "
-			+ " and pk.column_name(+) =c.column_name "
+			+ " and pk.column_name(+) =c.column_name  and t.owner=upper('%s')"
 			+ " and t.TABLE_NAME=upper('%s')   ORDER BY t.COLUMN_ID";//and t.data_type in('VARCHAR2')
 	
 	/**
@@ -50,9 +50,9 @@ public class TableMetaDataConfig {
 	 * List<HashMap<String, String>> tableMetaData
 	 * 传入表名tablename  获取数据库表的各种信息 字段名column_name 字段备注comments 字段类型data_type 字段长度data_length 主键p
 	 */
-	public TableMetaDataConfig(String tablename) throws Exception{
+	public TableMetaDataConfig(String tablename,String owner,String e) throws Exception{
 		this.tablename = tablename;
-		this.sql = String.format(this.sql, tablename,tablename);
+		this.sql = String.format(this.sql, tablename,owner,tablename);
 		this.type = "table";
 		this.initMetaData();
 	}
@@ -66,7 +66,7 @@ public class TableMetaDataConfig {
 	        Connection con = null;  
 	        PreparedStatement pStemt = null;  
 	        try {  
-	            con = DataSource.getDMConn();
+	            con = DataSource.openDMConn();
 	            pStemt = con.prepareStatement(this.sql);  
 	            ResultSetMetaData rsmd = pStemt.getMetaData();  
 	            int size = rsmd.getColumnCount();   //统计列  
@@ -82,13 +82,6 @@ public class TableMetaDataConfig {
 	            pStemt.close();
 	        } catch (SQLException e) {  
 	            e.printStackTrace();  
-	        } finally{  
-	        	try { 
-	          	  if(con!=null)
-	          		  con.close();  
-	            } catch (SQLException e) {  
-	                e.printStackTrace();  
-	            }   
 	        } 
 		}else {
 			this.tableMetaData = list;

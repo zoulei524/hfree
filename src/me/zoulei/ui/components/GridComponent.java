@@ -5,37 +5,23 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.border.LineBorder;
 
+import me.zoulei.ui.mainApp.MainApp;
+
+/**
+ * 2023年9月14日11:17:12 zoulei
+ * 表格组件，用于配置表格的参数  结构： JPanel（布局是BorderLayout，不留空隙）,里面是JScrollPane,在里面是JTable
+ */
 public class GridComponent {
-	public void setComp(JFrame mainFrame) {
-		/*
-		JPanel p = new JPanel();
-		p.setBounds(0, 40, 1700, 500);
-		
-		
-		Object[][] tableDate = new Object[15][8];
-		for (int i = 0; i < 15; i++) {
-			tableDate[i][0] = "1000" + i;
-			for (int j = 1; j < 8; j++) {
-				tableDate[i][j] = 0;
-			}
+	EditorGrid table;
+	public void setComp(String tablename,String owner) {
+		if(this.table!=null) {
+			MainApp.mainFrame.remove(this.table);
 		}
-		String[] name = { "学号", "软件工程", "Java", "网络", "数据结构", "数据库", "总成绩", "平均成绩" };
-		JTable table = new JTable(tableDate, name);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		JScrollPane sp = new JScrollPane(table);
-		//table.setSize(20,20);
-		sp.setBorder(new LineBorder(Color.red));
-		p.add(sp);
-		
-		Container contentPane = mainFrame.getContentPane();
-		contentPane.add(p);
-		*/
-		TableyTable table = new TableyTable(10, 28);
-		table.setBounds(35,160,1600,300);
-        table.setHeaderEditable(true);
-        table.setTableEditable(true);
-        table.setBorder(new LineBorder(Color.red));
-        
-        mainFrame.add(table);
+		this.table = new EditorGrid(tablename,owner);
+		MainApp.mainFrame.add(this.table);
+		this.table.setBounds(15,160,1680,342);
+		this.table.setHeaderEditable(true);
+		this.table.setTableEditable(true);
+		this.table.setBorder(new LineBorder(Color.red));
 	}
 }

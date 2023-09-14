@@ -8,37 +8,49 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.EventObject;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.AbstractListModel;
-import javax.swing.JFrame;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+
+import me.zoulei.backend.entity.TableMetaDataConfig;
 
 /**
  * 2023年9月12日19:24:42  zoulei
- * 表格配置后读取参数
+ * 用户表格配置后读取参数
  */
-public class TableyTable extends JPanel {
+public class EditorGrid extends JPanel {
     /**
      * 
      */
@@ -48,7 +60,7 @@ public class TableyTable extends JPanel {
     public JTable table;
     public JScrollPane scrollPane;
     public JPopupMenu renamePopup;
-    public JTextField text;
+    public JTextArea text;
     public TableColumn column;
     private boolean headerEditable = false;
     private boolean tableEditable = false;
@@ -56,14 +68,39 @@ public class TableyTable extends JPanel {
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public static final int MIN_ROW_HEIGHT = (int)SCREEN_SIZE.getHeight()/36;
     public static final int MIN_ROW_WIDTH = (int)SCREEN_SIZE.getWidth()/108;
+    TableModel model;
+    
+    List<HashMap<String, String>> tableMetaData;
 
-
-    public TableyTable(int row, int column) {
-        init(row, column);
+    public EditorGrid(String tablename,String owner) {
+    	try {
+    		//* 传入表名tablename  获取数据库表的各种信息 字段名column_name 字段备注comments 字段类型data_type 字段长度data_length 主键p
+    		tableMetaData = new TableMetaDataConfig(tablename,owner,null).getTableMetaData();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        init();
     }
 
-    public void init(int row, int column) {
-        table = new JTable(row, column) {
+    public void init() {
+    	Object[][] tableDate = new Object[5][tableMetaData.size()];
+    	String[] colnames = new String[tableMetaData.size()];
+    	for(int i = 0; i<tableMetaData.size(); i++ ) {
+    		HashMap<String, String> metaData = tableMetaData.get(i);
+    		String comments = metaData.get("comments");
+    		String column_name = metaData.get("column_name");
+    		String data_type = metaData.get("data_type");
+    		String data_length = metaData.get("data_length");
+    		String p = metaData.get("p");
+    		//这样可以自动换行
+    		colnames[i] = "<html><div style='height:55px;'>" + comments + "</div></html>";
+    		tableDate[0][i] = column_name;
+    		tableDate[1][i] = data_type+":"+data_length+":"+p;
+    		//设置默认值
+    		tableDate[3][i] = "显示";
+    		tableDate[4][i] = "center";
+    	}
+        table = new JTable(tableDate,colnames) {
             /**
              * 
              */
@@ -72,16 +109,32 @@ public class TableyTable extends JPanel {
 
             @Override
             public boolean isCellEditable(int row, int column) {
+            	//第一行是字段名，第二行宽，通过拖拉改变，不可编辑。
+            	if(row==0||row==1||row==2)return false;
                 if (tableEditable) return true;
                 return false;
             }
         };
+        //table.putClientProperty("terminateEditOnFocusLost", true);
+        this.model = table.getModel();
+        
+        //单元格居中
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        table.setDefaultRenderer(Object.class, centerRenderer);//第一个参数填Object,因为表格数据使用的是二维Object数组
+        
         //改变列宽是，其他列的列宽不自动变化
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        
+        
         //默认选中第一个单元格
         table.changeSelection(0, 0, false, false);
-
+        
         header = table.getTableHeader();
+        //设置高度2行 设置了这个表头宽度就固定了，列宽变了后 总宽不会自动调整， 在列模型上加事件解决
+        header.setPreferredSize(new Dimension(table.getColumnModel().getTotalColumnWidth(), 80));
+        
+        
         //添加双击更改表头名称事件
         header.addMouseListener(new MouseAdapter(){
             @Override
@@ -91,15 +144,20 @@ public class TableyTable extends JPanel {
                     editColumnAt(event.getPoint());
                 }
             }
+            
         });
-
-        text = new JTextField();
+        
+        
+        text = new JTextArea();
         text.setBorder(null);
+        text.setLineWrap(true);
+        /*
         text.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (headerEditable) renameColumn();
             }
         });
+        */
         //不允许选中行
         table.setRowSelectionAllowed(false);
         //可选中单元格
@@ -107,7 +165,7 @@ public class TableyTable extends JPanel {
 
         //弹出菜单，里面放了一个文本框，用户改表头的名称，改完后更新表头
         renamePopup = new JPopupMenu();
-        renamePopup.addPopupMenuListener(new PopupMenuListener() {
+        renamePopup.addPopupMenuListener(new  PopupMenuListener() {
 			
 			@Override
 			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
@@ -133,8 +191,44 @@ public class TableyTable extends JPanel {
         
         table.setRowHeight(MIN_ROW_HEIGHT);
         TableColumnModel cm = table.getColumnModel();
-        for(int i = 0; i < table.getColumnModel().getColumnCount(); i++)
-            cm.getColumn(i).setWidth(200);
+        cm.addColumnModelListener(new TableColumnModelListener() {
+			
+			@Override
+			public void columnSelectionChanged(ListSelectionEvent e) {
+			}
+			
+			@Override
+			public void columnRemoved(TableColumnModelEvent e) {
+			}
+			
+			@Override
+			public void columnMoved(TableColumnModelEvent e) {
+			}
+			
+			@Override
+			public void columnMarginChanged(ChangeEvent e) {
+				header.setPreferredSize(new Dimension(table.getColumnModel().getTotalColumnWidth(), 80));
+				//改变宽的值
+				for(int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
+					model.setValueAt(cm.getColumn(i).getWidth(), 2, i);
+				}
+		            
+				
+			}
+			
+			@Override
+			public void columnAdded(TableColumnModelEvent e) {
+			}
+		});
+        
+        for(int i = 0; i < cm.getColumnCount(); i++) {
+        	//setWidth没有用   PreferredWidth首选宽度
+            cm.getColumn(i).setPreferredWidth(120);
+            //设置编辑器
+            JBoxTestCell jc = new JBoxTestCell();// 第四列第二行为下拉框，其余行为文本框
+            cm.getColumn(i).setCellEditor(jc);
+        }
+        	
         table.setColumnModel(cm);
         setLayout(new BorderLayout());
         
@@ -157,13 +251,14 @@ public class TableyTable extends JPanel {
         return tableEditable;
     }
 
+    //添加双击更改表头名称
     private void editColumnAt(Point p) {
         int columnIndex = header.columnAtPoint(p);
         if (columnIndex != -1) { 
             column = header.getColumnModel().getColumn(columnIndex);
             Rectangle columnRectangle = header.getHeaderRect(columnIndex);
-
-            text.setText(column.getHeaderValue().toString());
+            //把html换掉  "<html><div style='height:72px;> " + comments + "</div></html>"
+            text.setText(column.getHeaderValue().toString().replace("<html><div style='height:72px;'>", "").replace("</div></html>", ""));
             renamePopup.setPreferredSize(new Dimension(columnRectangle.width, columnRectangle.height - 1));
             renamePopup.show(header, columnRectangle.x, 0);
 
@@ -171,10 +266,10 @@ public class TableyTable extends JPanel {
             text.selectAll();
         }
     }
-
+    //表头名称改完后替换
     private void renameColumn() {
-    	System.out.println(text.getText());
-        column.setHeaderValue(text.getText());
+    	//把html加回去
+        column.setHeaderValue("<html><div style='height:72px;'>" + text.getText() + "</div></html>");
         renamePopup.setVisible(false);
         header.repaint();
     }
@@ -186,17 +281,12 @@ public class TableyTable extends JPanel {
      */
     private static JList<Object> buildRowHeader(JTable table) {
         final Vector<String> headers = new Vector<String>();
-        for (int i = 0; i < table.getRowCount(); i++) {
-            String name = "";
-            if (i < 10) {
-                name += "0";
-            }
-            if (i < 100) {
-                name += "0";
-            }
-            name += i;
-            headers.add(name);
-        }
+        headers.add("字段名");
+        headers.add("数据类型:长度:主键");
+        headers.add("列宽");
+        headers.add("是否显示");
+        headers.add("水平对齐");
+
         ListModel<Object> lm = new AbstractListModel<Object>() {
 
             /**
@@ -217,7 +307,7 @@ public class TableyTable extends JPanel {
         final JList<Object> rowHeader = new JList<>(lm);
         rowHeader.setOpaque(true);
         //表头固定宽
-        rowHeader.setFixedCellWidth(100);
+        rowHeader.setFixedCellWidth(120);
 
         //行事件 可以拖动改变行高
         MouseInputAdapter mouseAdapter = new MouseInputAdapter() {
@@ -345,4 +435,78 @@ public class TableyTable extends JPanel {
 
 */
 
+}
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 自定义celleditor实现
+ * 指定单元格设置下拉框，其他单元格设置文本框
+ *
+ */
+class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	int row;
+	int column;
+	private JComboBox<String> jbox2;//第三行 下标2
+	private JComboBox<String> jbox3;//第四行 下标3
+	private JTextField textfield;
+
+	public JBoxTestCell() {
+
+		jbox2 = new JComboBox<String>(new String[] {"显示","不显示"});
+		
+		jbox3 = new JComboBox<String>(new String[] {"left","center","right"});
+		jbox3.setSelectedIndex(1);
+	}
+
+	@Override
+	public boolean isCellEditable(EventObject anEvent) {
+		return true;
+	}
+
+	
+
+	public Object getCellEditorValue() {
+		switch (this.row) {
+		
+			case 3:
+				String v2 = jbox2.getSelectedItem().toString();
+				return v2;
+			case 4:
+				String v3 = jbox3.getSelectedItem().toString();
+				return v3;
+			default:
+				return this.textfield.getText().toString();
+		}
+	}
+
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		this.row = row;
+		this.column = column;
+		
+		switch (this.row) {
+		
+			case 3:
+				return this.jbox2;
+			case 4:
+				return this.jbox3;
+			default:
+				JTextField result = new JTextField();
+				result.setText(value==null?"":value.toString());   
+				this.textfield = result;
+				return result;
+		}
+	}
 }
