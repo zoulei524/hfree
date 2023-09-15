@@ -10,6 +10,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
 import java.util.List;
@@ -93,7 +94,7 @@ public class EditorGrid extends JPanel {
     		String data_length = metaData.get("data_length");
     		String p = metaData.get("p");
     		//这样可以自动换行
-    		colnames[i] = "<html><div style='height:55px;'>" + comments + "</div></html>";
+    		colnames[i] = this.formateColName(comments);
     		tableDate[0][i] = column_name;
     		tableDate[1][i] = data_type+":"+data_length+":"+p;
     		//设置默认值
@@ -235,6 +236,15 @@ public class EditorGrid extends JPanel {
         add(scrollPane);
     }
 
+    
+    private String formateColName(String text) {
+    	return "<html><div style='height:55px;'>" + text + "</div></html>";
+    }
+    
+    private String getColNameText(String text) {
+    	return text.replace("<html><div style='height:55px;'>", "").replace("</div></html>", "");
+    }
+    
     public void setHeaderEditable(boolean b) {
         headerEditable = b;
     }
@@ -258,7 +268,7 @@ public class EditorGrid extends JPanel {
             column = header.getColumnModel().getColumn(columnIndex);
             Rectangle columnRectangle = header.getHeaderRect(columnIndex);
             //把html换掉  "<html><div style='height:72px;> " + comments + "</div></html>"
-            text.setText(column.getHeaderValue().toString().replace("<html><div style='height:72px;'>", "").replace("</div></html>", ""));
+            text.setText(this.getColNameText(column.getHeaderValue().toString()));
             renamePopup.setPreferredSize(new Dimension(columnRectangle.width, columnRectangle.height - 1));
             renamePopup.show(header, columnRectangle.x, 0);
 
@@ -269,7 +279,7 @@ public class EditorGrid extends JPanel {
     //表头名称改完后替换
     private void renameColumn() {
     	//把html加回去
-        column.setHeaderValue("<html><div style='height:72px;'>" + text.getText() + "</div></html>");
+        column.setHeaderValue(this.formateColName(text.getText()));
         renamePopup.setVisible(false);
         header.repaint();
     }
@@ -435,6 +445,50 @@ public class EditorGrid extends JPanel {
 
 */
 
+    
+    /**
+     * 获取表格配置
+     */
+    public List<HashMap<String, String>> genTableMetaData(){
+    	List<HashMap<String, String>> tmd = new ArrayList<HashMap<String,String>>();
+    	//* 传入表名tablename  获取数据库表的各种信息 字段名column_name 字段备注comments 字段类型data_type 字段长度data_length 主键p
+    	HashMap<String, String> field = null;
+    	//int rowCount = this.model.getRowCount();
+    	int colCount = this.model.getColumnCount();
+    	for(int c=0; c<colCount; c++) {
+    		//字段配置
+    		field = new HashMap<String, String>();
+    		tmd.add(field);
+    		//字段备注
+    		String comments = this.getColNameText(this.header.getColumnModel().getColumn(c).getHeaderValue().toString());
+    		field.put("comments", comments);
+    		//原备注
+    		field.put("comments2", this.getColNameText(this.model.getColumnName(c)));
+    		
+    		//字段名
+    		String column_name = this.model.getValueAt(0, c).toString();
+    		field.put("column_name", column_name);
+    		//其他信息
+    		String orther = this.model.getValueAt(1, c).toString();
+    		String[] orthers = orther.split(":");
+    		field.put("data_type", orthers[0]);
+    		field.put("data_length", orthers[1]);
+    		field.put("p", orthers[2]);
+    		//列宽
+    		String width = this.model.getValueAt(2, c).toString();
+    		field.put("width", width);
+    		//是否显示
+    		String visible = this.model.getValueAt(3, c).toString();
+    		field.put("visible", visible);
+    		//水平对齐
+    		String align = this.model.getValueAt(4, c).toString();
+    		field.put("align", align);
+    	}
+    	return tmd;
+    }
+    
+    
+    
 }
 
 

@@ -21,7 +21,7 @@ public class Test {
 		VueNode gridTable = gt.getEltable();
 		VueNode eltableCONST = gt.getEltableCONST();
 		
-		TableMetaDataConfig config = new TableMetaDataConfig("y339");
+		TableMetaDataConfig config = new TableMetaDataConfig("y339","HY_GBGL_ZZGB",null);
 		
 		List<HashMap<String, String>> list = config.getTableMetaData();
 		list.forEach(column->{

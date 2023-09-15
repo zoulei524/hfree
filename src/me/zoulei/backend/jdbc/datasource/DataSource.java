@@ -7,7 +7,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 import me.zoulei.exception.myException;
-import me.zoulei.ui.mainApp.MainApp;
+import me.zoulei.ui.MainApp;
 
 /**
  * 2023年9月6日18:20:06 zoulei

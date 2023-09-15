@@ -248,7 +248,7 @@ public class GenEntity {
      */  
     public static void main(String[] args) throws Exception {
           
-    	GenEntity genEntity = new GenEntity(new TableMetaDataConfig("y339"));  
+    	GenEntity genEntity = new GenEntity(new TableMetaDataConfig("y339","HY_GBGL_ZZGB",null));  
         System.out.println(genEntity.getEntity_content());
         System.out.println(genEntity.getJson_content());
     }  

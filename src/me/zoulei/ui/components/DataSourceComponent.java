@@ -17,7 +17,7 @@ import javax.swing.border.LineBorder;
 
 import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.exception.myException;
-import me.zoulei.ui.mainApp.MainApp;
+import me.zoulei.ui.MainApp;
 
 /**
  * 2023年9月14日11:28:15  zoulei  
@@ -73,7 +73,7 @@ public class DataSourceComponent {
 	    controlPanel.add(loginButton);
 	    //位置及大小
 	    controlPanel.setBounds(0, 5, 1700, 35);
-	    controlPanel.setBorder(new LineBorder(Color.red));
+	    controlPanel.setBorder(MainApp.lineBorder);
 	    
 	    Container contentPane = MainApp.mainFrame.getContentPane();
 	    contentPane.add(controlPanel,BorderLayout.PAGE_START);

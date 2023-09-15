@@ -57,6 +57,13 @@ public class TableMetaDataConfig {
 		this.initMetaData();
 	}
 	
+	//从界面上点击进来 传入界面上的表格参数
+	public TableMetaDataConfig(String tablename, List<HashMap<String, String>> tableMetaData) throws Exception{
+		this.tablename = tablename;
+		this.type = "table";
+		this.tableMetaData = tableMetaData;
+	}
+	
 	public void initMetaData() throws Exception {
 		CommQuery cq = new CommQuery();
 		List<HashMap<String, String>> list = cq.getListBySQL2(this.sql);

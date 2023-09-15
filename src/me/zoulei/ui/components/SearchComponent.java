@@ -17,9 +17,11 @@ import javax.swing.event.PopupMenuListener;
 import dm.jdbc.util.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import me.zoulei.backend.entity.TableMetaDataConfig;
 import me.zoulei.backend.jdbc.utils.CommQuery;
+import me.zoulei.gencode.Gencode;
+import me.zoulei.ui.MainApp;
 import me.zoulei.ui.frame.AutoCompletion;
-import me.zoulei.ui.mainApp.MainApp;
 
 /**
  * 2023年9月14日11:30:15  zoulei
@@ -38,7 +40,7 @@ public class SearchComponent {
 		JScrollPane msmscr = new JScrollPane(cbx2);
 		MainApp.mainFrame.add(msmscr);
 		msmscr.setBounds(50, 75, 150, 45);
-		msmscr.setBorder(new LineBorder(Color.red));
+		msmscr.setBorder(MainApp.lineBorder);
 		//cbx2.setEditable(true);
 		cbx2.setSelectedItem("HY_GBGL_ZZGB");
 		
@@ -102,38 +104,50 @@ public class SearchComponent {
 		MainApp.mainFrame.add(controlPanel);
 		//下拉框
 		controlPanel.setBounds(210, 75, 1200, 45);
-		controlPanel.setBorder(new LineBorder(Color.red));
+		controlPanel.setBorder(MainApp.lineBorder);
 		//实现搜索
 		AutoCompletion.enable(cbx);
 		//cbx.setEnabled(false);
         //cbx.setPopupVisible(true);
+		
 		//表格组件
 		GridComponent grid = new GridComponent();
+		
+		//生成数据库配置及代码按钮
+		JButton genCodeBtn = new JButton("生成代码");
+		
 		//选择表名事件 选择后加载表格
 		cbx.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Item item = (Item) cbx.getSelectedItem();
-				if(item!=null)
+				if(item!=null) {
 					grid.setComp(item.getKey(),(String) cbx2.getSelectedItem());
+					genCodeBtn.setBounds(1450, 75, 100, 45);
+				}
 			}
 		});
 		
-		/*
-		JButton loginButton = new JButton("读取表结构");
-		MainApp.mainFrame.add(loginButton);
-		loginButton.addActionListener(new ActionListener() {
+		
+		MainApp.mainFrame.add(genCodeBtn);
+		genCodeBtn.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {     
-	            //测试数据库连接
-	        	//表格配置组件
-			    GridComponent grid = new GridComponent();
-			    //grid.setComp((String) cbx.getSelectedItem());
+	             //生成配置
+	        	 List<HashMap<String, String>> tmd = grid.editorGrid.genTableMetaData();
+	        	 Item item = (Item) cbx.getSelectedItem();
+	        	 try {
+	        		 //生成代码
+					new Gencode().gencode(new TableMetaDataConfig(item.getKey(), tmd));
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(MainApp.mainFrame, e1.getMessage());    
+					e1.printStackTrace();
+				}
 	            
 	         }
 	      });
 		
-		loginButton.setBounds(1050, 75, 100, 35);
-		*/
+		genCodeBtn.setBorder(MainApp.lineBorder);
+		
 	}
 	//查询表
 	public void search(String sch) {
