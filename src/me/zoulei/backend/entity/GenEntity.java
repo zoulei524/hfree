@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import dm.jdbc.util.StringUtil;
-import lombok.Data;  
+import lombok.Data;
+import me.zoulei.Constants;  
 
 /**
  * 2023年9月8日15:18:59 zoulei
@@ -23,8 +24,8 @@ public class GenEntity {
 	
 	TableMetaDataConfig config;
 	
-    private String packageOutPath = "com.insigma.business.entity.yuhang";//指定实体生成所在包的路径  
-    private String authorName = "zoulei";//作者名字  
+    private String packageOutPath = Constants.PACKAGE_OUTPATH;//指定实体生成所在包的路径  
+    private String authorName = Constants.AUTHOR;//作者名字  
     private boolean f_util = false; // 是否需要导入包java.util.*  
     private boolean f_sql = false; // 是否需要导入包java.sql.*  
     private String entity_content;
@@ -248,7 +249,7 @@ public class GenEntity {
      */  
     public static void main(String[] args) throws Exception {
           
-    	GenEntity genEntity = new GenEntity(new TableMetaDataConfig("y339","HY_GBGL_ZZGB",null));  
+    	GenEntity genEntity = new GenEntity(new TableMetaDataConfig("y339","HY_GBGL_ZZGB",""));  
         System.out.println(genEntity.getEntity_content());
         System.out.println(genEntity.getJson_content());
     }  

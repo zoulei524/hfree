@@ -1,8 +1,7 @@
-package me.zoulei.ui.components.codeEditor;
+package me.zoulei.ui.components.codeEditor.demo;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -38,6 +37,9 @@ import javax.swing.event.DocumentListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
+
+import me.zoulei.ui.components.codeEditor.FindDialogDoc;
+import me.zoulei.ui.components.codeEditor.JFontDialog;
  
 @SuppressWarnings("serial")
 public class Document extends JFrame implements ActionListener, DocumentListener {
@@ -485,7 +487,7 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 	public void actionPerformed(ActionEvent e) {
 		String action = e.getActionCommand();
 		if (action.equals("查找")) {
-			FindDialogDoc find = new FindDialogDoc(this, true);
+			FindDialogDoc find = new FindDialogDoc(null, changed);
 			find.showDialog();
 		}
 	}

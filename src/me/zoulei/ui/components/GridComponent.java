@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.border.LineBorder;
 
-import me.zoulei.ui.MainApp;
+import me.zoulei.MainApp;
 
 /**
  * 2023年9月14日11:17:12 zoulei

@@ -21,6 +21,9 @@ import me.zoulei.backend.jdbc.utils.CommQuery;
 public class TableMetaDataConfig {
 	List<HashMap<String, String>> tableMetaData;
 	private String tablename;
+	private String tablecomment="";
+	//字段拼接 表名别名为t
+	private String sqlFields="";
 	/**
 	 * 目前就2中情况，一种传tablename，生成实体类，一种传tablename和查询的sql，生成dto
 	 */
@@ -57,13 +60,23 @@ public class TableMetaDataConfig {
 		this.initMetaData();
 	}
 	
-	//从界面上点击进来 传入界面上的表格参数
-	public TableMetaDataConfig(String tablename, List<HashMap<String, String>> tableMetaData) throws Exception{
+	//从界面上点击进来 传入界面上调整后的的表格参数
+	public TableMetaDataConfig(String tablename,String tablecomment, List<HashMap<String, String>> tableMetaData) throws Exception{
 		this.tablename = tablename;
+		this.tablecomment = tablecomment==null?"":tablecomment;
 		this.type = "table";
 		this.tableMetaData = tableMetaData;
+		StringBuilder sb = new StringBuilder();
+		tableMetaData.forEach(m->{
+			sb.append("t."+m.get("column_name").toLowerCase()+",");
+		});
+		if(sb.length()>0) {
+			sb.deleteCharAt(sb.length()-1);
+		}
+		this.sqlFields = sb.toString();
 	}
 	
+	//获取表结构配置
 	public void initMetaData() throws Exception {
 		CommQuery cq = new CommQuery();
 		List<HashMap<String, String>> list = cq.getListBySQL2(this.sql);

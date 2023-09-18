@@ -76,7 +76,7 @@ public class EditorGrid extends JPanel {
     public EditorGrid(String tablename,String owner) {
     	try {
     		//* 传入表名tablename  获取数据库表的各种信息 字段名column_name 字段备注comments 字段类型data_type 字段长度data_length 主键p
-    		tableMetaData = new TableMetaDataConfig(tablename,owner,null).getTableMetaData();
+    		tableMetaData = new TableMetaDataConfig(tablename,owner,"").getTableMetaData();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

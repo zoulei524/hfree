@@ -1,6 +1,6 @@
 package me.zoulei.ui.components;
 
-import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -8,19 +8,19 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.border.LineBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import dm.jdbc.util.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import me.zoulei.MainApp;
 import me.zoulei.backend.entity.TableMetaDataConfig;
 import me.zoulei.backend.jdbc.utils.CommQuery;
 import me.zoulei.gencode.Gencode;
-import me.zoulei.ui.MainApp;
 import me.zoulei.ui.frame.AutoCompletion;
 
 /**
@@ -34,18 +34,33 @@ public class SearchComponent {
 	
 	public void setComp() {
 		this.searchOwner();
+		
+		JLabel  dslabel= new JLabel("选择模式: ", JLabel.LEFT);
+		MainApp.mainFrame.add(dslabel);
+		dslabel.setBounds(10, 75, 60, 45);
+		
+		dslabel= new JLabel("表格的属性设置: ", JLabel.LEFT);
+		dslabel.setFont(new Font("宋体", Font.PLAIN, 20));
+		MainApp.mainFrame.add(dslabel);
+		dslabel.setBounds(10, 125, 200, 45);
+		
 		//模式名下拉
 		JComboBox<String> cbx2 = new JComboBox<String>(items2);
 		
 		JScrollPane msmscr = new JScrollPane(cbx2);
 		MainApp.mainFrame.add(msmscr);
-		msmscr.setBounds(50, 75, 150, 45);
+		msmscr.setBounds(75, 75, 150, 45);
 		msmscr.setBorder(MainApp.lineBorder);
 		//cbx2.setEditable(true);
 		cbx2.setSelectedItem("HY_GBGL_ZZGB");
 		
 		//表名下拉
 		search((String) cbx2.getSelectedItem());
+		
+		
+		dslabel= new JLabel("输入表名: ", JLabel.CENTER);
+		MainApp.mainFrame.add(dslabel);
+		dslabel.setBounds(235, 75, 60, 45);
 		
 		JComboBox<Item> cbx = new JComboBox<Item>(items);
 		//设置下拉最多显示的选项
@@ -103,7 +118,7 @@ public class SearchComponent {
 		JScrollPane controlPanel = new JScrollPane(cbx);
 		MainApp.mainFrame.add(controlPanel);
 		//下拉框
-		controlPanel.setBounds(210, 75, 1200, 45);
+		controlPanel.setBounds(295, 75, 1200, 45);
 		controlPanel.setBorder(MainApp.lineBorder);
 		//实现搜索
 		AutoCompletion.enable(cbx);
@@ -115,7 +130,6 @@ public class SearchComponent {
 		
 		//生成数据库配置及代码按钮
 		JButton genCodeBtn = new JButton("生成代码");
-		
 		//选择表名事件 选择后加载表格
 		cbx.addActionListener(new ActionListener() {
 			@Override
@@ -123,7 +137,7 @@ public class SearchComponent {
 				Item item = (Item) cbx.getSelectedItem();
 				if(item!=null) {
 					grid.setComp(item.getKey(),(String) cbx2.getSelectedItem());
-					genCodeBtn.setBounds(1450, 75, 100, 45);
+					genCodeBtn.setBounds(1510, 75, 100, 45);
 				}
 			}
 		});
@@ -137,7 +151,7 @@ public class SearchComponent {
 	        	 Item item = (Item) cbx.getSelectedItem();
 	        	 try {
 	        		 //生成代码
-					new Gencode().gencode(new TableMetaDataConfig(item.getKey(), tmd));
+					new Gencode().gencode(new TableMetaDataConfig(item.getKey(),item.getValue(), tmd));
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(MainApp.mainFrame, e1.getMessage());    
 					e1.printStackTrace();

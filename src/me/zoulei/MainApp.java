@@ -1,4 +1,4 @@
-package me.zoulei.ui;
+package me.zoulei;
 
 import java.awt.Color;
 
@@ -22,7 +22,7 @@ public class MainApp {
 	public static void main(String[] args) {
 		
 		
-		mainFrame = new JFrame("代码生成工具");
+		mainFrame = new JFrame("odin7c开发辅助工具");
 		mainFrame.setSize(1720, 580);
 		//mainFrame.setLocation(20, 20);
 		mainFrame.setLocationRelativeTo(null);
