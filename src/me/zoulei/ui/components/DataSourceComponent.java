@@ -44,7 +44,7 @@ public class DataSourceComponent {
 			for(File f : listFiles) {
 				Properties fp = new Properties();
 				fp.load(new FileInputStream(f));
-				items[i++] = new Item(fp.getProperty("desc"), fp);
+				items[i++] = new Item(new String(fp.getProperty("desc").getBytes("iso8859-1"),"utf8"), fp);
 			}
 			
 		} catch (Exception e) {
@@ -76,16 +76,20 @@ public class DataSourceComponent {
 		loginButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {     
 	            //测试数据库连接
+	        	 DataSource.dsprop = new Properties();
 	            DataSource.dsprop.setProperty("user", userText.getText());
 	            DataSource.dsprop.setProperty("password", passwordText.getText());
 	            DataSource.dsprop.setProperty("url", urlText.getText());
 	            DataSource.dsprop.setProperty("forname", driverText.getText());
 	            try {
+	            	
 					DataSource.testDMConn();
 					//JOptionPane.showMessageDialog(MainApp.mainFrame, "连接成功！");    
 					//表格配置组件
 			        //GridComponent grid = new GridComponent();
 			        //grid.setComp();
+					
+					
 			        sch.setComp();
 			        loginButton.setEnabled(false);
 					/*
@@ -119,6 +123,12 @@ public class DataSourceComponent {
 					urlText.setText(p.getProperty("url"));
 					userText.setText(p.getProperty("user"));
 					passwordText.setText(p.getProperty("password"));
+					//连接按钮可用
+					loginButton.setEnabled(true);
+					//断开数据库连接
+	            	DataSource.closeCon();
+	            	//先移除组件
+	            	sch.removeAll();
 				}
 			}
 		});

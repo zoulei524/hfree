@@ -2,6 +2,7 @@ package me.zoulei.backend.jdbc.datasource;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import javax.swing.JOptionPane;
@@ -14,6 +15,7 @@ import me.zoulei.exception.myException;
  * 数据源
  */
 public class DataSource {
+	//例子
 	public static Connection getOracleConn(){
 		//设置oracle信息
 		String forname = "oracle.jdbc.driver.OracleDriver";
@@ -38,8 +40,11 @@ public class DataSource {
 	
 	static Connection con;
 	public static Connection openDMConn(){
-		if(con!=null)return con;
-		//设置dm信息
+		try {
+			if(con!=null&&!con.isClosed())return con;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		try {
 			Class.forName(dsprop.getProperty("forname")).newInstance();
 			con = DriverManager.getConnection(dsprop.getProperty("url"),dsprop);
@@ -51,9 +56,9 @@ public class DataSource {
 	}
 	
 	
-	public static Properties dsprop = new Properties();
+	public static Properties dsprop ;
 	static {
-		dsprop.setProperty("forname", "dm.jdbc.driver.DmDriver");
+		//dsprop.setProperty("forname", "dm.jdbc.driver.DmDriver");
 	}
 	/**
 	 * 测试连接
@@ -71,6 +76,16 @@ public class DataSource {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new myException(e.getMessage());
+		}
+		
+	}
+	public static void closeCon() {
+		if(con!=null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

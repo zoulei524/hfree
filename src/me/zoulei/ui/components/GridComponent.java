@@ -5,12 +5,14 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.border.LineBorder;
 
+import lombok.Data;
 import me.zoulei.MainApp;
 
 /**
  * 2023年9月14日11:17:12 zoulei
  * 表格组件，用于配置表格的参数  结构： JPanel（布局是BorderLayout，不留空隙）,里面是JScrollPane,在里面是JTable
  */
+@Data
 public class GridComponent {
 	EditorGrid editorGrid;
 	public void setComp(String tablename,String owner) {
