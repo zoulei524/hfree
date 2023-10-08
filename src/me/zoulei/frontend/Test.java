@@ -5,21 +5,20 @@ import java.util.List;
 
 import me.zoulei.backend.entity.GenEntity;
 import me.zoulei.backend.entity.TableMetaDataConfig;
-import me.zoulei.backend.jdbc.utils.CommQuery;
-import me.zoulei.frontend.css.CSSAttr;
-import me.zoulei.frontend.css.CSSClassNameNode;
-import me.zoulei.frontend.vue.elements.VueAttr;
-import me.zoulei.frontend.vue.elements.VueNode;
-import me.zoulei.frontend.vue.templete.ElTableColTpl;
-import me.zoulei.frontend.vue.templete.ElTableTpl;
+import me.zoulei.frontend.node.css.CSSAttr;
+import me.zoulei.frontend.node.css.CSSClassNameNode;
+import me.zoulei.frontend.node.vue.VueAttr;
+import me.zoulei.frontend.node.vue.VueNode;
+import me.zoulei.frontend.templete.grid.ElTableColTpl;
+import me.zoulei.frontend.templete.grid.ElTableTpl;
 
 public class Test {
 	
 
 	public static void main(String[] args) throws Exception {
 		ElTableTpl gt = new ElTableTpl();
-		VueNode gridTable = gt.getEltable();
-		VueNode eltableCONST = gt.getEltableCONST();
+		VueNode gridTable = gt.getPage();
+		VueNode eltableCONST = gt.getEl_table();
 		
 		TableMetaDataConfig config = new TableMetaDataConfig("y339","HY_GBGL_ZZGB","");
 		

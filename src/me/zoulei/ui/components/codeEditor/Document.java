@@ -209,7 +209,7 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 	}
 	
 	
-	public Document(String vue, String js, String entity, String controller, String service, String dao, String xml) {
+	public Document(String vue, String js, String entity, String controller, String service, String dao, String xml,String css) {
  
 		super("代码查看");
 		setSize(1300, 950);
@@ -224,6 +224,7 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 		
  
 		RSyntaxTextArea textArea_vue = new RSyntaxTextArea(vue);
+		RSyntaxTextArea textArea_css = new RSyntaxTextArea(css);
 		RSyntaxTextArea textArea_js = new RSyntaxTextArea(js);
 		RSyntaxTextArea textArea_java_entity = new RSyntaxTextArea(entity);
 		RSyntaxTextArea textArea_java_controller = new RSyntaxTextArea(controller);
@@ -233,6 +234,7 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 		
 		initTextArea(textArea_vue,SyntaxConstants.SYNTAX_STYLE_HTML);
 		textArea = textArea_vue;
+		initTextArea(textArea_css,SyntaxConstants.SYNTAX_STYLE_LESS);
 		initTextArea(textArea_js,SyntaxConstants.SYNTAX_STYLE_TYPESCRIPT);
 		initTextArea(textArea_java_entity,SyntaxConstants.SYNTAX_STYLE_JAVA);
 		initTextArea(textArea_java_controller,SyntaxConstants.SYNTAX_STYLE_JAVA);
@@ -243,7 +245,7 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 		RTextScrollPane sp = new RTextScrollPane(textArea_vue);
 		//添加选项卡
         tabbedPane.addTab("  VUE  ",  sp);
-		
+        tabbedPane.addTab("  CSS  ",  new RTextScrollPane(textArea_css));
 		RTextScrollPane sp2 = new RTextScrollPane(textArea_js);
 		//添加选项卡
         tabbedPane.addTab("     JS     ",  sp2);
@@ -463,7 +465,7 @@ public class Document extends JFrame implements ActionListener, DocumentListener
  
 	public static void main(String[] args) {
  
-		new Document("", "", "", "", "", "", "");
+		new Document("", "", "", "", "", "", "","");
 	}
  
 	@Override

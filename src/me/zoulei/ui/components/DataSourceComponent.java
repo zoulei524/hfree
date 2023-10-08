@@ -1,7 +1,5 @@
 package me.zoulei.ui.components;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +19,6 @@ import lombok.Data;
 import me.zoulei.MainApp;
 import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.exception.myException;
-import me.zoulei.ui.components.SearchComponent.Item;
 
 /**
  * 2023年9月14日11:28:15  zoulei  
@@ -29,7 +26,7 @@ import me.zoulei.ui.components.SearchComponent.Item;
  */
 public class DataSourceComponent {
 
-	public void setComp(SearchComponent sch) {
+	public JPanel setComp(SearchComponent sch) {
 		//读取数据库配置
 		String url = this.getClass().getResource("./dsProp/1.properties").getPath();
 		Properties p = new Properties();
@@ -107,6 +104,7 @@ public class DataSourceComponent {
 	         }
 	      }); 
 		
+		
 		JPanel controlPanel = new JPanel();
 	    controlPanel.setLayout(new FlowLayout());//FlowLayout是默认布局，它以方向流布局组件。
 	    //数据源选择控件
@@ -147,11 +145,9 @@ public class DataSourceComponent {
 	    controlPanel.add(passwordText);
 	    controlPanel.add(loginButton);
 	    //位置及大小
-	    controlPanel.setBounds(0, 5, 1700, 35);
-	    controlPanel.setBorder(MainApp.lineBorder);
+	    //controlPanel.setBounds(0, 5, 1700, 35);
 	    
-	    Container contentPane = MainApp.mainFrame.getContentPane();
-	    contentPane.add(controlPanel,BorderLayout.PAGE_START);
+	    return controlPanel;
 	}
 	
 	/**

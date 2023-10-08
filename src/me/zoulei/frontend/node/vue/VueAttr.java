@@ -1,13 +1,14 @@
-package me.zoulei.frontend.vue.elements;
+package me.zoulei.frontend.node.vue;
 
 import lombok.Data;
+import me.zoulei.frontend.node.Attr;
 
 /**
  * 2023年9月6日13:15:29  zoulei
  * 节点的属性
  */
 @Data
-public class VueAttr {
+public class VueAttr implements Attr{
 	
 	public VueAttr(String name) {
 		super();

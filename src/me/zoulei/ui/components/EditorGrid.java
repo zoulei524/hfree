@@ -3,8 +3,10 @@ package me.zoulei.ui.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -27,9 +29,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -186,7 +190,17 @@ public class EditorGrid extends JPanel {
         renamePopup.setBorder(new MatteBorder(0, 1, 1, 1, Color.DARK_GRAY));
         renamePopup.add(text);
 
+        
+        
+        JToolBar toolBar = new JToolBar();
+		toolBar.setFloatable(false);
+		JLabel dslabel= new JLabel("表格的属性设置: ", JLabel.LEFT);
+		dslabel.setFont(new Font("宋体", Font.PLAIN, 18));
+		toolBar.add(dslabel);
+		
+		
         scrollPane = new JScrollPane( table );
+        //scrollPane.setBorder(new EmptyBorder(0, 14, 0, 14));
         //设置表格行表头
         scrollPane.setRowHeaderView(buildRowHeader(table));
         
@@ -226,13 +240,14 @@ public class EditorGrid extends JPanel {
         	//setWidth没有用   PreferredWidth首选宽度
             cm.getColumn(i).setPreferredWidth(120);
             //设置编辑器
-            JBoxTestCell jc = new JBoxTestCell();// 第四列第二行为下拉框，其余行为文本框
+            JBoxTestCell jc = new JBoxTestCell();// 第四行第五行为下拉框，其余行为文本框
             cm.getColumn(i).setCellEditor(jc);
         }
         	
         table.setColumnModel(cm);
         setLayout(new BorderLayout());
         
+        add(toolBar, BorderLayout.NORTH);
         add(scrollPane);
     }
 
@@ -513,14 +528,14 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 	private static final long serialVersionUID = 1L;
 	int row;
 	int column;
-	private JComboBox<String> jbox2;//第三行 下标2
-	private JComboBox<String> jbox3;//第四行 下标3
+	private JComboBox<String> jbox2;//第四行 
+	private JComboBox<String> jbox3;//第五行 
 	private JTextField textfield;
 
 	public JBoxTestCell() {
-
+		//是否显示列配置
 		jbox2 = new JComboBox<String>(new String[] {"显示","不显示"});
-		
+		//水平位置配置
 		jbox3 = new JComboBox<String>(new String[] {"left","center","right"});
 		jbox3.setSelectedIndex(1);
 	}

@@ -1,9 +1,6 @@
 package me.zoulei.ui.components;
 
-import java.awt.Color;
-
-import javax.swing.JFrame;
-import javax.swing.border.LineBorder;
+import java.awt.BorderLayout;
 
 import lombok.Data;
 import me.zoulei.MainApp;
@@ -20,8 +17,7 @@ public class GridComponent {
 			MainApp.mainFrame.remove(this.editorGrid);
 		}
 		this.editorGrid = new EditorGrid(tablename,owner);
-		MainApp.mainFrame.add(this.editorGrid);
-		this.editorGrid.setBounds(15,160,1680,342);
+		MainApp.mainFrame.add(this.editorGrid,BorderLayout.CENTER);
 		this.editorGrid.setHeaderEditable(true);
 		this.editorGrid.setTableEditable(true);
 		this.editorGrid.setBorder(MainApp.lineBorder);

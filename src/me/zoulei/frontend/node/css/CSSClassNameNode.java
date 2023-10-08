@@ -1,15 +1,17 @@
-package me.zoulei.frontend.css;
+package me.zoulei.frontend.node.css;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import me.zoulei.frontend.node.Attr;
+import me.zoulei.frontend.node.Node;
 /**
  * 2023年9月7日10:14:06 zoulei
  * css对象
  */
 @Data
-public class CSSClassNameNode{
+public class CSSClassNameNode implements Node{
 
 	public CSSClassNameNode(String name, String comments) {
 		this.name = name;
@@ -27,21 +29,22 @@ public class CSSClassNameNode{
 	private String comments="";
 	
 	/**节点注释开始符号 */
-	final private String start_symbol = "<!--";
+	final private String start_symbol = "/*";
 	
 	/**节点注释结束符号 */
-	final private String end_symbol = "-->";
+	final private String end_symbol = "*/";
 	
 	/**节点属性 */
-	final private List<CSSAttr> attrs = new ArrayList<CSSAttr>();
+	final private List<Attr> attrs = new ArrayList<Attr>();
 	
 	/**子节点 */
-	final private List<CSSClassNameNode> childNodes = new ArrayList<CSSClassNameNode>();
+	final private List<Node> childNodes = new ArrayList<Node>();
 	
 	/**父节点 */
-	private CSSClassNameNode parentNode;
+	private Node parentNode;
 	
-	
+	/**前缀 */
+	private String prefix = ".";
 	
 	/**
 	 * 获取缩进
@@ -50,8 +53,8 @@ public class CSSClassNameNode{
 	public String getTabs() {
 		StringBuilder tabStr = new StringBuilder();
 		//缩进
-		CSSClassNameNode n = this;
-		while((n = n.parentNode)!=null) {
+		Node n = this;
+		while((n = n.getParentNode())!=null) {
 			tabStr.append("	");
 		}
 		return tabStr.toString();
@@ -67,7 +70,7 @@ public class CSSClassNameNode{
 		//缩进
 		String tabStr = this.getTabs();
 		this.attrs.forEach(attr->{
-			attrsStr.append(attr.toString(tabStr)+"\n");
+			attrsStr.append(attr.toString(tabStr,false)+"\n");
 		});
 		if(this.attrs.size()==0) {
 			return "\n";
@@ -90,7 +93,7 @@ public class CSSClassNameNode{
 			cssStr.append(tabStr+this.getStart_symbol()).append(this.getComments()).append(this.getEnd_symbol()).append("\n");
 		}
 		//开始样式
-		cssStr.append(tabStr).append("."+this.name+"{").append("\n");
+		cssStr.append(tabStr).append(this.prefix+this.name+"{").append("\n");
 		//属性
 		String attrStr = this.toAttrsString();
 		cssStr.append(attrStr);
@@ -111,7 +114,7 @@ public class CSSClassNameNode{
 	 * @param attr
 	 * @return 
 	 */
-	public CSSClassNameNode addAttr(CSSAttr attr) {
+	public Node addAttr(Attr attr) {
 		this.attrs.add(attr);
 		return this;
 	}
@@ -121,8 +124,9 @@ public class CSSClassNameNode{
 	 * @param attr
 	 * @return 
 	 */
-	public CSSClassNameNode appendChild(CSSClassNameNode node) {
-		node.parentNode = this;
+	@Override
+	public Node appendChild(Node node) {
+		node.setParentNode(this);
 		this.childNodes.add(node);
 		return node;
 	}
@@ -132,10 +136,26 @@ public class CSSClassNameNode{
 	 * @param attr
 	 * @return 
 	 */
-	public CSSClassNameNode append(CSSClassNameNode node) {
-		node.parentNode = this;
+	@Override
+	public Node append(Node node) {
+		node.setParentNode(this);
 		this.childNodes.add(node);
 		return this;
+	}
+
+
+
+	
+
+	@Override
+	public void setParentNode(Node node) {
+		this.parentNode = node;
+		
+	}
+
+	@Override
+	public Node getNode(int index) {
+		return this.childNodes.get(index);
 	}
 
 }

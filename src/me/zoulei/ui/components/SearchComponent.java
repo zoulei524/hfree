@@ -1,6 +1,8 @@
 package me.zoulei.ui.components;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,9 +14,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 
 import dm.jdbc.util.StringUtil;
 import lombok.AllArgsConstructor;
@@ -34,13 +35,13 @@ public class SearchComponent {
 	Item[] items;
 	String[] items2 = new String[] {"sadsa","dsf","fsdfg","dsadsfx"};
 	
-	List<Component> removeComponents = new ArrayList<Component>();
 	GridComponent grid;
+	List<Component> removeComponents = new ArrayList<Component>();
 	public void removeAll() {
 		//第一次进来没渲染，不需要移除。 
 		if(removeComponents.size()>0) {
 			removeComponents.forEach(c->{
-				MainApp.mainFrame.remove(c);
+				MainApp.north.remove(c);
 			});
 			MainApp.mainFrame.remove(this.grid.getEditorGrid());
 			MainApp.mainFrame.getContentPane().repaint();
@@ -48,89 +49,59 @@ public class SearchComponent {
 		
 	}
 	
+	Font font = new Font("宋体", Font.PLAIN, 18);
+	
 	public void setComp() {
 		//模式列表
 		this.searchOwner();
 		
 		//表格组件
-		
 		this.grid = new GridComponent();
 		
-		JLabel  dslabel= new JLabel("选择模式: ", JLabel.LEFT);
-		MainApp.mainFrame.add(dslabel);
-		removeComponents.add(dslabel);
-		dslabel.setBounds(10, 75, 60, 45);
+		//模式表名选择 放到北边的中间
+		JPanel north2 = new JPanel();
+		MainApp.north.add(north2,BorderLayout.CENTER);
+		removeComponents.add(north2);
 		
+		JLabel  dslabel= new JLabel("选择模式: ", JLabel.LEFT);
+		north2.add(dslabel);
+		dslabel.setFont(font);
+		
+		/*
 		dslabel= new JLabel("表格的属性设置: ", JLabel.LEFT);
 		dslabel.setFont(new Font("宋体", Font.PLAIN, 20));
-		MainApp.mainFrame.add(dslabel);
-		removeComponents.add(dslabel);
-		dslabel.setBounds(10, 125, 200, 45);
+		north2.add(dslabel);
+		*/
 		
 		//模式名下拉
 		JComboBox<String> cbx2 = new JComboBox<String>(items2);
 		
 		JScrollPane msmscr = new JScrollPane(cbx2);
-		MainApp.mainFrame.add(msmscr);
-		removeComponents.add(msmscr);
-		msmscr.setBounds(75, 75, 150, 45);
+		north2.add(msmscr);
 		msmscr.setBorder(MainApp.lineBorder);
 		//cbx2.setEditable(true);
 		cbx2.setSelectedItem("HY_GBGL_ZZGB");
+		cbx2.setPreferredSize(new Dimension(200, 35));
+		cbx2.setFont(font);
 		
 		//表名下拉
 		search((String) cbx2.getSelectedItem());
 		
 		
 		dslabel= new JLabel("输入表名: ", JLabel.CENTER);
-		MainApp.mainFrame.add(dslabel);
-		removeComponents.add(dslabel);
-		dslabel.setBounds(235, 75, 60, 45);
+		north2.add(dslabel);
+		dslabel.setFont(font);
 		
 		JComboBox<Item> cbx = new JComboBox<Item>(items);
 		//设置下拉最多显示的选项
 		cbx.setMaximumRowCount(30);
-		//这个监听是不让弹出下拉选。
-		/*
-		cbx.addPopupMenuListener(new PopupMenuListener() {
-			
-			@Override
-			public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
-				new Thread() {
-					@Override
-					public void run() {
-						for(;;) {
-							if(cbx.isPopupVisible()) {
-								cbx.setPopupVisible(false);
-								break;
-							}else {
-								try {
-									Thread.sleep(3);
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								}
-								continue;
-							}
-						}
-						super.run();
-					}
-				}.start();
-				
-			}
-			
-			@Override
-			public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
-				cbx.setPopupVisible(false);
-			}
-			
-			@Override
-			public void popupMenuCanceled(PopupMenuEvent e) {
-				cbx.setPopupVisible(false);
-			}
-		});
-		*/
+		cbx.setPreferredSize(new Dimension(1100, 35));
+		cbx.setFont(font);
+		
 		//生成数据库配置及代码按钮
 		JButton genCodeBtn = new JButton("生成代码");
+		genCodeBtn.setFont(font);
+		genCodeBtn.setPreferredSize(new Dimension(90, 35));
 		//选择模式后事件  查询表名，将选择表名的下拉框选项重新设置
 		cbx2.addActionListener(new ActionListener() {
 			@Override
@@ -146,10 +117,8 @@ public class SearchComponent {
 			}
 		});
 		JScrollPane controlPanel = new JScrollPane(cbx);
-		MainApp.mainFrame.add(controlPanel);
-		removeComponents.add(controlPanel);
+		north2.add(controlPanel);
 		//下拉框
-		controlPanel.setBounds(295, 75, 1200, 45);
 		controlPanel.setBorder(MainApp.lineBorder);
 		//实现搜索
 		AutoCompletion.enable(cbx);
@@ -173,12 +142,10 @@ public class SearchComponent {
 		Item item = (Item) cbx.getSelectedItem();
 		if(item!=null) {
 			grid.setComp(item.getKey(),(String) cbx2.getSelectedItem());
-			genCodeBtn.setBounds(1510, 75, 100, 45);
 		}
 		
 		
-		MainApp.mainFrame.add(genCodeBtn);
-		removeComponents.add(genCodeBtn);
+		north2.add(genCodeBtn);
 		genCodeBtn.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {     
 	             //生成配置
