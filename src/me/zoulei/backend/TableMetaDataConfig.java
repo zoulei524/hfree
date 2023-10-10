@@ -1,4 +1,4 @@
-package me.zoulei.backend.entity;
+package me.zoulei.backend;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

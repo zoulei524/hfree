@@ -1,4 +1,4 @@
-package me.zoulei.backend.xml;
+package me.zoulei.backend.codeGen.xml;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -13,7 +13,7 @@ import freemarker.template.Template;
 import freemarker.template.Version;
 import lombok.Data;
 import me.zoulei.Constants;
-import me.zoulei.backend.entity.TableMetaDataConfig;
+import me.zoulei.backend.TableMetaDataConfig;
 
 /**
 * @author zoulei 

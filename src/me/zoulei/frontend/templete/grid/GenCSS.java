@@ -1,7 +1,7 @@
 package me.zoulei.frontend.templete.grid;
 
 import lombok.Data;
-import me.zoulei.backend.entity.TableMetaDataConfig;
+import me.zoulei.backend.TableMetaDataConfig;
 import me.zoulei.frontend.node.vue.VueNode;
 
 /**

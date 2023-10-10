@@ -1,11 +1,14 @@
 package me.zoulei.gencode;
 
-import me.zoulei.backend.controller.GenCTL;
-import me.zoulei.backend.dao.GenDao;
-import me.zoulei.backend.entity.GenEntity;
-import me.zoulei.backend.entity.TableMetaDataConfig;
-import me.zoulei.backend.service.GenService;
-import me.zoulei.backend.xml.GenXml;
+import java.util.HashMap;
+
+import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.codeGen.controller.GenCTL;
+import me.zoulei.backend.codeGen.dao.GenDao;
+import me.zoulei.backend.codeGen.entity.GenEntity;
+import me.zoulei.backend.codeGen.javascript.GenJS;
+import me.zoulei.backend.codeGen.service.GenService;
+import me.zoulei.backend.codeGen.xml.GenXml;
 import me.zoulei.frontend.templete.grid.GenCSS;
 import me.zoulei.frontend.templete.grid.GenTable;
 import me.zoulei.ui.components.codeEditor.Document;
@@ -38,8 +41,13 @@ public class Gencode {
 		GenDao dao = new GenDao(config);
 		//xml层
 		GenXml xml = new GenXml(config);
+		
+		//js
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("entityJSON", genEntity.getJson_content());
+		GenJS js = new GenJS(config, params);
         
-        new Document(table.getCode(), genEntity.getJson_content(), genEntity.getEntity_content(),
+        new Document(table.getCode(), js.getCode(), genEntity.getEntity_content(),
         		ctl.getCode(), serv.getCode(), dao.getCode(), xml.getCode(),css.getCode());
         /*
         genEntity = new GenEntity(new TableMetaDataConfig("a01","select * from code_value"));  

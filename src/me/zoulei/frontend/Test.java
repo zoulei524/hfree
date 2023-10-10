@@ -3,8 +3,8 @@ package me.zoulei.frontend;
 import java.util.HashMap;
 import java.util.List;
 
-import me.zoulei.backend.entity.GenEntity;
-import me.zoulei.backend.entity.TableMetaDataConfig;
+import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.codeGen.entity.GenEntity;
 import me.zoulei.frontend.node.css.CSSAttr;
 import me.zoulei.frontend.node.css.CSSClassNameNode;
 import me.zoulei.frontend.node.vue.VueAttr;

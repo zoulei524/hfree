@@ -1,4 +1,4 @@
-package me.zoulei.backend.controller;
+package me.zoulei.backend.codeGen.dao;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -13,22 +13,22 @@ import freemarker.template.Template;
 import freemarker.template.Version;
 import lombok.Data;
 import me.zoulei.Constants;
-import me.zoulei.backend.entity.TableMetaDataConfig;
+import me.zoulei.backend.TableMetaDataConfig;
 
 /**
 * @author zoulei 
-* @date 2023年9月18日 下午12:03:27 
-* @description 输出控制类相关方法。
+* @date 2023年9月18日14:27:40
+* @description 输出dao类相关方法。
  */
 @Data
-public class GenCTL {
+public class GenDao {
 	
 	/**输出的java代码*/
 	private String code;
 	
-	public GenCTL(TableMetaDataConfig config) throws Exception {
+	public GenDao(TableMetaDataConfig config) throws Exception {
 		
-		InputStream is = this.getClass().getResourceAsStream("ctl.tpl");
+		InputStream is = this.getClass().getResourceAsStream("dao.tpl");
 		
 		String tpl = IOUtils.toString(is,"utf-8");
 		
@@ -55,7 +55,7 @@ public class GenCTL {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GenCTL genCTL = new GenCTL(null);
+		GenDao genCTL = new GenDao(null);
 		System.out.println(genCTL.code);
 	}
 	

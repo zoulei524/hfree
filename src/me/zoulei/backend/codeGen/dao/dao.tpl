@@ -14,7 +14,7 @@
 		
 		Map<String,Object> params = new HashMap<>();
 		String sql = sqlPro.getSQLFromXml("get${entity}List", params);
-		List<Map<String,Object>> ${tablename}List = = hbSession.queryForList(sql,params);
+		List<Map<String,Object>> ${tablename}List = hbSession.queryForList(sql);
 		
 		return ${tablename}List;
 	}

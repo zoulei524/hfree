@@ -1,4 +1,4 @@
-package me.zoulei.backend.service;
+package me.zoulei.backend.codeGen.controller;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -13,22 +13,22 @@ import freemarker.template.Template;
 import freemarker.template.Version;
 import lombok.Data;
 import me.zoulei.Constants;
-import me.zoulei.backend.entity.TableMetaDataConfig;
+import me.zoulei.backend.TableMetaDataConfig;
 
 /**
 * @author zoulei 
-* @date 2023年9月18日14:26:12
-* @description 输出service相关方法。
+* @date 2023年9月18日 下午12:03:27 
+* @description 输出控制类相关方法。
  */
 @Data
-public class GenService {
+public class GenCTL {
 	
 	/**输出的java代码*/
 	private String code;
 	
-	public GenService(TableMetaDataConfig config) throws Exception {
+	public GenCTL(TableMetaDataConfig config) throws Exception {
 		
-		InputStream is = this.getClass().getResourceAsStream("service.tpl");
+		InputStream is = this.getClass().getResourceAsStream("ctl.tpl");
 		
 		String tpl = IOUtils.toString(is,"utf-8");
 		
@@ -55,7 +55,7 @@ public class GenService {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GenService genCTL = new GenService(null);
+		GenCTL genCTL = new GenCTL(null);
 		System.out.println(genCTL.code);
 	}
 	

@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.Data;
 import me.zoulei.Constants;
-import me.zoulei.backend.entity.TableMetaDataConfig;
+import me.zoulei.backend.TableMetaDataConfig;
 import me.zoulei.frontend.node.vue.VueAttr;
 import me.zoulei.frontend.node.vue.VueNode;
 
@@ -28,6 +28,21 @@ public class GenTable {
 		VueNode el_table = gt.getEl_table();
 		
 		List<HashMap<String, String>> list = config.getTableMetaData();
+		
+		//序号
+		/*
+		 * <el-table-column type="index" label="行号" align="center" fixed width="55" >
+		 * </el-table-column>
+		 */
+		VueNode 序号 = ElTableColTpl.getTPL();
+		序号.setAttrNotNewLine(Constants.ATTR_NEW_LINE);
+		序号.addAttr(new VueAttr("type", "index"))
+		   .addAttr(new VueAttr("label", "序号"))
+		   .addAttr(new VueAttr("width", "55"))
+		   .addAttr(new VueAttr("align", "center"));
+		;
+		
+		el_table.append(序号);  
 		list.forEach(column->{
 			if("显示".equals(column.get("visible"))) {
 				VueNode col = ElTableColTpl.getTPL();
