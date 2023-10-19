@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import lombok.Data;
-import me.zoulei.Constants;
 import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.frontend.node.Node;
 import me.zoulei.frontend.node.vue.VueAttr;
 import me.zoulei.frontend.node.vue.VueNode;
 
@@ -22,12 +22,13 @@ public class GenTable {
 	
 	public GenTable(TableMetaDataConfig config) throws Exception {
 		//表格模板
-		ElTableTpl gt = new ElTableTpl();
+		ElTableTpl gt = new ElTableTpl(config);
 		//表格vue
 		VueNode gridPage = gt.getPage();
 		VueNode el_table = gt.getEl_table();
 		
 		List<HashMap<String, String>> list = config.getTableMetaData();
+		
 		
 		//序号
 		/*
@@ -35,7 +36,6 @@ public class GenTable {
 		 * </el-table-column>
 		 */
 		VueNode 序号 = ElTableColTpl.getTPL();
-		序号.setAttrNotNewLine(Constants.ATTR_NEW_LINE);
 		序号.addAttr(new VueAttr("type", "index"))
 		   .addAttr(new VueAttr("label", "序号"))
 		   .addAttr(new VueAttr("width", "55"))
@@ -44,10 +44,10 @@ public class GenTable {
 		
 		el_table.append(序号);  
 		list.forEach(column->{
+			//表格列
 			if("显示".equals(column.get("visible"))) {
 				VueNode col = ElTableColTpl.getTPL();
 				col.setComments(col.getComments()+":"+(column.get("comments2")==null?column.get("comments"):column.get("comments2")));
-				col.setAttrNotNewLine(Constants.ATTR_NEW_LINE);
 				//prop="yb001"
 			    //label="序号"
 				col.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()))
@@ -61,12 +61,17 @@ public class GenTable {
 			 
 		});
 		
+		//编辑删除按钮
+		if(gt.getEditorelbutton()!=null)
+			el_table.append(gt.getEditorelbutton());
+		
 		//title
 		String tablecomment = config.getTablecomment();
 		String tablename = config.getTablename();
 		//第一个P标签里放标题文字
 		VueNode title = (VueNode) gt.getTitle();
 		((VueNode) title.getNode(0)).setText(tablecomment+"("+tablename+")");
+		
 		
 		this.code = gridPage.toString();
 	}

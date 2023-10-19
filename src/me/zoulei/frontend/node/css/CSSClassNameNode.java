@@ -158,4 +158,9 @@ public class CSSClassNameNode implements Node{
 		return this.childNodes.get(index);
 	}
 
+	@Override
+	public Node deleteAt(int index) {
+		return this.childNodes.remove(index);
+	}
+
 }

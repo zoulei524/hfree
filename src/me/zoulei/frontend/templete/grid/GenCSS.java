@@ -17,9 +17,7 @@ public class GenCSS {
 	private String code;
 	
 	public GenCSS(TableMetaDataConfig config) throws Exception {
-		ElTableCssTpl csstpl = new ElTableCssTpl();
-		//根据配置添加其他css样式
-		
+		ElTableCssTpl csstpl = new ElTableCssTpl(config);
 		
 		//生成代码text
 		//CSSClassNameNode csscode = csstpl.getInfo_page();
@@ -27,11 +25,5 @@ public class GenCSS {
 		
 		this.code = styleTag.toString();
 	}
-	
-	public static void main(String[] args) throws Exception {
-		GenCSS genCTL = new GenCSS(null);
-		System.out.println(genCTL.code);
-	}
-	
 	
 }

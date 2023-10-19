@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import me.zoulei.Constants;
 import me.zoulei.frontend.node.Attr;
 import me.zoulei.frontend.node.Node;
 
@@ -39,7 +40,7 @@ public class VueNode implements Node{
 	private String text="";
 	
 	/**属性是否换行 配置项*/
-	private boolean isAttrNotNewLine = false;
+	private boolean isAttrNotNewLine = Constants.ATTR_NEW_LINE;
 	
 	/**
 	 * 生成vue的标记语言
@@ -72,15 +73,16 @@ public class VueNode implements Node{
 			vueStr.append(">\n");
 		}
 		
+		//子节点
+		this.childNodes.forEach(cnode->{
+			vueStr.append(cnode.toString());
+		});
+		
 		//标签内容
 		if(this.text.length()>0) {
 			vueStr.append(tabStr+"	").append(this.text).append("\n");
 		}
 		
-		//子节点
-		this.childNodes.forEach(cnode->{
-			vueStr.append(cnode.toString());
-		});
 		//结束标签
 		vueStr.append(tabStr+"</").append(this.name).append(">\n");
 		return vueStr.toString();
@@ -161,6 +163,11 @@ public class VueNode implements Node{
 		return this.childNodes.get(index);
 	}
 	
+	@Override
+	public Node deleteAt(int index) {
+		return this.childNodes.remove(index);
+	}
+	
 	/**
 	 * 增加子节点  返回当前节点
 	 * @param attr
@@ -189,5 +196,7 @@ public class VueNode implements Node{
 		this.text = text;
 		this.comments = comments;
 	}
+	
+	
 	
 }

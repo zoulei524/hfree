@@ -37,6 +37,7 @@ import javax.swing.event.DocumentListener;
 
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
  
 @SuppressWarnings("serial")
@@ -160,7 +161,8 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 	private JTextField status;
  
 	
-	private void initTextArea(RSyntaxTextArea textArea, String syntaxStyle){
+	private void initTextArea(RSyntaxTextArea textArea, String syntaxStyle, Theme theme){
+		theme.apply(textArea);
 		textArea.getDocument().addDocumentListener(this);
 		textArea.setSyntaxEditingStyle(syntaxStyle);
 		textArea.setCodeFoldingEnabled(true);
@@ -232,15 +234,23 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 		RSyntaxTextArea textArea_java_dao = new RSyntaxTextArea(dao);
 		RSyntaxTextArea textArea_xml = new RSyntaxTextArea(xml);
 		
-		initTextArea(textArea_vue,SyntaxConstants.SYNTAX_STYLE_HTML);
+		InputStream in = getClass().getResourceAsStream("/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml");
+		Theme theme = null;
+			try {
+				theme = Theme.load(in);
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		
+		initTextArea(textArea_vue,SyntaxConstants.SYNTAX_STYLE_HTML,theme);
 		textArea = textArea_vue;
-		initTextArea(textArea_css,SyntaxConstants.SYNTAX_STYLE_LESS);
-		initTextArea(textArea_js,SyntaxConstants.SYNTAX_STYLE_TYPESCRIPT);
-		initTextArea(textArea_java_entity,SyntaxConstants.SYNTAX_STYLE_JAVA);
-		initTextArea(textArea_java_controller,SyntaxConstants.SYNTAX_STYLE_JAVA);
-		initTextArea(textArea_java_service,SyntaxConstants.SYNTAX_STYLE_JAVA);
-		initTextArea(textArea_java_dao,SyntaxConstants.SYNTAX_STYLE_JAVA);
-		initTextArea(textArea_xml,SyntaxConstants.SYNTAX_STYLE_XML);
+		initTextArea(textArea_css,SyntaxConstants.SYNTAX_STYLE_LESS,theme);
+		initTextArea(textArea_js,SyntaxConstants.SYNTAX_STYLE_TYPESCRIPT,theme);
+		initTextArea(textArea_java_entity,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
+		initTextArea(textArea_java_controller,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
+		initTextArea(textArea_java_service,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
+		initTextArea(textArea_java_dao,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
+		initTextArea(textArea_xml,SyntaxConstants.SYNTAX_STYLE_XML,theme);
  
 		RTextScrollPane sp = new RTextScrollPane(textArea_vue);
 		//添加选项卡

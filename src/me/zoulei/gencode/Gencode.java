@@ -3,12 +3,12 @@ package me.zoulei.gencode;
 import java.util.HashMap;
 
 import me.zoulei.backend.TableMetaDataConfig;
-import me.zoulei.backend.codeGen.controller.GenCTL;
-import me.zoulei.backend.codeGen.dao.GenDao;
-import me.zoulei.backend.codeGen.entity.GenEntity;
-import me.zoulei.backend.codeGen.javascript.GenJS;
-import me.zoulei.backend.codeGen.service.GenService;
-import me.zoulei.backend.codeGen.xml.GenXml;
+import me.zoulei.backend.templete.grid.controller.GenCTL;
+import me.zoulei.backend.templete.grid.dao.GenDao;
+import me.zoulei.backend.templete.grid.entity.GenEntity;
+import me.zoulei.backend.templete.grid.javascript.GenJS;
+import me.zoulei.backend.templete.grid.service.GenService;
+import me.zoulei.backend.templete.grid.xml.GenXml;
 import me.zoulei.frontend.templete.grid.GenCSS;
 import me.zoulei.frontend.templete.grid.GenTable;
 import me.zoulei.ui.components.codeEditor.Document;
@@ -43,7 +43,7 @@ public class Gencode {
 		GenXml xml = new GenXml(config);
 		
 		//js
-		HashMap<String, String> params = new HashMap<String, String>();
+		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("entityJSON", genEntity.getJson_content());
 		GenJS js = new GenJS(config, params);
         

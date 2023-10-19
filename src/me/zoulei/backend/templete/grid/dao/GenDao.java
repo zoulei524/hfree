@@ -1,4 +1,4 @@
-package me.zoulei.backend.codeGen.service;
+package me.zoulei.backend.templete.grid.dao;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -17,18 +17,18 @@ import me.zoulei.backend.TableMetaDataConfig;
 
 /**
 * @author zoulei 
-* @date 2023年9月18日14:26:12
-* @description 输出service相关方法。
+* @date 2023年9月18日14:27:40
+* @description 输出dao类相关方法。
  */
 @Data
-public class GenService {
+public class GenDao {
 	
 	/**输出的java代码*/
 	private String code;
 	
-	public GenService(TableMetaDataConfig config) throws Exception {
+	public GenDao(TableMetaDataConfig config) throws Exception {
 		
-		InputStream is = this.getClass().getResourceAsStream("service.tpl");
+		InputStream is = this.getClass().getResourceAsStream("dao.tpl");
 		
 		String tpl = IOUtils.toString(is,"utf-8");
 		
@@ -55,7 +55,7 @@ public class GenService {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GenService genCTL = new GenService(null);
+		GenDao genCTL = new GenDao(null);
 		System.out.println(genCTL.code);
 	}
 	

@@ -60,7 +60,7 @@ public class CSSAttr implements Attr{
 		}
 		
 		attrsStr.append(tabStr);
-		attrsStr.append(this.name+": "+this.value);
+		attrsStr.append(this.name+": "+this.value+";");
 		
 		return attrsStr.toString();
 	}

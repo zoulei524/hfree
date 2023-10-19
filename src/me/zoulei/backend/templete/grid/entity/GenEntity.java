@@ -1,4 +1,4 @@
-package me.zoulei.backend.codeGen.entity;  
+package me.zoulei.backend.templete.grid.entity;  
   
   
 import java.text.SimpleDateFormat;
@@ -135,10 +135,10 @@ public class GenEntity {
         
         //json对象
         StringBuilder jsonSB = new StringBuilder();  
-        jsonSB.append("\t\t\t"+this.config.getTablename().toLowerCase()+" : {\n");
+        jsonSB.append("\t\t\t"+this.config.getTablename().toLowerCase()+"EntityData : {\n");
         processAllAttrs(sb,jsonSB);//属性  
         //processAllMethod(sb);//get set方法  
-        jsonSB.append("\t\t\t}\n");  
+        jsonSB.append("\t\t\t}");  
         sb.append("}\n");  
           
         //System.out.println(sb.toString());  
@@ -165,7 +165,7 @@ public class GenEntity {
         		sb.append("\t@Id\n");
         	}
             sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
-            jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + " : " +"\"\","  );
+            jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"\"\","  );
             if(StringUtil.isNotEmpty(fconf.get("comments"))) {
             	jsonSB.append(" /** "+fconf.get("comments")+" */\n");
             }else {

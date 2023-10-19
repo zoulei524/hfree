@@ -31,6 +31,7 @@ public class MainApp {
 	public static JPanel north;
 	
 	public static void main(String[] args) {
+		new Config();
 		
 		
 		mainFrame = new JFrame("odin7c开发辅助工具");
@@ -84,5 +85,7 @@ public class MainApp {
 		
         mainFrame.setVisible(true);
 	}
+
+	
 	
 }

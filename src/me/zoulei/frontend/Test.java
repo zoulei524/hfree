@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.zoulei.backend.TableMetaDataConfig;
-import me.zoulei.backend.codeGen.entity.GenEntity;
+import me.zoulei.backend.templete.grid.entity.GenEntity;
 import me.zoulei.frontend.node.css.CSSAttr;
 import me.zoulei.frontend.node.css.CSSClassNameNode;
 import me.zoulei.frontend.node.vue.VueAttr;
@@ -16,7 +16,7 @@ public class Test {
 	
 
 	public static void main(String[] args) throws Exception {
-		ElTableTpl gt = new ElTableTpl();
+		ElTableTpl gt = new ElTableTpl(null);
 		VueNode gridTable = gt.getPage();
 		VueNode eltableCONST = gt.getEl_table();
 		

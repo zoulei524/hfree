@@ -1,4 +1,4 @@
-package me.zoulei.backend.codeGen.javascript;
+package me.zoulei.backend.templete.grid.controller;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -17,23 +17,23 @@ import me.zoulei.backend.TableMetaDataConfig;
 
 /**
 * @author zoulei 
-* @date 2023年9月18日14:27:40
-* @description 输出dao类相关方法。
+* @date 2023年9月18日 下午12:03:27 
+* @description 输出控制类相关方法。
  */
 @Data
-public class GenJS {
+public class GenCTL {
 	
 	/**输出的java代码*/
 	private String code;
 	
-	public GenJS(TableMetaDataConfig config,HashMap<String, String> params) throws Exception {
+	public GenCTL(TableMetaDataConfig config) throws Exception {
 		
-		InputStream is = this.getClass().getResourceAsStream("js.tpl");
+		InputStream is = this.getClass().getResourceAsStream("ctl.ftl");
 		
 		String tpl = IOUtils.toString(is,"utf-8");
 		
 		//配置项
-		
+		HashMap<String, Object> params = new HashMap<String, Object>();
 		String tablename = config.getTablename().toLowerCase();
 		String author = Constants.AUTHOR;
 		String entity = this.initcap(tablename);
@@ -50,12 +50,13 @@ public class GenJS {
 		
 		Template template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
 		StringWriter result = new StringWriter();
+		params.put("config", config);
 	    template.process(params, result);
 		this.code = result.toString();
 	}
 	
 	public static void main(String[] args) throws Exception {
-		GenJS genCTL = new GenJS(null,null);
+		GenCTL genCTL = new GenCTL(null);
 		System.out.println(genCTL.code);
 	}
 	

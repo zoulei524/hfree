@@ -5,6 +5,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.JButton;
@@ -25,23 +32,26 @@ import me.zoulei.exception.myException;
  * 该组件用于配置数据库连接参数，若连接成功，则加载 搜索数据库表的组件。
  */
 public class DataSourceComponent {
-
+	
 	public JPanel setComp(SearchComponent sch) {
+		
+		String baseDir = System.getProperty("user.dir")+"/dsProp";
+		
 		//读取数据库配置
-		String url = this.getClass().getResource("./dsProp/1.properties").getPath();
+		String url = baseDir + "/1.properties";
 		Properties p = new Properties();
 		Item[] items = null;
 		
 		try {
-			p.load(new FileInputStream(url));
+			p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
 			//获取所有数据库配置
-			File[] listFiles = new File(url).getParentFile().listFiles();
+			File[] listFiles = new File(baseDir).listFiles();
 			items = new Item[listFiles.length];
 			int i=0;
 			for(File f : listFiles) {
 				Properties fp = new Properties();
-				fp.load(new FileInputStream(f));
-				items[i++] = new Item(new String(fp.getProperty("desc").getBytes("iso8859-1"),"utf8"), fp);
+				fp.load(new InputStreamReader(new FileInputStream(f), "utf-8"));
+				items[i++] = new Item(fp.getProperty("desc"), fp, f);
 			}
 			
 		} catch (Exception e) {
@@ -73,7 +83,7 @@ public class DataSourceComponent {
 		loginButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {     
 	            //测试数据库连接
-	        	 DataSource.dsprop = new Properties();
+	        	DataSource.dsprop = new Properties();
 	            DataSource.dsprop.setProperty("user", userText.getText());
 	            DataSource.dsprop.setProperty("password", passwordText.getText());
 	            DataSource.dsprop.setProperty("url", urlText.getText());
@@ -103,6 +113,32 @@ public class DataSourceComponent {
 	            
 	         }
 	      }); 
+		
+		JButton saveButton = new JButton("保存连接");
+		saveButton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {    
+	        	 Item item = (Item) dbSource.getSelectedItem();
+	        	 if(item!=null) {
+					Properties p = item.getProp();
+					p.setProperty("user", userText.getText());
+		            p.setProperty("password", passwordText.getText());
+		            p.setProperty("url", urlText.getText());
+		            p.setProperty("forname", driverText.getText());
+		            p.setProperty("DBType", dsText.getText());
+		            try {
+		            	item.getFile().delete();
+		            	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(item.getFile()), "utf-8");
+						p.store(outputStreamWriter, new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date()));
+						outputStreamWriter.close();
+						JOptionPane.showMessageDialog(MainApp.mainFrame, "保存成功！"); 
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(MainApp.mainFrame, "保存失败："+e1.getMessage());    
+					}
+
+	        	 }
+	         }
+		});
 		
 		
 		JPanel controlPanel = new JPanel();
@@ -144,6 +180,7 @@ public class DataSourceComponent {
 	    controlPanel.add(passwordLabel);       
 	    controlPanel.add(passwordText);
 	    controlPanel.add(loginButton);
+	    controlPanel.add(saveButton);
 	    //位置及大小
 	    //controlPanel.setBounds(0, 5, 1700, 35);
 	    
@@ -158,6 +195,7 @@ public class DataSourceComponent {
 	public class Item {
 		private String key;
 		private Properties prop;
+		private File file;
 		public String toString(){
 			return key;
 		}

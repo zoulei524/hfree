@@ -38,10 +38,18 @@ import org.fife.ui.rtextarea.LineNumberList;
 public class DemoRootPane extends JRootPane implements HyperlinkListener,
 											SyntaxConstants {
 
+	private static final long serialVersionUID = 1L;
 	private RTextScrollPane scrollPane;
 	private RSyntaxTextArea textArea;
 
-
+	public static void main(String[] args) {
+		DemoRootPane demoRootPane = new DemoRootPane();
+		JFrame mainFrame = new JFrame("功能测试");
+		mainFrame.setSize(1520, 980);
+		mainFrame.add(demoRootPane);
+		mainFrame.setVisible(true);
+		
+	}
 	DemoRootPane() {
 		textArea = createTextArea();
 		setText("JavaExample.txt");

@@ -1,4 +1,4 @@
-package me.zoulei.backend.codeGen.entity;  
+package me.zoulei.backend.templete.grid.entity;  
   
   
 import java.io.File;  

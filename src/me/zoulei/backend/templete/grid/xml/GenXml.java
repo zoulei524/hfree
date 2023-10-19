@@ -1,4 +1,4 @@
-package me.zoulei.backend.codeGen.xml;
+package me.zoulei.backend.templete.grid.xml;
 
 import java.io.InputStream;
 import java.io.StringWriter;

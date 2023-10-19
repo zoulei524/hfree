@@ -19,6 +19,7 @@ import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.AbstractListModel;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -67,6 +68,10 @@ public class EditorGrid extends JPanel {
     public TableColumn column;
     private boolean headerEditable = false;
     private boolean tableEditable = false;
+    ////是否有增删改查功能的控件
+    public JCheckBox crudCheckBox;
+    ////是否有分页功能的控件
+    public JCheckBox paginationCheckBox;
 
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public static final int MIN_ROW_HEIGHT = (int)SCREEN_SIZE.getHeight()/36;
@@ -74,6 +79,8 @@ public class EditorGrid extends JPanel {
     TableModel model;
     
     List<HashMap<String, String>> tableMetaData;
+
+	
 
     public EditorGrid(String tablename,String owner) {
     	try {
@@ -86,7 +93,7 @@ public class EditorGrid extends JPanel {
     }
 
     public void init() {
-    	Object[][] tableDate = new Object[5][tableMetaData.size()];
+    	Object[][] tableDate = new Object[6][tableMetaData.size()];
     	String[] colnames = new String[tableMetaData.size()];
     	for(int i = 0; i<tableMetaData.size(); i++ ) {
     		HashMap<String, String> metaData = tableMetaData.get(i);
@@ -95,13 +102,22 @@ public class EditorGrid extends JPanel {
     		String data_type = metaData.get("data_type");
     		String data_length = metaData.get("data_length");
     		String p = metaData.get("p");
+    		
     		//这样可以自动换行
     		colnames[i] = this.formateColName(comments);
     		tableDate[0][i] = column_name;
     		tableDate[1][i] = data_type+":"+data_length+":"+p;
     		//设置默认值
     		tableDate[3][i] = "显示";
+    		
     		tableDate[4][i] = "center";
+    		//是否必输项校验
+    		tableDate[5][i] = "可空";
+    		
+    		if("1".equals(p)) {//主键
+    			tableDate[3][i] = "不显示";
+    			tableDate[5][i] = "非空";
+    		}
     	}
         table = new JTable(tableDate,colnames) {
             /**
@@ -195,7 +211,12 @@ public class EditorGrid extends JPanel {
 		JLabel dslabel= new JLabel("表格的属性设置: ", JLabel.LEFT);
 		dslabel.setFont(new Font("宋体", Font.PLAIN, 18));
 		toolBar.add(dslabel);
-		
+		//是否增删改查功能
+		crudCheckBox = new JCheckBox("增删改查功能",true);
+		toolBar.add(crudCheckBox);
+		//是否分页功能
+		paginationCheckBox = new JCheckBox("是否分页",false);
+		toolBar.add(paginationCheckBox);
 		
         scrollPane = new JScrollPane( table );
         //scrollPane.setBorder(new EmptyBorder(0, 14, 0, 14));
@@ -309,6 +330,7 @@ public class EditorGrid extends JPanel {
         headers.add("列宽");
         headers.add("是否显示");
         headers.add("水平对齐");
+        headers.add("前端校验项");
 
         ListModel<Object> lm = new AbstractListModel<Object>() {
 
@@ -460,7 +482,7 @@ public class EditorGrid extends JPanel {
 
     
     /**
-     * 获取表格配置
+     * 根据表格上的设置获取表格配置
      */
     public List<HashMap<String, String>> genTableMetaData(){
     	List<HashMap<String, String>> tmd = new ArrayList<HashMap<String,String>>();
@@ -496,6 +518,9 @@ public class EditorGrid extends JPanel {
     		//水平对齐
     		String align = this.model.getValueAt(4, c).toString();
     		field.put("align", align);
+    		//2023年10月18日17:13:19  加上保存校验项
+    		String validate = this.model.getValueAt(5, c).toString();
+    		field.put("validate", validate);
     	}
     	return tmd;
     }
@@ -528,6 +553,7 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 	int column;
 	private JComboBox<String> jbox2;//第四行 
 	private JComboBox<String> jbox3;//第五行 
+	private JComboBox<String> jbox4;//校验项第6行
 	private JTextField textfield;
 
 	public JBoxTestCell() {
@@ -536,6 +562,9 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 		//水平位置配置
 		jbox3 = new JComboBox<String>(new String[] {"left","center","right"});
 		jbox3.setSelectedIndex(1);
+		
+		//校验项
+		jbox4 = new JComboBox<String>(new String[] {"可空","非空"});
 	}
 
 	@Override
@@ -549,11 +578,14 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 		switch (this.row) {
 		
 			case 3:
-				String v2 = jbox2.getSelectedItem().toString();
-				return v2;
-			case 4:
-				String v3 = jbox3.getSelectedItem().toString();
+				String v3 = jbox2.getSelectedItem().toString();
 				return v3;
+			case 4:
+				String v4 = jbox3.getSelectedItem().toString();
+				return v4;
+			case 5:
+				String v5 = jbox4.getSelectedItem().toString();
+				return v5;
 			default:
 				return this.textfield.getText().toString();
 		}
@@ -569,6 +601,8 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 				return this.jbox2;
 			case 4:
 				return this.jbox3;
+			case 5:
+				return this.jbox4;
 			default:
 				JTextField result = new JTextField();
 				result.setText(value==null?"":value.toString());   

@@ -153,7 +153,7 @@ public class SearchComponent {
 	        	 Item item = (Item) cbx.getSelectedItem();
 	        	 try {
 	        		 //生成代码
-					new Gencode().gencode(new TableMetaDataConfig(item.getKey(),item.getValue(), tmd));
+					new Gencode().gencode(new TableMetaDataConfig(item.getKey(),item.getValue(), tmd, grid.editorGrid));
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(MainApp.mainFrame, e1.getMessage());    
 					e1.printStackTrace();
@@ -171,7 +171,7 @@ public class SearchComponent {
 			items = new Item[] {};
 			//return;
 		}
-		String sql = "select t.table_name,c.COMMENTS from All_TABLES t,SYS.ALL_TAB_COMMENTS c where t.TABLE_NAME=c.TABLE_NAME and t.owner = '"+sch.toUpperCase()+"' order by table_name ";
+		String sql = "select t.table_name,c.COMMENTS from All_TABLES t,SYS.ALL_TAB_COMMENTS c where t.TABLE_NAME=c.TABLE_NAME and t.owner = c.owner and t.owner = '"+sch.toUpperCase()+"' order by table_name ";
 		CommQuery cq = new CommQuery();
 		try {
 			List<HashMap<String, String>> list = cq.getListBySQL2(sql);
