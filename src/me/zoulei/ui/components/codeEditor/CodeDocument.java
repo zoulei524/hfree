@@ -15,7 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -39,9 +42,17 @@ import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
+
+import me.zoulei.MainApp;
  
+/**
+ * 
+* @author zoulei 
+* @date 2023年9月
+* @description 用于展示生成的代码。 使用RSyntaxTextArea编辑控件
+ */
 @SuppressWarnings("serial")
-public class Document extends JFrame implements ActionListener, DocumentListener {
+public class CodeDocument extends JFrame implements ActionListener, DocumentListener {
 	private void newFile() {
 		if (changed)
 			saveFile();
@@ -161,7 +172,14 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 	private JTextField status;
  
 	
-	private void initTextArea(RSyntaxTextArea textArea, String syntaxStyle, Theme theme){
+	private void initTextArea(RSyntaxTextArea textArea, String syntaxStyle){
+		InputStream in = getClass().getResourceAsStream("/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml");
+		Theme theme = null;
+		try {
+			theme = Theme.load(in);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		theme.apply(textArea);
 		textArea.getDocument().addDocumentListener(this);
 		textArea.setSyntaxEditingStyle(syntaxStyle);
@@ -211,12 +229,11 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 	}
 	
 	
-	public Document(String vue, String js, String entity, String controller, String service, String dao, String xml,String css) {
+	public CodeDocument(Map<String,String[]> codemap) {
  
 		super("代码查看");
 		setSize(1300, 950);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  
 		Container pane = getContentPane();
 		pane.setLayout(new BorderLayout());
@@ -224,46 +241,21 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 		JTabbedPane tabbedPane = new JTabbedPane();
 		pane.add(tabbedPane);
 		
- 
-		RSyntaxTextArea textArea_vue = new RSyntaxTextArea(vue);
-		RSyntaxTextArea textArea_css = new RSyntaxTextArea(css);
-		RSyntaxTextArea textArea_js = new RSyntaxTextArea(js);
-		RSyntaxTextArea textArea_java_entity = new RSyntaxTextArea(entity);
-		RSyntaxTextArea textArea_java_controller = new RSyntaxTextArea(controller);
-		RSyntaxTextArea textArea_java_service = new RSyntaxTextArea(service);
-		RSyntaxTextArea textArea_java_dao = new RSyntaxTextArea(dao);
-		RSyntaxTextArea textArea_xml = new RSyntaxTextArea(xml);
+		int i=0;
+		for(String tabname : codemap.keySet()) {
+			RSyntaxTextArea textArea = new RSyntaxTextArea(codemap.get(tabname)[0]);
+			initTextArea(textArea, codemap.get(tabname)[1]);
+			//添加选项卡
+	        tabbedPane.addTab(tabname,  new RTextScrollPane(textArea));
+	        if(i==0) {
+	        	this.textArea = textArea;
+	        }
+	        i++;
+		}
 		
-		InputStream in = getClass().getResourceAsStream("/org/fife/ui/rsyntaxtextarea/themes/eclipse.xml");
-		Theme theme = null;
-			try {
-				theme = Theme.load(in);
-			} catch (IOException ioe) {
-				ioe.printStackTrace();
-			}
 		
-		initTextArea(textArea_vue,SyntaxConstants.SYNTAX_STYLE_HTML,theme);
-		textArea = textArea_vue;
-		initTextArea(textArea_css,SyntaxConstants.SYNTAX_STYLE_LESS,theme);
-		initTextArea(textArea_js,SyntaxConstants.SYNTAX_STYLE_TYPESCRIPT,theme);
-		initTextArea(textArea_java_entity,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
-		initTextArea(textArea_java_controller,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
-		initTextArea(textArea_java_service,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
-		initTextArea(textArea_java_dao,SyntaxConstants.SYNTAX_STYLE_JAVA,theme);
-		initTextArea(textArea_xml,SyntaxConstants.SYNTAX_STYLE_XML,theme);
- 
-		RTextScrollPane sp = new RTextScrollPane(textArea_vue);
-		//添加选项卡
-        tabbedPane.addTab("  VUE  ",  sp);
-        tabbedPane.addTab("  CSS  ",  new RTextScrollPane(textArea_css));
-		RTextScrollPane sp2 = new RTextScrollPane(textArea_js);
-		//添加选项卡
-        tabbedPane.addTab("     JS     ",  sp2);
-        tabbedPane.addTab("    实体类   ",  new RTextScrollPane(textArea_java_entity));
-        tabbedPane.addTab(" Controller ",  new RTextScrollPane(textArea_java_controller));
-        tabbedPane.addTab("  Service   ",  new RTextScrollPane(textArea_java_service));
-        tabbedPane.addTab("    Dao     ",  new RTextScrollPane(textArea_java_dao));
-        tabbedPane.addTab("    Xml     ",  new RTextScrollPane(textArea_xml));
+        
+        
         tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
@@ -438,6 +430,13 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 		status.setText("行: 1 列: 1");
 		toolBar.add(status);
  
+		
+		try {
+			InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("me/zoulei/logo.png");
+			setIconImage(ImageIO.read(inputStream));
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		setVisible(true);
 		//只有该窗口会关闭
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -473,11 +472,7 @@ public class Document extends JFrame implements ActionListener, DocumentListener
 //
 //	}
  
-	public static void main(String[] args) {
- 
-		new Document("", "", "", "", "", "", "","");
-	}
- 
+
 	@Override
 	public void insertUpdate(DocumentEvent e) {
 		changed = true;

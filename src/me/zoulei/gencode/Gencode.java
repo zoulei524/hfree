@@ -1,6 +1,10 @@
 package me.zoulei.gencode;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.backend.templete.grid.controller.GenCTL;
@@ -11,7 +15,7 @@ import me.zoulei.backend.templete.grid.service.GenService;
 import me.zoulei.backend.templete.grid.xml.GenXml;
 import me.zoulei.frontend.templete.grid.GenCSS;
 import me.zoulei.frontend.templete.grid.GenTable;
-import me.zoulei.ui.components.codeEditor.Document;
+import me.zoulei.ui.components.codeEditor.CodeDocument;
 
 /**
  * 
@@ -47,8 +51,18 @@ public class Gencode {
 		params.put("entityJSON", genEntity.getJson_content());
 		GenJS js = new GenJS(config, params);
         
-        new Document(table.getCode(), js.getCode(), genEntity.getEntity_content(),
-        		ctl.getCode(), serv.getCode(), dao.getCode(), xml.getCode(),css.getCode());
+		
+		Map<String,String[]> codemap = new LinkedHashMap<String, String[]>();
+		//String vue, String js, String entity, String controller, String service, String dao, String xml,String css
+		codemap.put("   VUE   ", new String[] {table.getCode(), SyntaxConstants.SYNTAX_STYLE_HTML});
+		codemap.put("   CSS   ", new String[] {css.getCode(), SyntaxConstants.SYNTAX_STYLE_LESS});
+		codemap.put("     JS     ", new String[] {js.getCode(), SyntaxConstants.SYNTAX_STYLE_TYPESCRIPT});
+		codemap.put("    实体类   ", new String[] {genEntity.getEntity_content(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put(" Controller ", new String[] {ctl.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put("  Service   ", new String[] {serv.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put("    Dao     ", new String[] {dao.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put("    Xml     ", new String[] {xml.getCode(), SyntaxConstants.SYNTAX_STYLE_XML});
+        new CodeDocument(codemap);
         /*
         genEntity = new GenEntity(new TableMetaDataConfig("a01","select * from code_value"));  
         System.out.println(genEntity.getEntity_content());

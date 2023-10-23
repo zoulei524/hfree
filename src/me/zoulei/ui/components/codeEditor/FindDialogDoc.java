@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class FindDialogDoc extends JDialog implements ActionListener, KeyListener {
  
-	Document parent;
+	CodeDocument parent;
 	JLabel label;
 	JTextField textField;
 	JCheckBox caseSensitive;
@@ -26,7 +26,7 @@ public class FindDialogDoc extends JDialog implements ActionListener, KeyListene
 	boolean finishedFinding = true;
 	Matcher matcher;
  
-	public FindDialogDoc(Document parent, boolean modal) {
+	public FindDialogDoc(CodeDocument parent, boolean modal) {
 		super(parent, modal);
 		this.parent = parent;
 		getContentPane().addKeyListener(this);
