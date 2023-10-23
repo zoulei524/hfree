@@ -1,10 +1,16 @@
 package me.zoulei.frontend.templete.grid;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
 import lombok.Data;
-import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
+import me.zoulei.backend.templete.grid.entity.GenEntity;
 import me.zoulei.frontend.node.Node;
 import me.zoulei.frontend.node.vue.VueAttr;
 import me.zoulei.frontend.node.vue.VueNode;
@@ -43,6 +49,8 @@ public class GenTable {
 		;
 		
 		el_table.append(序号);  
+		//导出excel的配置信息  在生成vue代码的时候生成该信息
+		List<Object> excelCFG = new ArrayList<Object>();
 		list.forEach(column->{
 			//表格列
 			if("显示".equals(column.get("visible"))) {
@@ -57,9 +65,21 @@ public class GenTable {
 				;
 				
 				el_table.append(col);  
+				
+				//导出excel的参数
+				//表格列参数  宽度  是否数字 水平位置  列名  列名描述 
+				HashMap<String, String> m = new HashMap<String, String>();
+				m.put("width", column.get("width"));
+				m.put("align", column.get("align"));
+				m.put("label", column.get("comments"));
+				m.put("colname", column.get("column_name").toLowerCase());
+				m.put("type", GenEntity.sqlType2JavaType(column.get("data_type")));
+				excelCFG.add(m);
 			}
 			 
 		});
+		config.setExcelCFG(JSON.toJSONString(excelCFG,SerializerFeature.UseSingleQuotes));
+		
 		
 		//编辑删除按钮
 		if(gt.getEditorelbutton()!=null)

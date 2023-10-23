@@ -9,7 +9,7 @@ import java.util.List;
 import dm.jdbc.util.StringUtil;
 import lombok.Data;
 import me.zoulei.Constants;
-import me.zoulei.backend.TableMetaDataConfig;  
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;  
 
 /**
  * 2023年9月8日15:18:59 zoulei
@@ -218,7 +218,7 @@ public class GenEntity {
      * @param sqlType 
      * @return 
      */  
-    private String sqlType2JavaType(String sqlType) {  
+    public static String sqlType2JavaType(String sqlType) {  
           
         if(sqlType.equalsIgnoreCase("binary_double")){  
             return "double";  

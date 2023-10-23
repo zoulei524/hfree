@@ -5,7 +5,7 @@ import java.util.List;
 
 import lombok.Data;
 import me.zoulei.Constants;
-import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.frontend.node.Node;
 import me.zoulei.frontend.node.vue.VueAttr;
 import me.zoulei.frontend.node.vue.VueNode;
@@ -51,26 +51,38 @@ public class ElTableTpl {
 	
 	//分页对象，配置判断是否加入
 	private Node pagination;
+	//表头放按钮的div
+	private Node divbtn;
 	
 	public ElTableTpl(TableMetaDataConfig config){
 		this.createNode(config);
 		
 		/*
 		 * 2023年10月10日17:47:34
-		 * 增删改查的内容，不加到界面page中，单独放着，后面根据配置是否加到page中
+		 * 增删改查的内容，根据配置是否加到page中
 		 */
 		if(config.isIscrud()) {
 			this.createCrudNodes(config);
 		}
 		/*
 		 * 2023年10月18日13:58:40
-		 *  分页内容，单独放着，后面根据配置是否加到infobox中
+		 *  分页内容，根据配置是否加到infobox中
 		 */
 		if(config.isPagination()) {
 			this.createPaginationNodes(config);
 		}
+		
+		/*
+		 * 2023年10月19日17:34:53
+		 *  导出按钮，根据配置判断，按钮是否加到表头
+		 */
+		if(config.isExportExcel()) {
+			this.createExportExcelNodes(config);
+		}
 	}
 	
+	
+
 	public void createNode(TableMetaDataConfig config) {
 		String tablenameL = config.getTablename().toLowerCase();
 		String tablenameCap = Constants.initcap(tablenameL);
@@ -79,8 +91,14 @@ public class ElTableTpl {
 		
 		Node titles = new VueNode("div").addAttr(new VueAttr("class","titles"));
 		VueNode titlesP = new VueNode("p","标题名称","");
+		//表头放按钮的div
+		Node divbtn = new VueNode("div", "这里放操作按钮");
+		this.divbtn = divbtn;
 		
-		page.appendChild(info_page).appendChild(titles).append(titlesP);
+		page.appendChild(info_page)
+			.appendChild(titles)
+			.append(titlesP)
+			.append(divbtn);
 		
 		Node info_box = new VueNode("div").addAttr(new VueAttr("class","info-box"));
 		this.info_box = info_box;
@@ -120,11 +138,11 @@ public class ElTableTpl {
 	          &nbsp;新增
 	      </el-button>
 		 */
+		
 		Node elbuttonadd = new VueNode("el-button","&nbsp;新增","")
 				.addAttr(new VueAttr("@click","add"+tablenameCap+"Info"))
-				.addAttr(new VueAttr("style","float:right;"))
 				;
-		this.title.append(elbuttonadd);
+		this.divbtn.append(elbuttonadd);
 		
 		Node svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
 		elbuttonadd.append(svg);
@@ -414,6 +432,31 @@ public class ElTableTpl {
 		this.info_box.append(paginationdiv);
 	}
 	
+	
+	private void createExportExcelNodes(TableMetaDataConfig config) {
+		String tablename = config.getTablename();
+		String tablenameL = tablename.toLowerCase();
+		String tablenameCap = Constants.initcap(tablenameL);
+		/*
+		 <el-button size="mini" @click="addInfo" ref="add"  style="float:right;">
+	        <svg class="icon">
+	          <use xlink:href="#el-icon-gwy-add" /></svg>
+	          &nbsp;新增
+	      </el-button>
+		 */
+		
+		Node elbuttonadd = new VueNode("el-button","&nbsp;导出Excel","")
+				.addAttr(new VueAttr("@click","export"+tablenameCap+"Excel"))
+				;
+		this.divbtn.append(elbuttonadd);
+		
+		Node svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
+		elbuttonadd.append(svg);
+		
+		Node use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-excelmbdy"));
+		svg.append(use);
+		
+	}
 	
 }
 

@@ -1,4 +1,4 @@
-package me.zoulei.backend;
+package me.zoulei.backend.templete.grid;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import javax.swing.JCheckBox;
 
 import lombok.Data;
 import me.zoulei.Constants;
@@ -31,6 +34,8 @@ public class TableMetaDataConfig {
 	private String pk="";
 	//在表格保存时非空校验项  js 代码，在生成form对象的时候生成。所以确保先生成vue代码再生成js 
 	private String rules;
+	//导出excel的配置信息  在生成表格vue代码的时候生成该信息
+	private String excelCFG;
 	
 	//首字母大写的主键
 	private String pkU="";
@@ -40,6 +45,8 @@ public class TableMetaDataConfig {
 	private boolean iscrud = true;
 	//是否有分页功能
 	private boolean pagination = false;
+	//是否有导出excel功能
+	private boolean exportExcel = false;
 	
 	private String dataUrl = Constants.DATA_URL;
 	/**
@@ -84,7 +91,9 @@ public class TableMetaDataConfig {
 	//从ui界面上点击【生成代码】按钮 传入界面上调整后的的表格参数。获取表格配置信息 
 	public TableMetaDataConfig(String tablename,String tablecomment, List<HashMap<String, String>> tableMetaData, EditorGrid editorGrid) throws Exception{
 		this.tablename = tablename;
-		this.tablecomment = tablecomment==null?"":tablecomment;
+		Pattern filePattern = Pattern.compile("[\\\\/:*?\"<>|]");
+		tablecomment = filePattern.matcher(tablecomment==null?"":tablecomment).replaceAll("");
+		this.tablecomment = tablecomment;
 		this.type = "table";
 		this.tableMetaData = tableMetaData;
 		StringBuilder sb = new StringBuilder();
@@ -109,6 +118,8 @@ public class TableMetaDataConfig {
 		this.iscrud = editorGrid.crudCheckBox.isSelected();
 		//是否有分页功能
 		this.pagination = editorGrid.paginationCheckBox.isSelected();
+		//是否导出excel
+		this.exportExcel = editorGrid.excelCheckBox.isSelected();
 	}
 	
 	//从数据库获取表结构配置

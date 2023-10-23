@@ -1,7 +1,7 @@
 package me.zoulei.frontend.templete.grid;
 
 import lombok.Data;
-import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.frontend.node.Node;
 import me.zoulei.frontend.node.css.CSSAttr;
 import me.zoulei.frontend.node.css.CSSClassNameNode;

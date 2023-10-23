@@ -13,7 +13,7 @@ import freemarker.template.Template;
 import freemarker.template.Version;
 import lombok.Data;
 import me.zoulei.Constants;
-import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 
 /**
 * @author zoulei 

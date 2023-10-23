@@ -2,7 +2,7 @@ package me.zoulei.gencode;
 
 import java.util.HashMap;
 
-import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.backend.templete.grid.controller.GenCTL;
 import me.zoulei.backend.templete.grid.dao.GenDao;
 import me.zoulei.backend.templete.grid.entity.GenEntity;

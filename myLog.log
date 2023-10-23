@@ -182,3 +182,92 @@
  me.zoulei.Config 2023-10-19 10:05:32,554 15
 - D:\workspace2023\hfree
  me.zoulei.Config 2023-10-19 10:10:06,092 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-19 17:41:06,678 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-19 18:08:35,473 15
+- Key "excelCFG" was not found on instance of me.zoulei.backend.TableMetaDataConfig. Introspection information for the class is: {getClass=public final native java.lang.Class java.lang.Object.getClass(), pagination=freemarker.ext.beans.FastPropertyDescriptor@6ebebc08, initMetaData=public void me.zoulei.backend.TableMetaDataConfig.initMetaData() throws java.lang.Exception, getTableMetaData=public java.util.List me.zoulei.backend.TableMetaDataConfig.getTableMetaData(), sqlFields=freemarker.ext.beans.FastPropertyDescriptor@5ea1275f, setTablecomment=public void me.zoulei.backend.TableMetaDataConfig.setTablecomment(java.lang.String), rules=freemarker.ext.beans.FastPropertyDescriptor@34ccf7b0, setSqlFields=public void me.zoulei.backend.TableMetaDataConfig.setSqlFields(java.lang.String), type=freemarker.ext.beans.FastPropertyDescriptor@e5a1968, getPkU=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getPkU(), tablecomment=freemarker.ext.beans.FastPropertyDescriptor@151faa57, setSql=public void me.zoulei.backend.TableMetaDataConfig.setSql(java.lang.String), sql=freemarker.ext.beans.FastPropertyDescriptor@42d3fc74, getSql=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getSql(), getTablename=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getTablename(), setTablename=public void me.zoulei.backend.TableMetaDataConfig.setTablename(java.lang.String), tableMetaData=freemarker.ext.beans.FastPropertyDescriptor@1171e2e9, setExportExcel=public void me.zoulei.backend.TableMetaDataConfig.setExportExcel(boolean), exportExcel=freemarker.ext.beans.FastPropertyDescriptor@4fbe28f6, getTablecomment=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getTablecomment(), hashCode=public int me.zoulei.backend.TableMetaDataConfig.hashCode(), setIscrud=public void me.zoulei.backend.TableMetaDataConfig.setIscrud(boolean), iscrud=freemarker.ext.beans.FastPropertyDescriptor@279b7e44, getRules=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getRules(), tablename=freemarker.ext.beans.FastPropertyDescriptor@7af6169f, setRules=public void me.zoulei.backend.TableMetaDataConfig.setRules(java.lang.String), class=freemarker.ext.beans.FastPropertyDescriptor@640ed582, setTableMetaData=public void me.zoulei.backend.TableMetaDataConfig.setTableMetaData(java.util.List), dataUrl=freemarker.ext.beans.FastPropertyDescriptor@5a49a86d, setDataUrl=public void me.zoulei.backend.TableMetaDataConfig.setDataUrl(java.lang.String), isPagination=public boolean me.zoulei.backend.TableMetaDataConfig.isPagination(), setPagination=public void me.zoulei.backend.TableMetaDataConfig.setPagination(boolean), getSqlFields=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getSqlFields(), getPk=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getPk(), setType=public void me.zoulei.backend.TableMetaDataConfig.setType(java.lang.String), isIscrud=public boolean me.zoulei.backend.TableMetaDataConfig.isIscrud(), isExportExcel=public boolean me.zoulei.backend.TableMetaDataConfig.isExportExcel(), getType=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getType(), equals=public boolean me.zoulei.backend.TableMetaDataConfig.equals(java.lang.Object), setPk=public void me.zoulei.backend.TableMetaDataConfig.setPk(java.lang.String), setPkU=public void me.zoulei.backend.TableMetaDataConfig.setPkU(java.lang.String), toString=public java.lang.String me.zoulei.backend.TableMetaDataConfig.toString(), pkU=freemarker.ext.beans.FastPropertyDescriptor@26dc943e, pk=freemarker.ext.beans.FastPropertyDescriptor@6c542c94, java.lang.Object@14ca8ff6=freemarker.ext.beans.OverloadedMethods@7e644659, getDataUrl=public java.lang.String me.zoulei.backend.TableMetaDataConfig.getDataUrl(), java.lang.Object@31aa6494={public void me.zoulei.backend.TableMetaDataConfig.setPk(java.lang.String)=[Ljava.lang.Class;@69799338, public void me.zoulei.backend.TableMetaDataConfig.setPkU(java.lang.String)=[Ljava.lang.Class;@2b46974d, public java.lang.String me.zoulei.backend.TableMetaDataConfig.toString()=[Ljava.lang.Class;@66bb3e3d, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getDataUrl()=[Ljava.lang.Class;@3a31ea3d, public boolean me.zoulei.backend.TableMetaDataConfig.isExportExcel()=[Ljava.lang.Class;@1ff44e10, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getType()=[Ljava.lang.Class;@975e5c, public boolean me.zoulei.backend.TableMetaDataConfig.equals(java.lang.Object)=[Ljava.lang.Class;@3f62c2a5, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getSqlFields()=[Ljava.lang.Class;@a37b776, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getPk()=[Ljava.lang.Class;@378eecee, public void me.zoulei.backend.TableMetaDataConfig.setType(java.lang.String)=[Ljava.lang.Class;@d5121fd, public boolean me.zoulei.backend.TableMetaDataConfig.isIscrud()=[Ljava.lang.Class;@248fbd18, public void me.zoulei.backend.TableMetaDataConfig.setDataUrl(java.lang.String)=[Ljava.lang.Class;@133422f8, public boolean me.zoulei.backend.TableMetaDataConfig.isPagination()=[Ljava.lang.Class;@531d45ec, public void me.zoulei.backend.TableMetaDataConfig.setPagination(boolean)=[Ljava.lang.Class;@57c7d8bb, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getRules()=[Ljava.lang.Class;@e79d826, public void me.zoulei.backend.TableMetaDataConfig.setRules(java.lang.String)=[Ljava.lang.Class;@3c6818f3, public void me.zoulei.backend.TableMetaDataConfig.setTableMetaData(java.util.List)=[Ljava.lang.Class;@5e308b7, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getSql()=[Ljava.lang.Class;@6c081ab0, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getTablename()=[Ljava.lang.Class;@2c7047ff, public void me.zoulei.backend.TableMetaDataConfig.setTablename(java.lang.String)=[Ljava.lang.Class;@50a37d02, public void me.zoulei.backend.TableMetaDataConfig.setExportExcel(boolean)=[Ljava.lang.Class;@4d987111, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getTablecomment()=[Ljava.lang.Class;@61693f88, public int me.zoulei.backend.TableMetaDataConfig.hashCode()=[Ljava.lang.Class;@4f08c3e5, public void me.zoulei.backend.TableMetaDataConfig.setIscrud(boolean)=[Ljava.lang.Class;@488ec6b, public java.util.List me.zoulei.backend.TableMetaDataConfig.getTableMetaData()=[Ljava.lang.Class;@a161512, public void me.zoulei.backend.TableMetaDataConfig.setTablecomment(java.lang.String)=[Ljava.lang.Class;@22abfea7, public void me.zoulei.backend.TableMetaDataConfig.setSqlFields(java.lang.String)=[Ljava.lang.Class;@2bb506fc, public java.lang.String me.zoulei.backend.TableMetaDataConfig.getPkU()=[Ljava.lang.Class;@689d5c55, public void me.zoulei.backend.TableMetaDataConfig.setSql(java.lang.String)=[Ljava.lang.Class;@52997ad1, public void me.zoulei.backend.TableMetaDataConfig.initMetaData() throws java.lang.Exception=[Ljava.lang.Class;@2fbae8e3, public final native java.lang.Class java.lang.Object.getClass()=[Ljava.lang.Class;@2cbb890e}}
+ freemarker.log._Log4jLoggerFactory$Log4jLogger 2023-10-19 18:09:03,441 45
+- Error executing FreeMarker template
+ freemarker.log._Log4jLoggerFactory$Log4jLogger 2023-10-19 18:09:03,445 60
+FreeMarker template error:
+The following has evaluated to null or missing:
+==> config.excelCFG  [in template "ctl" at line 254, column 41]
+
+----
+Tip: It's the step after the last dot that caused this error, not those before it.
+----
+Tip: If the failing expression is known to legally refer to something that's sometimes null or missing, either specify a default value like myOptionalVar!myDefault, or use <#if myOptionalVar??>when-present<#else>when-missing</#if>. (These only cover the last step of the expression; to cover the whole expression, use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??
+----
+----
+FTL stack trace ("~" means nesting-related):
+	- Failed at: ${config.excelCFG}  [in template "ctl" at line 254, column 39]
+
+----
+Java stack trace (for programmers):
+----
+freemarker.core.InvalidReferenceException: [... Exception message was already printed; see it above ...]
+	at freemarker.core.InvalidReferenceException.getInstance(InvalidReferenceException.java:134)
+	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:481)
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:401)
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:370)
+	at freemarker.core.DollarVariable.calculateInterpolatedStringOrMarkup(DollarVariable.java:100)
+	at freemarker.core.DollarVariable.accept(DollarVariable.java:63)
+	at freemarker.core.Environment.visit(Environment.java:334)
+	at freemarker.core.Environment.visit(Environment.java:340)
+	at freemarker.core.Environment.visit(Environment.java:340)
+	at freemarker.core.Environment.process(Environment.java:313)
+	at freemarker.template.Template.process(Template.java:383)
+	at me.zoulei.backend.templete.grid.service.GenService.<init>(GenService.java:54)
+	at me.zoulei.gencode.Gencode.gencode(Gencode.java:39)
+	at me.zoulei.ui.components.SearchComponent$3.actionPerformed(SearchComponent.java:156)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-19 18:24:15,460 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-19 18:34:40,064 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-19 18:43:08,401 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-19 18:52:29,603 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-19 19:28:38,595 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-20 10:01:10,497 15
+- D:\workspace2023\hfree
+ me.zoulei.Config 2023-10-20 12:29:23,153 15

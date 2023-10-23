@@ -48,7 +48,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import me.zoulei.backend.TableMetaDataConfig;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 
 /**
  * 2023年9月12日19:24:42  zoulei
@@ -72,6 +72,8 @@ public class EditorGrid extends JPanel {
     public JCheckBox crudCheckBox;
     ////是否有分页功能的控件
     public JCheckBox paginationCheckBox;
+  //是否有导出excel功能
+    public JCheckBox excelCheckBox;
 
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public static final int MIN_ROW_HEIGHT = (int)SCREEN_SIZE.getHeight()/36;
@@ -79,6 +81,7 @@ public class EditorGrid extends JPanel {
     TableModel model;
     
     List<HashMap<String, String>> tableMetaData;
+    
 
 	
 
@@ -205,7 +208,7 @@ public class EditorGrid extends JPanel {
         renamePopup.add(text);
 
         
-        
+        //表格上边工具栏
         JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
 		JLabel dslabel= new JLabel("表格的属性设置: ", JLabel.LEFT);
@@ -217,6 +220,10 @@ public class EditorGrid extends JPanel {
 		//是否分页功能
 		paginationCheckBox = new JCheckBox("是否分页",false);
 		toolBar.add(paginationCheckBox);
+		
+		//是否有导出excel功能
+		excelCheckBox = new JCheckBox("导出excel数据",false);
+		toolBar.add(excelCheckBox);
 		
         scrollPane = new JScrollPane( table );
         //scrollPane.setBorder(new EmptyBorder(0, 14, 0, 14));

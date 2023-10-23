@@ -189,10 +189,37 @@ ${config.rules}
 		
 		//清空表单
 		reset${entity}Fields() {
-            this.${tablename}EntityData = JSON.parse(this.${tablename}EntityDataText);
-        },
+			this.${tablename}EntityData = JSON.parse(this.${tablename}EntityDataText);
+		},
 </#if> 		
 		
+<#if config.exportExcel>		
+		// 导出全部列表数据到excel
+		export${entity}Excel() {
+			let _this = this;
+			let url = _this.dataUrl + "/export${entity}Excel";
+			//请求参数
+			let param = {
+                pageInfo: this.${tablename}PageInfo,
+			};
+			const loading = this.$loading({
+				target: $('.info-page')[0],
+				lock: true,
+				text: '导出中...',
+				spinner: 'el-icon-loading',
+				background: 'rgba(0, 0, 0, 0.7)'
+			});
+			_this.$api.commonPost(url, param).then(function (res) {
+				loading.close();
+				if (res.status == "0") {
+					//下载表格
+					downLoadFile(res.data.path, res.data.filename);
+				}else{
+					_this.$message.error(res.message);
+				}
+			});
+		},
+ </#if>
         
 	},
 };

@@ -21,8 +21,8 @@ import dm.jdbc.util.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import me.zoulei.MainApp;
-import me.zoulei.backend.TableMetaDataConfig;
 import me.zoulei.backend.jdbc.utils.CommQuery;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.gencode.Gencode;
 import me.zoulei.ui.frame.AutoCompletion;
 
