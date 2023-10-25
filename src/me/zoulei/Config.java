@@ -7,6 +7,12 @@ import java.io.InputStream;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 
+* @author zoulei 
+* @date 2023年10月23日 下午6:22:11 
+* @description 初始化数据库配置，默认生成2个数据库文件，用于保存数据库配置信息。可以手动增加数据库配置。
+ */
 public class Config {
 	Logger logger = Logger.getLogger(Config.class);
 	public Config(){

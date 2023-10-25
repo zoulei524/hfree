@@ -62,6 +62,14 @@ public class TableMetaDataConfig {
 			+ " and pk.column_name(+) =c.column_name  and t.owner=upper('%s')"
 			+ " and t.TABLE_NAME=upper('%s')   ORDER BY t.COLUMN_ID";//and t.data_type in('VARCHAR2')
 	
+	private String mysql_sql = "select "
+			+ " b.column_name,"
+			+ " case when b.column_comment='' or b.column_comment=null then b.column_name else b.column_comment end as comments,"
+			+ " b.data_type,IFNULL(b.CHARACTER_MAXIMUM_LENGTH,'') as data_length,"
+			+ " case when b.COLUMN_KEY='PRI' then 1 else 0 end p "
+			+ " from information_schema.COLUMNS b "
+			+ " where b.table_schema = '%s' and b.table_name = '%s' order by b.ORDINAL_POSITION";
+	
 	
 	/**
 	 * 2023年9月8日18:04:28 zoulei
@@ -83,7 +91,12 @@ public class TableMetaDataConfig {
 	 */
 	public TableMetaDataConfig(String tablename,String owner,String e) throws Exception{
 		this.tablename = tablename;
-		this.sql = String.format(this.sql, tablename,owner,owner,tablename);
+		
+		if(DataSource.DBType.equalsIgnoreCase("mysql")) {
+			this.sql = String.format(this.mysql_sql, owner,tablename);
+		}else {
+			this.sql = String.format(this.sql, tablename,owner,owner,tablename);
+		}
 		this.type = "table";
 		this.initMetaData();
 	}

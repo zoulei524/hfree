@@ -51,7 +51,7 @@ public class GenXml {
 		String listDataSQL = "select " + sqlFields + " from " + tablename + " t";
 		params.put("listDataSQL", listDataSQL);
 		//时间
-		params.put("time", new SimpleDateFormat("yyyy年M月d日 hh:mm:ss").format(new Date()));
+		params.put("time", new SimpleDateFormat("yyyy年M月d日 HH:mm:ss").format(new Date()));
 		
 		Template template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
 		StringWriter result = new StringWriter();

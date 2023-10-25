@@ -53,7 +53,7 @@ ${config.rules}
 <#if config.iscrud>
 		//将空对象序列化成文本，通过反序列化重置对象
 		this.${tablename}EntityDataText = JSON.stringify(this.${tablename}EntityData);
-		//这里数据维护若超出边界，可以设置高度使其换行
+		//这里数据维护若超出边界，设置高度，通过纵向滚动条显示
 		//let ef = $('.elform');
 		//ef.height(ef.parent().parent().parent().parent().height()-565)
 </#if>      

@@ -21,6 +21,7 @@ import dm.jdbc.util.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import me.zoulei.MainApp;
+import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.backend.jdbc.utils.CommQuery;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.gencode.Gencode;
@@ -28,7 +29,8 @@ import me.zoulei.ui.frame.AutoCompletion;
 
 /**
  * 2023年9月14日11:30:15  zoulei
- * 用于搜索数据库表的组件， 设置表后可以加载表格参数配置组件。  查询模式和表名
+ * 用于搜索数据库表的组件， 设置表后可以加载表格参数配置组件。  查询模式和表名 oracle和达梦
+ * 2023年10月24日10:05:44 增加mysql类型
  */
 public class SearchComponent {
 
@@ -171,13 +173,17 @@ public class SearchComponent {
 			items = new Item[] {};
 			//return;
 		}
-		String sql = "select t.table_name,c.COMMENTS from All_TABLES t,SYS.ALL_TAB_COMMENTS c where t.TABLE_NAME=c.TABLE_NAME and t.owner = c.owner and t.owner = '"+sch.toUpperCase()+"' order by table_name ";
+		String sql = "select t.table_name,c.COMMENTS TABLE_COMMENT from All_TABLES t,SYS.ALL_TAB_COMMENTS c where t.TABLE_NAME=c.TABLE_NAME and t.owner = c.owner and t.owner = '"+sch.toUpperCase()+"' order by table_name ";
+		if(DataSource.DBType.equalsIgnoreCase("mysql")) {
+			sql = "SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA='"+sch.toUpperCase()+"' and TABLE_COMMENT!='VIEW'  order by table_name" ;
+		}
+		
 		CommQuery cq = new CommQuery();
 		try {
 			List<HashMap<String, String>> list = cq.getListBySQL2(sql);
 			items = new Item[list.size()];
 			for(int i=0;i<list.size();i++) {
-				items[i] = new Item(list.get(i).get("table_name"),list.get(i).get("comments"));
+				items[i] = new Item(list.get(i).get("table_name"),list.get(i).get("table_comment"));
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(MainApp.mainFrame, e.getMessage());    
@@ -187,13 +193,16 @@ public class SearchComponent {
 	//查询模式
 	public void searchOwner() {
 		
-		String sql = "select distinct owner from ALL_TABLES ";
+		String sql = "select distinct owner schema_name from ALL_TABLES ";
+		if(DataSource.DBType.equalsIgnoreCase("mysql")) {
+			sql = "SHOW DATABASES";
+		}
 		CommQuery cq = new CommQuery();
 		try {
 			List<HashMap<String, String>> list = cq.getListBySQL2(sql);
 			items2 = new String[list.size()];
 			for(int i=0;i<list.size();i++) {
-				items2[i] = list.get(i).get("owner");
+				items2[i] = list.get(i).get("schema_name").toUpperCase();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

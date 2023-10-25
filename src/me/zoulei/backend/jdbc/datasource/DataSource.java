@@ -15,6 +15,7 @@ import me.zoulei.exception.myException;
  * 数据源
  */
 public class DataSource {
+	public static String DBType = "";
 	//例子
 	public static Connection getOracleConn(){
 		//设置oracle信息

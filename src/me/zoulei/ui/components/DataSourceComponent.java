@@ -89,7 +89,7 @@ public class DataSourceComponent {
 	            DataSource.dsprop.setProperty("url", urlText.getText());
 	            DataSource.dsprop.setProperty("forname", driverText.getText());
 	            try {
-	            	
+	            	DataSource.DBType = dsText.getText();
 					DataSource.testDMConn();
 					//JOptionPane.showMessageDialog(MainApp.mainFrame, "连接成功！");    
 					//表格配置组件
