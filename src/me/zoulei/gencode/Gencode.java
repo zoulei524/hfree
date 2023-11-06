@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
+import me.zoulei.backend.templete.dependency.GenDep;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.backend.templete.grid.controller.GenCTL;
 import me.zoulei.backend.templete.grid.dao.GenDao;
@@ -58,10 +59,15 @@ public class Gencode {
 		codemap.put("   CSS   ", new String[] {css.getCode(), SyntaxConstants.SYNTAX_STYLE_LESS});
 		codemap.put("     JS     ", new String[] {js.getCode(), SyntaxConstants.SYNTAX_STYLE_TYPESCRIPT});
 		codemap.put("    实体类   ", new String[] {genEntity.getEntity_content(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put("    Dto   ", new String[] {genEntity.getDto_content(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put(" Controller ", new String[] {ctl.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("  Service   ", new String[] {serv.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Dao     ", new String[] {dao.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Xml     ", new String[] {xml.getCode(), SyntaxConstants.SYNTAX_STYLE_XML});
+		
+		//其他工具类
+		GenDep dep = new GenDep(config);
+		codemap.put("二级代码字段相关", new String[] {dep.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
         new CodeDocument(codemap);
         /*
         genEntity = new GenEntity(new TableMetaDataConfig("a01","select * from code_value"));  

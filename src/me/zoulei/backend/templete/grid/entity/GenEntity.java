@@ -30,6 +30,7 @@ public class GenEntity {
     private boolean f_util = false; // 是否需要导入包java.util.*  
     private boolean f_sql = false; // 是否需要导入包java.sql.*  
     private String entity_content;
+    private String dto_content;
     private String json_content;
       
     //数据库连接  
@@ -63,7 +64,8 @@ public class GenEntity {
             }  
         }  
           
-       parse();  
+       parse("enety");  
+       parse("dto");  
 			/*   
             try {  
                 File directory = new File("");  
@@ -89,18 +91,19 @@ public class GenEntity {
   
     /** 
      * 功能：生成实体类主体代码 
+     * @param type 
      * @param colnames 
      * @param colTypes 
      * @param colSizes 
      */  
-    private void parse() {  
+    private void parse(String type) {  
         StringBuilder sb = new StringBuilder();  
         sb.append("package " + this.packageOutPath + ";\n");  
         sb.append("\n");  
         
         sb.append("import lombok.Data;\n\n"); 
         
-        if("table".equals(this.getConfig().getType())) {
+        if("enety".equals(type)) {
         	sb.append("import javax.persistence.Id;\n"); 
             sb.append("import javax.persistence.Table;\n");
             sb.append("import javax.persistence.Entity;\n"); 
@@ -118,7 +121,13 @@ public class GenEntity {
         
         //注释部分  
         sb.append("/**\n");  
-        sb.append(" * "+this.config.getTablename()+" 实体类\n");  
+        if("enety".equals(type)) {
+        	sb.append(" * "+this.config.getTablename()+" 实体类\n");  
+        	
+        }else {
+        	sb.append(" * "+this.config.getTablename()+" Dto\n");  
+        	
+        }
         sb.append(" * "+new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date())  +" "+this.authorName+"\n");  
         sb.append(" */ \n");  
         //实体部分  
@@ -126,32 +135,39 @@ public class GenEntity {
         
         
         sb.append("@Data\n");  
-        if("table".equals(this.getConfig().getType())) {
+        if("enety".equals(type)) {
         	sb.append("@Entity \n");  
             sb.append("@Table(name = \""+(this.config.getTablename().toUpperCase())+"\") \n");  
         }
-        sb.append("public class " + initcap(this.config.getTablename()) + " implements Serializable {\n");  
+        sb.append("public class " + initcap(this.config.getTablename()) +("enety".equals(type)?"":"Dto")+ " implements Serializable {\n");  
         sb.append("\n\tprivate static final long serialVersionUID = "+new Date().getTime()+"L;\n\n");  
         
         //json对象
         StringBuilder jsonSB = new StringBuilder();  
         jsonSB.append("\t\t\t"+this.config.getTablename().toLowerCase()+"EntityData : {\n");
-        processAllAttrs(sb,jsonSB);//属性  
+        processAllAttrs(sb,jsonSB,type);//属性  
         //processAllMethod(sb);//get set方法  
         jsonSB.append("\t\t\t}");  
         sb.append("}\n");  
           
         //System.out.println(sb.toString());  
-        this.entity_content = sb.toString();
-        this.json_content = jsonSB.toString();
+        
+        if("enety".equals(type)) {
+        	this.entity_content = sb.toString();
+        	this.json_content = jsonSB.toString();
+        }else {
+        	this.dto_content = sb.toString();
+        }
+        
     }  
       
     /** 
      * 功能：生成所有属性 
      * @param sb 
      * @param jsonSB 
+     * @param type 
      */  
-    private void processAllAttrs(StringBuilder sb, StringBuilder jsonSB) {  
+    private void processAllAttrs(StringBuilder sb, StringBuilder jsonSB, String type) {  
     	List<HashMap<String, String>> tableMetaData = this.config.getTableMetaData();
     	HashMap<String, String> fconf;
         for (int i = 0; i < tableMetaData.size(); i++) {  
@@ -164,8 +180,19 @@ public class GenEntity {
         	if("1".equals(fconf.get("p"))) {
         		sb.append("\t@Id\n");
         	}
-            sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
-            jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"\"\","  );
+        	
+        	if("".equals(fconf.get("codetype"))) {//非代码字段
+        		sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
+                jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"\"\","  );
+        	}else {
+        		if("enety".equals(type)) {
+        			sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
+        		}else {
+            		sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
+        		}
+                jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"{key: \"\", value: \"\", p: \"E\", codetype: \""+fconf.get("codetype")+"\"},"  );
+        	}
+            
             if(StringUtil.isNotEmpty(fconf.get("comments"))) {
             	jsonSB.append(" /** "+fconf.get("comments")+" */\n");
             }else {
@@ -207,9 +234,6 @@ public class GenEntity {
         if(ch[0] >= 'a' && ch[0] <= 'z'){  
             ch[0] = (char)(ch[0] - 32);  
         }  
-        if("sql".equals(this.getConfig().getType())) {
-        	 return new String(ch) + "Dto";  
-        }
         return new String(ch);  
     }  
   

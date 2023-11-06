@@ -31,10 +31,17 @@ public class Config {
 	        
 	        File p1 = new File(baseDir+"/1.properties");
 	        this.copyInputStreamToFile(is, p1);
+	        is.close();
 	        
 	        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/2.properties");  
 	        File p2 = new File(baseDir+"/2.properties");
 	        this.copyInputStreamToFile(is, p2);
+	        is.close();
+	        
+	        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/3.properties");  
+	        File p3 = new File(baseDir+"/3.properties");
+	        this.copyInputStreamToFile(is, p3);
+	        is.close();
 	        
 			
 		} catch (Exception e) {

@@ -9,6 +9,10 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -47,8 +51,10 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.JTextComponent;
 
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
+import me.zoulei.ui.frame.AutoCompletion;
 
 /**
  * 2023年9月12日19:24:42  zoulei
@@ -59,6 +65,8 @@ public class EditorGrid extends JPanel {
      * 
      */
     private static final long serialVersionUID = 1L;
+    
+    public static String[] codetype_items=new String[1];
 
     public JTableHeader header;
     public JTable table;
@@ -72,7 +80,7 @@ public class EditorGrid extends JPanel {
     public JCheckBox crudCheckBox;
     ////是否有分页功能的控件
     public JCheckBox paginationCheckBox;
-  //是否有导出excel功能
+    //是否有导出excel功能
     public JCheckBox excelCheckBox;
 
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
@@ -96,7 +104,7 @@ public class EditorGrid extends JPanel {
     }
 
     public void init() {
-    	Object[][] tableDate = new Object[6][tableMetaData.size()];
+    	Object[][] tableDate = new Object[7][tableMetaData.size()];
     	String[] colnames = new String[tableMetaData.size()];
     	for(int i = 0; i<tableMetaData.size(); i++ ) {
     		HashMap<String, String> metaData = tableMetaData.get(i);
@@ -116,6 +124,8 @@ public class EditorGrid extends JPanel {
     		tableDate[4][i] = "center";
     		//是否必输项校验
     		tableDate[5][i] = "可空";
+    		//表单控件类型
+    		tableDate[6][i] = "文本";
     		
     		if("1".equals(p)) {//主键
     			tableDate[3][i] = "不显示";
@@ -268,6 +278,7 @@ public class EditorGrid extends JPanel {
             //设置编辑器
             JBoxTestCell jc = new JBoxTestCell();// 第四行第五行为下拉框，其余行为文本框
             cm.getColumn(i).setCellEditor(jc);
+            
         }
         	
         table.setColumnModel(cm);
@@ -338,6 +349,8 @@ public class EditorGrid extends JPanel {
         headers.add("是否显示");
         headers.add("水平对齐");
         headers.add("前端校验项");
+        //表单控件类型 文本、公务员常用时间控件、codetype
+        headers.add("表单控件类型(单选)");
 
         ListModel<Object> lm = new AbstractListModel<Object>() {
 
@@ -528,6 +541,16 @@ public class EditorGrid extends JPanel {
     		//2023年10月18日17:13:19  加上保存校验项
     		String validate = this.model.getValueAt(5, c).toString();
     		field.put("validate", validate);
+    		//2023年10月31日16:49:06  加上代码类型的字段
+    		String codetype = this.model.getValueAt(6, c).toString();
+    		if("文本".equals(codetype)||"公务员常用时间控件".equals(codetype)) {
+    			field.put("codetype", "");
+    			field.put("editortype", codetype);
+    		}else {
+    			String[] codetypes = codetype.split(":");//ZB01:下拉选 ZB01:弹出框
+    			field.put("codetype", codetypes[0]);
+    			field.put("editortype", codetypes[1]);
+    		}
     	}
     	return tmd;
     }
@@ -561,17 +584,55 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 	private JComboBox<String> jbox2;//第四行 
 	private JComboBox<String> jbox3;//第五行 
 	private JComboBox<String> jbox4;//校验项第6行
+	private JComboBox<String> jbox5;//第7行表单控件类型 文本、公务员常用时间控件、codetype
 	private JTextField textfield;
 
 	public JBoxTestCell() {
+		JBoxTestCell boxcell = this;
 		//是否显示列配置
 		jbox2 = new JComboBox<String>(new String[] {"显示","不显示"});
+		//选择后触发编辑完毕
+		jbox2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boxcell.stopCellEditing();
+			}
+		});
 		//水平位置配置
 		jbox3 = new JComboBox<String>(new String[] {"left","center","right"});
+		//选择后触发编辑完毕
+		jbox3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boxcell.stopCellEditing();
+			}
+		});
 		jbox3.setSelectedIndex(1);
 		
 		//校验项
 		jbox4 = new JComboBox<String>(new String[] {"可空","非空"});
+		//选择后触发编辑完毕
+		jbox4.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				boxcell.stopCellEditing();
+			}
+		});
+		//表单控件类型 文本、公务员常用时间控件、codetype
+		jbox5 = new JComboBox<String>(EditorGrid.codetype_items);
+		
+		//选择后触发编辑完毕
+		jbox5.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyReleased(KeyEvent event) {
+		        if (event.getKeyChar() == KeyEvent.VK_ENTER) {
+		        	boxcell.stopCellEditing();
+		        }
+		    }
+		});
+		
+		//实现搜索
+		AutoCompletion.enable(jbox5);
 	}
 
 	@Override
@@ -593,6 +654,9 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 			case 5:
 				String v5 = jbox4.getSelectedItem().toString();
 				return v5;
+			case 6:
+				String v6 = jbox5.getSelectedItem().toString();
+				return v6;
 			default:
 				return this.textfield.getText().toString();
 		}
@@ -610,6 +674,8 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 				return this.jbox3;
 			case 5:
 				return this.jbox4;
+			case 6:
+				return this.jbox5;
 			default:
 				JTextField result = new JTextField();
 				result.setText(value==null?"":value.toString());   

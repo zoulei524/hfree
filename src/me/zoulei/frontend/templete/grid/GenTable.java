@@ -58,11 +58,16 @@ public class GenTable {
 				col.setComments(col.getComments()+":"+(column.get("comments2")==null?column.get("comments"):column.get("comments2")));
 				//prop="yb001"
 			    //label="序号"
-				col.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()))
-				   .addAttr(new VueAttr("label", column.get("comments")))
+				if("".equals(column.get("codetype"))) {
+					col.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()));
+				}else {
+					col.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()+".value"));
+				}
+				col.addAttr(new VueAttr("label", column.get("comments")))
 				   .addAttr(new VueAttr("width", column.get("width")))
 				   .addAttr(new VueAttr("align", column.get("align")))
 				;
+				
 				
 				el_table.append(col);  
 				

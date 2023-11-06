@@ -272,19 +272,48 @@ public class ElTableTpl {
 					elrow = new VueNode("el-row");
 					elform.append(elrow);
 				}
-				Node elcol = new VueNode("el-col").addAttr(new VueAttr(":span", "8"));
-				elrow.append(elcol);
-				Node elformitem = new VueNode("el-form-item")
-						.addAttr(new VueAttr("label", column.get("comments")))
-						.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()))
-						;
-				elcol.append(elformitem);
 				
-				Node elinput = new VueNode("el-input")
-						.addAttr(new VueAttr("v-model", tablenameL+"EntityData."+column.get("column_name").toLowerCase()))
-						.addAttr(new VueAttr("placeholder", "请输入"+column.get("comments")))
-						;
-				elformitem.append(elinput);
+				
+				//判断下拉选或弹出框
+				if("文本".equals(column.get("editortype"))||"公务员常用时间控件".equals(column.get("editortype"))){//公务员常用时间控件还没开发
+					Node elcol = new VueNode("el-col").addAttr(new VueAttr(":span", "8"));
+					elrow.append(elcol);
+					Node elformitem = new VueNode("el-form-item")
+							.addAttr(new VueAttr("label", column.get("comments")))
+							.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()))
+							;
+					elcol.append(elformitem);
+					
+					Node elinput = new VueNode("el-input")
+							.addAttr(new VueAttr("v-model", tablenameL+"EntityData."+column.get("column_name").toLowerCase()))
+							.addAttr(new VueAttr("placeholder", "请输入"+column.get("comments")))
+							;
+					elformitem.append(elinput);
+				}else if("弹出框".equals(column.get("editortype"))) {
+					Node eplpublicwindowedit = new VueNode("epl-public-window-edit")
+							.addAttr(new VueAttr("colspan", "8"))
+							.addAttr(new VueAttr("label", column.get("comments")))
+							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应
+							.addAttr(new VueAttr(":property", tablenameL+"EntityData."+column.get("column_name").toLowerCase()))
+							//.addAttr(new VueAttr(":hideLabel", "true"))
+							.addAttr(new VueAttr(":codetype", tablenameL+"EntityData."+column.get("column_name").toLowerCase()+".codetype"))
+							.addAttr(new VueAttr(":p", tablenameL+"EntityData."+column.get("column_name").toLowerCase()+".p"))
+							.addAttr(new VueAttr("placeholder", "请选择"+column.get("comments")))
+							;
+					elrow.append(eplpublicwindowedit);
+				}else if("下拉选".equals(column.get("editortype"))) {
+					Node epselect = new VueNode("ep-select")
+							.addAttr(new VueAttr("colspan", "8"))
+							//.addAttr(new VueAttr("labelWidth", "0"))
+							.addAttr(new VueAttr("label", column.get("comments")))
+							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应
+							.addAttr(new VueAttr(":property", tablenameL+"EntityData."+column.get("column_name").toLowerCase()))
+							.addAttr(new VueAttr(":codetype", tablenameL+"EntityData."+column.get("column_name").toLowerCase()+".codetype"))
+							.addAttr(new VueAttr("placeholder", "请选择"+column.get("comments")))
+							;
+					elrow.append(epselect);
+				}
+				
 				
 				//生成校验规则 非空
 				

@@ -36,15 +36,29 @@ ${config.rules}
 				total: 0, //总行数
 				pageSize: ${config.pagination?then(20,500)}, //每页显示数：${config.pagination?then('分页','不分页')}
 				currentPage: 1, //当前页
-			}
-      
-                
+			},
+
+			//下拉选的代码
+			codeTypes: {
+			
+			}, 
+               
 		};
 
 	},
 	
 	props:{
         
+	},
+	
+	created(){
+		let param = {
+            path:this.dataUrl,
+            codeTypes: this.codeTypes,
+        };
+        sessionStorage.removeItem(this.dataUrl);
+        this.$store.dispatch("SET_PATH", this.dataUrl);
+        this.$store.dispatch("SET_INIT", param);
 	},
 	
 	mounted() {
@@ -55,7 +69,9 @@ ${config.rules}
 		this.${tablename}EntityDataText = JSON.stringify(this.${tablename}EntityData);
 		//这里数据维护若超出边界，设置高度，通过纵向滚动条显示
 		//let ef = $('.elform');
-		//ef.height(ef.parent().parent().parent().parent().height()-565)
+		setTimeout(() => {
+			//ef.height(ef.parent().parent().parent().parent().height()-565)
+		}, 500);
 </#if>      
 	},
 	

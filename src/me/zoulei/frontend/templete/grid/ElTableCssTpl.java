@@ -158,26 +158,26 @@ public class ElTableCssTpl {
 					.addAttr(new CSSAttr("display", "flex"))
 					.addAttr(new CSSAttr("align-items", "center"))
 					;
-			((CSSClassNameNode)elformitem).setPrefix("/deep/.");
+			//((CSSClassNameNode)elformitem).setPrefix("/deep/.");
 			elrow.append(elformitem);
 			
 			Node elformitem__label = new CSSClassNameNode("el-form-item__label","标签")
 					.addAttr(new CSSAttr("line-height", "unset"))
 					;
-			((CSSClassNameNode)elformitem__label).setPrefix("/deep/.");
+			//((CSSClassNameNode)elformitem__label).setPrefix("/deep/.");
 			elformitem.append(elformitem__label);
 			
 			Node elformitem__content = new CSSClassNameNode("el-form-item__content","输入框")
 					.addAttr(new CSSAttr("width", "calc(100% - 90px)"))
 					.addAttr(new CSSAttr("margin-left", "0px !important"))
 					;
-			((CSSClassNameNode)elformitem__content).setPrefix("/deep/.");
+			//((CSSClassNameNode)elformitem__content).setPrefix("/deep/.");
 			elformitem.append(elformitem__content);
 			
 			Node elselect = new CSSClassNameNode("el-select","下拉选类型的输入框")
 					.addAttr(new CSSAttr("width", "100%"))
 					;
-			((CSSClassNameNode)elselect).setPrefix("/deep/.");
+			//((CSSClassNameNode)elselect).setPrefix("/deep/.");
 			elformitem__content.append(elselect);
 		}
 		/*

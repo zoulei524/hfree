@@ -64,8 +64,11 @@ public class TableMetaDataConfig {
 	
 	private String mysql_sql = "select "
 			+ " b.column_name,"
-			+ " case when b.column_comment='' or b.column_comment=null then b.column_name else b.column_comment end as comments,"
-			+ " b.data_type,IFNULL(b.CHARACTER_MAXIMUM_LENGTH,'') as data_length,"
+			+ " case when b.column_comment='' or b.column_comment=null then b.column_name else b.column_comment end as comments,b.data_type,"
+			+ " CASE when b.CHARACTER_MAXIMUM_LENGTH!='' and b.CHARACTER_MAXIMUM_LENGTH is not null then b.CHARACTER_MAXIMUM_LENGTH "
+			+ "		when b.NUMERIC_PRECISION!='' and b.NUMERIC_PRECISION is not null then concat(b.NUMERIC_PRECISION,',',b.NUMERIC_SCALE) "
+			+ "		else b.DATETIME_PRECISION "
+			+ "	  end as data_length,"
 			+ " case when b.COLUMN_KEY='PRI' then 1 else 0 end p "
 			+ " from information_schema.COLUMNS b "
 			+ " where b.table_schema = '%s' and b.table_name = '%s' order by b.ORDINAL_POSITION";
@@ -99,8 +102,33 @@ public class TableMetaDataConfig {
 		}
 		this.type = "table";
 		this.initMetaData();
+		this.initCodeType();
 	}
 	
+	//选择codetype的下拉框选项
+	private void initCodeType() {
+		CommQuery cq = new CommQuery();
+		try {
+			List<HashMap<String, String>> list = cq.getListBySQL2("select distinct code_type from "+Constants.CODE_VALUE_SCHEMA+".code_value order by code_type");
+			String[] items = new String[list.size()*2+2];
+			//文本、公务员常用时间控件、codetype
+			int i=0;
+			items[i++] = "文本";
+			items[i++] = "公务员常用时间控件";
+			for (int j = 0; j < list.size(); j++) {
+				HashMap<String, String> m = list.get(j);
+				String codetype = m.get("code_type");
+				items[i++] = codetype+":下拉选";
+				items[i++] = codetype+":弹出框";
+			}
+			EditorGrid.codetype_items = items;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	//从ui界面上点击【生成代码】按钮 传入界面上调整后的的表格参数。获取表格配置信息 
 	public TableMetaDataConfig(String tablename,String tablecomment, List<HashMap<String, String>> tableMetaData, EditorGrid editorGrid) throws Exception{
 		this.tablename = tablename;

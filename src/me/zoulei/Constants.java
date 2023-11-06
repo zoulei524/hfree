@@ -16,7 +16,8 @@ public class Constants {
 	/**实体类包*/
 	public static String PACKAGE_OUTPATH = "com.insigma.business.entity.yuhang";
 	
-	
+	/**code_value表的schema*/
+	public static String CODE_VALUE_SCHEMA = "HY_GBGL_ZZGB";
 	
 	
 	

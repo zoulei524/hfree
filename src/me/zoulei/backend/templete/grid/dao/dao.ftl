@@ -25,7 +25,12 @@
 		int total = session.queryForInteger(countsql);
 		pageInfo.put("total", total);
 		//分页查询
+		<#if DBType=='mysql'>
 		String querySQL = "select * from (select rownum as numrow,c.* from (" + sql + ") c  where rownum<=" + (start + pageSize)+") where numrow>=" + (start + 1) ;
+		<#else>
+		String querySQL = "select * from (" + sql + ") c limit "+start+","+pageSize ;
+		</#if>
+		
 		List<Map<String,Object>> ${tablename}List = session.queryForList(querySQL);
 		
 		return ${tablename}List;
