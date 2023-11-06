@@ -502,7 +502,7 @@ public class EditorGrid extends JPanel {
 
     
     /**
-     * 根据表格上的设置获取表格配置
+     * 点击生成代码的时候，根据表格上的设置获取表格配置
      */
     public List<HashMap<String, String>> genTableMetaData(){
     	List<HashMap<String, String>> tmd = new ArrayList<HashMap<String,String>>();
