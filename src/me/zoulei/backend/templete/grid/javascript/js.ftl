@@ -40,7 +40,7 @@ ${config.rules}
 
 			//下拉选的代码
 			codeTypes: {
-			
+${config.codetype_json}
 			}, 
                
 		};
@@ -52,13 +52,24 @@ ${config.rules}
 	},
 	
 	created(){
+		//这里是针对ep-select的代码初始化 没有就注释了
+		<#if config.codetype_json=="">
 		let param = {
-            path:this.dataUrl,
-            codeTypes: this.codeTypes,
-        };
-        sessionStorage.removeItem(this.dataUrl);
-        this.$store.dispatch("SET_PATH", this.dataUrl);
-        this.$store.dispatch("SET_INIT", param);
+			path:this.dataUrl,
+			codeTypes: this.codeTypes,
+		};
+		//sessionStorage.removeItem(this.dataUrl);
+		//this.$store.dispatch("SET_PATH", this.dataUrl);
+		//this.$store.dispatch("SET_INIT", param);
+        <#else>
+        let param = {
+			path:this.dataUrl,
+			codeTypes: this.codeTypes,
+		};
+		sessionStorage.removeItem(this.dataUrl);
+		this.$store.dispatch("SET_PATH", this.dataUrl);
+		this.$store.dispatch("SET_INIT", param);
+        </#if>
 	},
 	
 	mounted() {

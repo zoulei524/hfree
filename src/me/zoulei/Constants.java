@@ -10,16 +10,17 @@ public class Constants {
 	/**接口路径 RequestMapping*/
 	public static String DATA_URL = "/Test";
 	/**属性是否换行 配置项*/
-	public static boolean ATTR_NEW_LINE = true;
+	public static Boolean ATTR_NEW_LINE = true;
 	/**作者*/
 	public static String AUTHOR = "zoulei";
 	/**实体类包*/
 	public static String PACKAGE_OUTPATH = "com.insigma.business.entity.yuhang";
 	
-	/**code_value表的schema*/
-	public static String CODE_VALUE_SCHEMA = "HY_GBGL_ZZGB";
+	/**获取codetype的sql*/
+	public static String CODE_VALUE_SQL = "select code_type,type_name from HY_GBGL_ZZGB.code_type order by code_type";
 	
-	
+	/**存取codetype的项*/
+	public static String[] codetype_items=new String[1];
 	
 	/** 
      * 功能：将输入字符串的首字母改成大写 

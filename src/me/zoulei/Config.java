@@ -4,8 +4,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
+
+import me.zoulei.frame.SafeProperties;
 
 /**
  * 
@@ -19,30 +25,62 @@ public class Config {
 		
 		try {
 			logger.info(System.getProperty("user.dir"));
-			 //返回读取指定资源的输入流  /hfree/src/me/zoulei/ui/components/dsProp/1.properties
-	        InputStream is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/1.properties");   
-	        
+			
 	        String baseDir = System.getProperty("user.dir")+"/dsProp";
 	        File f = new File(baseDir);
 	        if(f.exists()&&f.isDirectory()) {
-	        	return;
+	        	
+	        }else {
+	        	f.mkdir();
+		        //达梦 oracle mysql三种类型
+	        	//返回读取指定资源的输入流  /hfree/src/me/zoulei/ui/components/dsProp/1.properties
+		        InputStream is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/1.properties");   
+		        File p1 = new File(baseDir+"/1.properties");
+		        this.copyInputStreamToFile(is, p1);
+		        is.close();
+		        
+		        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/2.properties");  
+		        File p2 = new File(baseDir+"/2.properties");
+		        this.copyInputStreamToFile(is, p2);
+		        is.close();
+		        
+		        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/3.properties");  
+		        File p3 = new File(baseDir+"/3.properties");
+		        this.copyInputStreamToFile(is, p3);
+		        is.close();
 	        }
-	        f.mkdir();
 	        
-	        File p1 = new File(baseDir+"/1.properties");
-	        this.copyInputStreamToFile(is, p1);
-	        is.close();
 	        
-	        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/2.properties");  
-	        File p2 = new File(baseDir+"/2.properties");
-	        this.copyInputStreamToFile(is, p2);
-	        is.close();
-	        
-	        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/3.properties");  
-	        File p3 = new File(baseDir+"/3.properties");
-	        this.copyInputStreamToFile(is, p3);
-	        is.close();
-	        
+	        //初始化文件
+	        String inifilep = System.getProperty("user.dir")+"/hfree.ini";
+	        File inifile = new File(inifilep);
+	        if(inifile.exists()&&inifile.isFile()) {
+	        	//读取配置
+	        	SafeProperties p = new SafeProperties();
+	        	p.load(inifile);
+	        	Constants.DATA_URL = p.getProperty("DATA_URL");
+	        	Constants.ATTR_NEW_LINE = Boolean.valueOf(p.getProperty("ATTR_NEW_LINE"));
+	        	Constants.AUTHOR = p.getProperty("AUTHOR");
+	        	Constants.PACKAGE_OUTPATH = p.getProperty("PACKAGE_OUTPATH");
+	        	Constants.CODE_VALUE_SQL = p.getProperty("CODE_VALUE_SQL");
+	        }else {
+	        	//生成配置
+	        	SafeProperties p = new SafeProperties();
+	        	p.setProperty("DATA_URL", Constants.DATA_URL,"接口路径 RequestMapping");
+	        	
+	        	p.setProperty("ATTR_NEW_LINE", Constants.ATTR_NEW_LINE.toString(),"属性是否换行");
+	        	
+	        	p.setProperty("AUTHOR", Constants.AUTHOR,"作者");
+	        	
+	        	p.setProperty("PACKAGE_OUTPATH", Constants.PACKAGE_OUTPATH,"实体类包");
+	        	
+	        	p.setProperty("CODE_VALUE_SQL", Constants.CODE_VALUE_SQL,"获取codetype的sql");
+	        	
+	        	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(inifile), "utf-8");
+				p.store(outputStreamWriter);
+				outputStreamWriter.close();
+	        }
+	       
 			
 		} catch (Exception e) {
 			e.printStackTrace();

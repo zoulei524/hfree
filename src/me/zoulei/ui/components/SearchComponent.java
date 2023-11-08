@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import dm.jdbc.util.StringUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import me.zoulei.Constants;
 import me.zoulei.MainApp;
 import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.backend.jdbc.utils.CommQuery;
@@ -29,7 +30,7 @@ import me.zoulei.ui.frame.AutoCompletion;
 
 /**
  * 2023年9月14日11:30:15  zoulei
- * 用于搜索数据库表的组件， 设置表后可以加载表格参数配置组件。  查询模式和表名 oracle和达梦
+ * 用于搜索数据库表的组件， 设置表后可以加载表格参数配置组件。  查询模式和表名 oracle和达梦，mysql
  * 2023年10月24日10:05:44 增加mysql类型
  */
 public class SearchComponent {
@@ -54,6 +55,8 @@ public class SearchComponent {
 	Font font = new Font("宋体", Font.PLAIN, 18);
 	
 	public void setComp() {
+		//初始化代码类别项
+		this.initCodeType();
 		//模式列表
 		this.searchOwner();
 		
@@ -220,6 +223,33 @@ public class SearchComponent {
 		public String toString(){
 			return key + "("+(value==null?"":value)+")";
 		}
+	}
+	
+	
+	
+	//选择codetype的下拉框选项
+	private void initCodeType() {
+		CommQuery cq = new CommQuery();
+		try {
+			List<HashMap<String, String>> list = cq.getListBySQL2(Constants.CODE_VALUE_SQL);
+			String[] items = new String[list.size()*2+2];
+			//文本、公务员常用时间控件、codetype
+			int i=0;
+			items[i++] = "文本";
+			items[i++] = "公务员常用时间控件";
+			for (int j = 0; j < list.size(); j++) {
+				HashMap<String, String> m = list.get(j);
+				String codetype = m.get("code_type");
+				String typename = m.get("type_name");
+				items[i++] = codetype+":下拉选:"+typename;
+				items[i++] = codetype+":弹出框:"+typename;
+			}
+			Constants.codetype_items = items;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	

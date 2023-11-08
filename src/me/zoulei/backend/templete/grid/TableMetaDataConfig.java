@@ -47,6 +47,8 @@ public class TableMetaDataConfig {
 	private boolean pagination = false;
 	//是否有导出excel功能
 	private boolean exportExcel = false;
+	//所有的code_type
+	private String codetype_json = "";
 	
 	private String dataUrl = Constants.DATA_URL;
 	/**
@@ -102,32 +104,9 @@ public class TableMetaDataConfig {
 		}
 		this.type = "table";
 		this.initMetaData();
-		this.initCodeType();
 	}
 	
-	//选择codetype的下拉框选项
-	private void initCodeType() {
-		CommQuery cq = new CommQuery();
-		try {
-			List<HashMap<String, String>> list = cq.getListBySQL2("select distinct code_type from "+Constants.CODE_VALUE_SCHEMA+".code_value order by code_type");
-			String[] items = new String[list.size()*2+2];
-			//文本、公务员常用时间控件、codetype
-			int i=0;
-			items[i++] = "文本";
-			items[i++] = "公务员常用时间控件";
-			for (int j = 0; j < list.size(); j++) {
-				HashMap<String, String> m = list.get(j);
-				String codetype = m.get("code_type");
-				items[i++] = codetype+":下拉选";
-				items[i++] = codetype+":弹出框";
-			}
-			EditorGrid.codetype_items = items;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
+	
 
 	//从ui界面上点击【生成代码】按钮 传入界面上调整后的的表格参数。获取表格配置信息 
 	public TableMetaDataConfig(String tablename,String tablecomment, List<HashMap<String, String>> tableMetaData, EditorGrid editorGrid) throws Exception{
@@ -161,6 +140,8 @@ public class TableMetaDataConfig {
 		this.pagination = editorGrid.paginationCheckBox.isSelected();
 		//是否导出excel
 		this.exportExcel = editorGrid.excelCheckBox.isSelected();
+		//将所有的codetype转成json
+		this.codetype_json = editorGrid.codetypes.toString();
 	}
 	
 	//从数据库获取表结构配置

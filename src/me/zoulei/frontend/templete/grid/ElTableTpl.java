@@ -301,9 +301,11 @@ public class ElTableTpl {
 							.addAttr(new VueAttr("placeholder", "请选择"+column.get("comments")))
 							;
 					elrow.append(eplpublicwindowedit);
+					((VueNode)eplpublicwindowedit).setAttrNotNewLine(false);
 				}else if("下拉选".equals(column.get("editortype"))) {
 					Node epselect = new VueNode("ep-select")
 							.addAttr(new VueAttr("colspan", "8"))
+							.addAttr(new VueAttr(":custom-path", "dataUrl"))
 							//.addAttr(new VueAttr("labelWidth", "0"))
 							.addAttr(new VueAttr("label", column.get("comments")))
 							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应
@@ -312,6 +314,7 @@ public class ElTableTpl {
 							.addAttr(new VueAttr("placeholder", "请选择"+column.get("comments")))
 							;
 					elrow.append(epselect);
+					((VueNode)epselect).setAttrNotNewLine(false);
 				}
 				
 				

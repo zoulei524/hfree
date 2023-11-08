@@ -8,7 +8,7 @@
 	 * 方法: ●原创○沿用○重构汇
 	 * ====================================================================================================
 	 */
-	public List<Map<String,Object>> get${entity}List(JSONObject pageData) {
+	public String get${entity}ListSQL(JSONObject pageData) {
 	
 		SQLProcessor sqlPro = new SQLProcessor(session, this.getClass());
 		
@@ -21,18 +21,35 @@
 		int pageSize = pageInfo.getIntValue("pageSize");
 		int start = (currentPage-1)*pageSize;
 		//总数
-		String countsql = "select count(*) from (" + sql + ")";
+		String countsql = "select count(*) from (" + sql + ") c";
 		int total = session.queryForInteger(countsql);
 		pageInfo.put("total", total);
 		//分页查询
 		<#if DBType=='mysql'>
-		String querySQL = "select * from (select rownum as numrow,c.* from (" + sql + ") c  where rownum<=" + (start + pageSize)+") where numrow>=" + (start + 1) ;
-		<#else>
 		String querySQL = "select * from (" + sql + ") c limit "+start+","+pageSize ;
+		<#else>
+		String querySQL = "select * from (select rownum as numrow,c.* from (" + sql + ") c  where rownum<=" + (start + pageSize)+") where numrow>=" + (start + 1) ;
 		</#if>
 		
 		List<Map<String,Object>> ${tablename}List = session.queryForList(querySQL);
 		
+		return querySQL;
+	}
+	
+	public List<${entity}> get${entity}List(JSONObject pageData) {
+		String querySQL = this.get${entity}ListSQL(pageData);
+		List<${entity}> ${tablename}List = session.getCurrentSession().createSQLQuery(querySQL).addEntity(${entity}.class).list();
 		return ${tablename}List;
 	}
+
+	public List<Map<String,Object>> get${entity}MapList(JSONObject pageData) {
+		String querySQL = this.get${entity}ListSQL(pageData);
+		List<Map<String,Object>> ${tablename}MapList = session.queryForList(querySQL);
+		return ${tablename}MapList;
+	}
+	
+	
+	
+	
+	
 	

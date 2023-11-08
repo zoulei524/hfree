@@ -67,7 +67,7 @@ public class Gencode {
 		
 		//其他工具类
 		GenDep dep = new GenDep(config);
-		codemap.put("二级代码字段相关", new String[] {dep.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put("4个工具类用于兼容下拉和弹出框的，加一次就好了", new String[] {dep.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
         new CodeDocument(codemap);
         /*
         genEntity = new GenEntity(new TableMetaDataConfig("a01","select * from code_value"));  

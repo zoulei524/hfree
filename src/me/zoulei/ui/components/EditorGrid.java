@@ -53,6 +53,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.text.JTextComponent;
 
+import me.zoulei.Constants;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.ui.frame.AutoCompletion;
 
@@ -66,7 +67,7 @@ public class EditorGrid extends JPanel {
      */
     private static final long serialVersionUID = 1L;
     
-    public static String[] codetype_items=new String[1];
+    
 
     public JTableHeader header;
     public JTable table;
@@ -82,6 +83,17 @@ public class EditorGrid extends JPanel {
     public JCheckBox paginationCheckBox;
     //是否有导出excel功能
     public JCheckBox excelCheckBox;
+    //所有的code_type
+    public List<String[]> codetypes = new ArrayList<String[]>() {
+    	@Override
+    	public String toString() {
+    		StringBuilder sb = new StringBuilder();
+    		this.forEach(ct->{
+    			sb.append("\t\t\t\t" +ct[0]+": [], //" + ct[1]+"\n");
+    		});
+    		return sb.toString();
+    	}
+    };
 
     public static final Dimension SCREEN_SIZE = Toolkit.getDefaultToolkit().getScreenSize();
     public static final int MIN_ROW_HEIGHT = (int)SCREEN_SIZE.getHeight()/36;
@@ -510,6 +522,7 @@ public class EditorGrid extends JPanel {
     	HashMap<String, String> field = null;
     	//int rowCount = this.model.getRowCount();
     	int colCount = this.model.getColumnCount();
+    	this.codetypes.clear();
     	for(int c=0; c<colCount; c++) {
     		//字段配置
     		field = new HashMap<String, String>();
@@ -550,6 +563,7 @@ public class EditorGrid extends JPanel {
     			String[] codetypes = codetype.split(":");//ZB01:下拉选 ZB01:弹出框
     			field.put("codetype", codetypes[0]);
     			field.put("editortype", codetypes[1]);
+    			this.codetypes.add(new String[] {codetypes[0],codetypes[2]});
     		}
     	}
     	return tmd;
@@ -619,7 +633,7 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 			}
 		});
 		//表单控件类型 文本、公务员常用时间控件、codetype
-		jbox5 = new JComboBox<String>(EditorGrid.codetype_items);
+		jbox5 = new JComboBox<String>(Constants.codetype_items);
 		
 		//选择后触发编辑完毕
 		jbox5.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {

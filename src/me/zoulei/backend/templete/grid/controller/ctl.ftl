@@ -4,11 +4,11 @@
 	private PageInitService pageInitService;
 	//代码初始化
 	@PostMapping("/doInit")
-    public ResponseMessage doInit(@RequestBody JSONObject jsonObject) {
-        pageInitService.init(jsonObject);
-        return ResponseMessage.ok("初始化成功！", jsonObject);
-    }
-	
+	public ResponseMessage doInit(@RequestBody JSONObject jsonObject) {
+		pageInitService.init(jsonObject);
+		return ResponseMessage.ok("初始化成功！", jsonObject);
+	}
+
 	/**
 	 * ====================================================================================================
 	 * 方法名称: ${tablecomment}--列表<br>
@@ -20,7 +20,7 @@
 	 */
 	@RequestMapping("/get${entity}List")
 	public ResponseMessage get${entity}List(@RequestBody JSONObject pageData ${otherParams}) {
-		List<Map<String,Object>> ${tablename}List = service.get${entity}List(pageData);
+		List<${entity}> ${tablename}List = service.get${entity}List(pageData);
 		pageData.put("tableData", ${tablename}List);
 		return ResponseMessage.ok(pageData);
 	}
@@ -37,8 +37,8 @@
 	@RequestMapping("/get${entity}InfoById")
 	public ResponseMessage get${entity}InfoById(@RequestBody JSONObject pageData) {
 	    String ${config.pk} = pageData.getString("${config.pk}");
-	    ${entity} vo = service.get${entity}InfoById(${config.pk});
-	    return ResponseMessage.ok(vo);
+	    ${entity} ${tablename} = service.get${entity}InfoById(${config.pk});
+	    return ResponseMessage.ok(${tablename});
 	}
     
     /**

@@ -107,6 +107,10 @@ public class GenEntity {
         	sb.append("import javax.persistence.Id;\n"); 
             sb.append("import javax.persistence.Table;\n");
             sb.append("import javax.persistence.Entity;\n"); 
+            
+            sb.append("import org.hibernate.annotations.Parameter;\n"); 
+            sb.append("import org.hibernate.annotations.Type;\n"); 
+            sb.append("import com.insigma.business.components.hyfield.HYField;\n"); 
         }
         
         sb.append("import java.io.Serializable;\n\n"); 
@@ -178,7 +182,10 @@ public class GenEntity {
         	}
         	
         	if("1".equals(fconf.get("p"))) {
-        		sb.append("\t@Id\n");
+        		if("enety".equals(type)) {
+        			sb.append("\t@Id\n");
+        		}
+        		
         	}
         	
         	if("".equals(fconf.get("codetype"))) {//非代码字段
@@ -186,7 +193,9 @@ public class GenEntity {
                 jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"\"\","  );
         	}else {
         		if("enety".equals(type)) {
-        			sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
+        			sb.append("\t@Type(type =\"com.insigma.business.components.hyfield.HYfieldType\", parameters = { @Parameter(name =\"codetype\", value =\""+fconf.get("codetype")+"\"), @Parameter(name =\"p\", value =\"E\")})\n");
+        			sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
+        			//sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
         		}else {
             		sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
         		}
@@ -244,22 +253,23 @@ public class GenEntity {
      */  
     public static String sqlType2JavaType(String sqlType) {  
           
-        if(sqlType.equalsIgnoreCase("binary_double")){  
-            return "double";  
+        if(sqlType.equalsIgnoreCase("binary_double")||sqlType.equalsIgnoreCase("decimal")||sqlType.equalsIgnoreCase("numeric")){  
+            return "Double";  
         }else if(sqlType.equalsIgnoreCase("binary_float")){  
-            return "float";  
+            return "Float";  
         }else if(sqlType.equalsIgnoreCase("blob")){  
-            return "byte[]";  
-        }else if(sqlType.equalsIgnoreCase("blob")){  
-            return "byte[]";  
+            return "Byte[]";  
+        }else if(sqlType.equalsIgnoreCase("clob")){  
+            return "String";  
         }else if(sqlType.equalsIgnoreCase("char") || sqlType.equalsIgnoreCase("nvarchar2")   
-                || sqlType.equalsIgnoreCase("varchar2")|| sqlType.equalsIgnoreCase("varchar")){  
+                || sqlType.equalsIgnoreCase("varchar2")|| sqlType.equalsIgnoreCase("varchar")
+                || sqlType.equalsIgnoreCase("longtext")){  
             return "String";  
         }else if(sqlType.equalsIgnoreCase("date") || sqlType.equalsIgnoreCase("timestamp")  
                  || sqlType.equalsIgnoreCase("timestamp with local time zone")   
                  || sqlType.equalsIgnoreCase("timestamp with time zone")){  
             return "Date";  
-        }else if(sqlType.equalsIgnoreCase("number")){  
+        }else if(sqlType.equalsIgnoreCase("number")||sqlType.equalsIgnoreCase("int")){  
             return "Long";  
         }  
           

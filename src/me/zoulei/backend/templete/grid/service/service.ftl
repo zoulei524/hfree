@@ -1,5 +1,5 @@
 	//接口
-	List<Map<String,Object>> get${entity}List(JSONObject pageData);
+	List<${entity}> get${entity}List(JSONObject pageData);
 <#if config.iscrud>
 	public ${entity} get${entity}InfoById(String ${config.pk});
 	public void save${entity}Info(JSONObject ${tablename}form);
@@ -21,8 +21,8 @@
 	 * ====================================================================================================
 	 */
 	@Override
-	public List<Map<String,Object>> get${entity}List(JSONObject pageData) {
-	    List<Map<String,Object>> ${tablename}List = dao.get${entity}List(pageData);
+	public List<${entity}> get${entity}List(JSONObject pageData) {
+	    List<${entity}> ${tablename}List = dao.get${entity}List(pageData);
 	    return ${tablename}List;
 	}
 
@@ -105,7 +105,7 @@
 		pageInfo.put("pageSize",total);
 		
 		//通过分页方法获取数据
-		List<Map<String,Object>> ${tablename}List = dao.get${entity}List(pageData);
+		List<Map<String,Object>> ${tablename}List = dao.get${entity}MapList(pageData);
 		try {
 			${entity}Excel.writeSheetData(path, ${tablename}List);
 		} catch (Exception e) {
