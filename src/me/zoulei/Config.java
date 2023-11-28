@@ -59,7 +59,7 @@ public class Config {
 	        	SafeProperties p = new SafeProperties();
 	        	p.load(inifile);
 	        	Constants.DATA_URL = p.getProperty("DATA_URL");
-	        	Constants.ATTR_NEW_LINE = Boolean.valueOf(p.getProperty("ATTR_NEW_LINE"));
+	        	Constants.ATTR_NOT_NEW_LINE = Boolean.valueOf(p.getProperty("ATTR_NOT_NEW_LINE"));
 	        	Constants.AUTHOR = p.getProperty("AUTHOR");
 	        	Constants.PACKAGE_OUTPATH = p.getProperty("PACKAGE_OUTPATH");
 	        	Constants.CODE_VALUE_SQL = p.getProperty("CODE_VALUE_SQL");
@@ -68,7 +68,7 @@ public class Config {
 	        	SafeProperties p = new SafeProperties();
 	        	p.setProperty("DATA_URL", Constants.DATA_URL,"接口路径 RequestMapping");
 	        	
-	        	p.setProperty("ATTR_NEW_LINE", Constants.ATTR_NEW_LINE.toString(),"属性是否换行");
+	        	p.setProperty("ATTR_NOT_NEW_LINE", Constants.ATTR_NOT_NEW_LINE.toString(),"属性是否换行");
 	        	
 	        	p.setProperty("AUTHOR", Constants.AUTHOR,"作者");
 	        	

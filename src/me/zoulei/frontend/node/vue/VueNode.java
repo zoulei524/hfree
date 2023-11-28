@@ -40,7 +40,7 @@ public class VueNode implements Node{
 	private String text="";
 	
 	/**属性是否换行 配置项*/
-	private boolean isAttrNotNewLine = Constants.ATTR_NEW_LINE;
+	private boolean isAttrNotNewLine = Constants.ATTR_NOT_NEW_LINE;
 	
 	/**
 	 * 生成vue的标记语言

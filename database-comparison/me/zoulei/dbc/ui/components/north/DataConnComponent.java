@@ -1,4 +1,4 @@
-package me.zoulei.ui.components;
+package me.zoulei.dbc.ui.components.north;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -23,45 +23,63 @@ import javax.swing.JTextField;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import me.zoulei.MainApp;
-import me.zoulei.backend.jdbc.datasource.DataSource;
+import me.zoulei.dbc.ui.components.MainPanel;
 import me.zoulei.exception.myException;
 
 /**
- * 2023年9月14日11:28:15  zoulei  
- * 该组件用于配置数据库连接参数，若连接成功，则加载 搜索数据库表的组件。
+ * 2023年11月14日10:53:48 zoulei
+ * 该组件用于配置数据库连接参数，若连接成功，则加载 搜索数据库表的组件。  数据库比对
  */
-public class DataSourceComponent {
+public class DataConnComponent extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8070098865369824453L;
+
+	//选择数据库配置控件
+	static Item[] items = null;
 	
-	//表名搜索 点击连接后的的其他组件生成
-    SearchComponent searchComponent = new SearchComponent();
 	
-	public JPanel setComp() {
+	//数据库连接之后显示的模式选择框， 左边一个右边一个 都放在panel中
+	public SchemaSelectComponent schemaSelectComponent = new SchemaSelectComponent();
+	
+	public DataConnComponent(JPanel north, String label) {
+		DataSourceDBC dbc = new DataSourceDBC();
 		
 		String baseDir = System.getProperty("user.dir")+"/dsProp";
-		
 		//读取数据库配置
 		String url = baseDir + "/1.properties";
 		Properties p = new Properties();
-		Item[] items = null;
 		
-		try {
-			p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
-			//获取所有数据库配置
-			File[] listFiles = new File(baseDir).listFiles();
-			items = new Item[listFiles.length];
-			int i=0;
-			for(File f : listFiles) {
-				Properties fp = new Properties();
-				fp.load(new InputStreamReader(new FileInputStream(f), "utf-8"));
-				items[i++] = new Item(fp.getProperty("desc"), fp, f);
+		if(items==null) {
+			try {
+				
+				p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
+				//获取所有数据库配置
+				File[] listFiles = new File(baseDir).listFiles();
+				items = new Item[listFiles.length];
+				int i=0;
+				for(File f : listFiles) {
+					Properties fp = new Properties();
+					fp.load(new InputStreamReader(new FileInputStream(f), "utf-8"));
+					items[i++] = new Item(fp.getProperty("desc"), fp, f);
+				}
+				
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(MainPanel.mainFrame, "读取1.properties失败："+e.getMessage());
+				e.printStackTrace();
+				System.exit(0);
 			}
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(MainApp.mainFrame, "读取1.properties失败："+e.getMessage());
-			e.printStackTrace();
-			System.exit(0);
+		}else {
+			try {	
+				p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(MainPanel.mainFrame, "读取1.properties失败："+e.getMessage());
+				e.printStackTrace();
+				System.exit(0);
+			}
 		}
+		
 		
 		//选择数据库配置控件
 		JComboBox<Item> dbSource = new JComboBox<Item>(items);
@@ -74,7 +92,7 @@ public class DataSourceComponent {
 		JTextField driverText = new JTextField(p.getProperty("forname"),14);
 		
 		JLabel  urllabel= new JLabel("jdbc-URL: ", JLabel.LEFT);
-		JTextField urlText = new JTextField(p.getProperty("url"),30);
+		JTextField urlText = new JTextField(p.getProperty("url"),40);
 		
 		JLabel  namelabel= new JLabel("用户名: ", JLabel.RIGHT);
 		JTextField userText = new JTextField(p.getProperty("user"),12);
@@ -86,21 +104,24 @@ public class DataSourceComponent {
 		loginButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {     
 	            //测试数据库连接
-	        	DataSource.dsprop = new Properties();
-	            DataSource.dsprop.setProperty("user", userText.getText());
-	            DataSource.dsprop.setProperty("password", passwordText.getText());
-	            DataSource.dsprop.setProperty("url", urlText.getText());
-	            DataSource.dsprop.setProperty("forname", driverText.getText());
+	        	 dbc.dsprop = new Properties();
+	        	 dbc.dsprop.setProperty("user", userText.getText());
+	        	 dbc.dsprop.setProperty("password", passwordText.getText());
+	        	 dbc.dsprop.setProperty("url", urlText.getText());
+	        	 dbc.dsprop.setProperty("forname", driverText.getText());
 	            try {
-	            	DataSource.DBType = dsText.getText();
-					DataSource.testDMConn();
-					//JOptionPane.showMessageDialog(MainApp.mainFrame, "连接成功！");    
+	            	dbc.DBType = dsText.getText();
+	            	Connection c = dbc.openDMConn();
+	            	if(c==null) {
+	            		return;
+	            	}
+					//JOptionPane.showMessageDialog(MainPanel.mainFrame, "连接成功！");    
 					//表格配置组件
 			        //GridComponent grid = new GridComponent();
 			        //grid.setComp();
 					
-					
-					searchComponent.setComp();
+					//展示模式选择框
+	            	schemaSelectComponent.setComp(north,dbc,label);
 			        loginButton.setEnabled(false);
 					/*
 			        String url = this.getClass().getResource("./dsProp/1.properties").getPath();
@@ -110,8 +131,8 @@ public class DataSourceComponent {
 						e1.printStackTrace();
 					}
 			        */
-				} catch (myException e1) {
-					JOptionPane.showMessageDialog(MainApp.mainFrame, "连接失败："+e1.getMessage());    
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(MainPanel.mainFrame, "连接失败："+e1.getMessage());    
 				}
 	            
 	         }
@@ -133,10 +154,10 @@ public class DataSourceComponent {
 		            	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(item.getFile()), "utf-8");
 						p.store(outputStreamWriter, new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date()));
 						outputStreamWriter.close();
-						JOptionPane.showMessageDialog(MainApp.mainFrame, "保存成功！"); 
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存成功！"); 
 					} catch (IOException e1) {
 						e1.printStackTrace();
-						JOptionPane.showMessageDialog(MainApp.mainFrame, "保存失败："+e1.getMessage());    
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存失败："+e1.getMessage());    
 					}
 
 	        	 }
@@ -144,10 +165,10 @@ public class DataSourceComponent {
 		});
 		
 		
-		JPanel controlPanel = new JPanel();
-	    controlPanel.setLayout(new FlowLayout());//FlowLayout是默认布局，它以方向流布局组件。
+		
+	    this.setLayout(new FlowLayout());//FlowLayout是默认布局，它以方向流布局组件。
 	    //数据源选择控件
-	    controlPanel.add(dbSource);
+	    this.add(dbSource);
 	    //选择数据源事件
 	    dbSource.addActionListener(new ActionListener() {
 			@Override
@@ -163,31 +184,35 @@ public class DataSourceComponent {
 					//连接按钮可用
 					loginButton.setEnabled(true);
 					//断开数据库连接
-	            	DataSource.closeCon();
+					dbc.closeCon();
 	            	//先移除组件
-	            	searchComponent.removeAll();
+					north.removeAll();
+					//原连接参数重置
+					schemaSelectComponent.dbc=null;
+					schemaSelectComponent.selectSchema="";
+					
+					MainPanel.mainFrame.getContentPane().repaint();
 				}
 			}
 		});
 		
 	    
-	    controlPanel.add(dslabel);
-	    controlPanel.add(dsText);
-	    controlPanel.add(driverlabel);
-	    controlPanel.add(driverText);
+	    this.add(dslabel);
+	    this.add(dsText);
+	    this.add(driverlabel);
+	    this.add(driverText);
 	    
-	    controlPanel.add(urllabel);
-	    controlPanel.add(urlText);
-	    controlPanel.add(namelabel);
-	    controlPanel.add(userText);
-	    controlPanel.add(passwordLabel);       
-	    controlPanel.add(passwordText);
-	    controlPanel.add(loginButton);
-	    controlPanel.add(saveButton);
+	    this.add(urllabel);
+	    this.add(urlText);
+	    this.add(namelabel);
+	    this.add(userText);
+	    this.add(passwordLabel);       
+	    this.add(passwordText);
+	    this.add(loginButton);
+	    this.add(saveButton);
 	    //位置及大小
 	    //controlPanel.setBounds(0, 5, 1700, 35);
 	    
-	    return controlPanel;
 	}
 	
 	/**

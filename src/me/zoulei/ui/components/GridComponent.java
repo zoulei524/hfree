@@ -1,6 +1,10 @@
 package me.zoulei.ui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
+
+import javax.swing.BorderFactory;
+import javax.swing.border.TitledBorder;
 
 import lombok.Data;
 import me.zoulei.MainApp;
@@ -20,6 +24,8 @@ public class GridComponent {
 		MainApp.mainFrame.add(this.editorGrid,BorderLayout.CENTER);
 		this.editorGrid.setHeaderEditable(true);
 		this.editorGrid.setTableEditable(true);
-		this.editorGrid.setBorder(MainApp.lineBorder);
+		TitledBorder  blackline = BorderFactory.createTitledBorder("表格属性配置");
+		blackline.setTitleFont(new Font("黑体", 0, 16));
+		this.editorGrid.setBorder(blackline);
 	}
 }

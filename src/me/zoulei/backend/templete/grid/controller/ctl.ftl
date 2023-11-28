@@ -20,9 +20,14 @@
 	 */
 	@RequestMapping("/get${entity}List")
 	public ResponseMessage get${entity}List(@RequestBody JSONObject pageData ${otherParams}) {
-		List<${entity}> ${tablename}List = service.get${entity}List(pageData);
-		pageData.put("tableData", ${tablename}List);
-		return ResponseMessage.ok(pageData);
+		try {
+			List<${entity}> ${tablename}List = service.get${entity}List(pageData);
+			pageData.put("tableData", ${tablename}List);
+			return ResponseMessage.ok(pageData);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseMessage.error(e.getMessage());
+		}
 	}
 <#if config.iscrud>	
 	/**
@@ -36,9 +41,14 @@
 	 */
 	@RequestMapping("/get${entity}InfoById")
 	public ResponseMessage get${entity}InfoById(@RequestBody JSONObject pageData) {
-	    String ${config.pk} = pageData.getString("${config.pk}");
-	    ${entity} ${tablename} = service.get${entity}InfoById(${config.pk});
-	    return ResponseMessage.ok(${tablename});
+		try {
+		    String ${config.pk} = pageData.getString("${config.pk}");
+		    ${entity} ${tablename} = service.get${entity}InfoById(${config.pk});
+		    return ResponseMessage.ok(${tablename});
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseMessage.error(e.getMessage());
+		}
 	}
     
     /**
@@ -52,9 +62,13 @@
 	 */
 	@RequestMapping("/save${entity}Info")
 	public ResponseMessage save${entity}Info(@RequestBody JSONObject pageData) {
-        JSONObject ${tablename}EntityData = pageData.getJSONObject("${tablename}EntityData");
-        service.save${entity}Info(${tablename}EntityData);
-        return ResponseMessage.ok();
+		try {
+	        service.save${entity}Info(pageData);
+	        return ResponseMessage.ok();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseMessage.error(e.getMessage());
+		}
 	}
     
     /**
@@ -68,9 +82,14 @@
 	 */
 	@RequestMapping("/delete${entity}ById")
 	public ResponseMessage delete${entity}ById(@RequestBody JSONObject pageData) {
-		String ${config.pk} = pageData.getString("${config.pk}");
-		service.delete${entity}ById(${config.pk});
-		return ResponseMessage.ok();
+		try {
+			String ${config.pk} = pageData.getString("${config.pk}");
+			service.delete${entity}ById(${config.pk});
+			return ResponseMessage.ok();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseMessage.error(e.getMessage());
+		}
 	}
  </#if>  
  

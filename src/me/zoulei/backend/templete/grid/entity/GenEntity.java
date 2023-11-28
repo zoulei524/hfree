@@ -56,7 +56,7 @@ public class GenEntity {
         	fconf = tableMetaData.get(i);
             colType = fconf.get("data_type");
               
-            if(colType.equalsIgnoreCase("date") || colType.equalsIgnoreCase("timestamp")){  
+            if(colType.equalsIgnoreCase("date") || colType.equalsIgnoreCase("timestamp")|| colType.equalsIgnoreCase("datetime")){  
                 f_util = true;  
             }  
             if(colType.equalsIgnoreCase("blob") || colType.equalsIgnoreCase("char")){  
@@ -191,6 +191,12 @@ public class GenEntity {
         	if("".equals(fconf.get("codetype"))) {//非代码字段
         		sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
                 jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"\"\","  );
+                if("Date".equals(sqlType2JavaType(fconf.get("data_type")))) {
+                	if("dto".equals(type)) {
+                		sb.append("\tprivate String " + (fconf.get("column_name").toLowerCase()) + "_str;\n\n"); 
+                	}
+                    jsonSB.append("\n\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + "_str: " +"\"\","  );
+                }
         	}else {
         		if("enety".equals(type)) {
         			sb.append("\t@Type(type =\"com.insigma.business.components.hyfield.HYfieldType\", parameters = { @Parameter(name =\"codetype\", value =\""+fconf.get("codetype")+"\"), @Parameter(name =\"p\", value =\"E\")})\n");
@@ -267,6 +273,7 @@ public class GenEntity {
             return "String";  
         }else if(sqlType.equalsIgnoreCase("date") || sqlType.equalsIgnoreCase("timestamp")  
                  || sqlType.equalsIgnoreCase("timestamp with local time zone")   
+                 || sqlType.equalsIgnoreCase("datetime")   
                  || sqlType.equalsIgnoreCase("timestamp with time zone")){  
             return "Date";  
         }else if(sqlType.equalsIgnoreCase("number")||sqlType.equalsIgnoreCase("int")){  

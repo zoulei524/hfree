@@ -3,9 +3,11 @@ package me.zoulei;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -14,7 +16,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
+import me.zoulei.dbc.ui.components.MainPanel;
 import me.zoulei.ui.components.DataSourceComponent;
 import me.zoulei.ui.components.SearchComponent;
 import me.zoulei.ui.toolSamples.DocumentTool;
@@ -45,17 +49,18 @@ public class MainApp {
 		
 		//上边布局 NORTH组件
 		north = new JPanel(new BorderLayout());
-		north.setPreferredSize(new Dimension(-1, 86));
-		north.setBorder(MainApp.lineBorder);
+		TitledBorder  blackline = BorderFactory.createTitledBorder("数据库配置");
+		blackline.setTitleFont(new Font("黑体", 0, 16));
+		north.setBorder(blackline);
+		north.setPreferredSize(new Dimension(-1, 110));
 		mainFrame.add(north,BorderLayout.NORTH);
 		
-		//表名搜索 点击连接后的的其他组件生成
-        SearchComponent sch = new SearchComponent();
+		
 		
         //数据库连接
         DataSourceComponent dsf = new DataSourceComponent();
         //数据库连接设置
-        JPanel controlPanel = dsf.setComp(sch);
+        JPanel controlPanel = dsf.setComp();
         controlPanel.setBorder(MainApp.lineBorder);
 	    north.add(controlPanel,BorderLayout.NORTH);
 	    
@@ -73,6 +78,15 @@ public class MainApp {
 			}
 		});
 		view.add(showstatus);
+		
+		
+		JMenuItem dc = new JMenuItem("数据库表结构比对");
+		view.add(dc);
+		dc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainPanel.main(args);
+			}
+		});
 	    
 	    
 		mainFrame.setJMenuBar(menuBar);

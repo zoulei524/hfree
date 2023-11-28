@@ -49,7 +49,7 @@ public class TableMetaDataConfig {
 	private boolean exportExcel = false;
 	//所有的code_type
 	private String codetype_json = "";
-	
+	//接口路径
 	private String dataUrl = Constants.DATA_URL;
 	/**
 	 * 目前就2中情况，一种传tablename，生成实体类，一种传tablename和查询的sql，生成dto
@@ -120,6 +120,13 @@ public class TableMetaDataConfig {
 		tableMetaData.forEach(m->{
 			//生成xml的sql的字段
 			sb.append("t."+m.get("column_name").toLowerCase()+",");
+			String sqlType = m.get("data_type");
+			if(sqlType.equalsIgnoreCase("date") || sqlType.equalsIgnoreCase("timestamp")  
+	                 || sqlType.equalsIgnoreCase("timestamp with local time zone")   
+	                 || sqlType.equalsIgnoreCase("timestamp with time zone")){  
+	            //时间to_char(created_time,'yyyy-mm-dd hh:mm:ss') created_time_str
+				sb.append("to_char(t."+m.get("column_name").toLowerCase()+",'yyyy-mm-dd hh:mm:ss') "+m.get("column_name").toLowerCase()+"_str"+",");
+	        }
 			//主键
 			if("1".equals(m.get("p"))) {
 				this.pk+=m.get("column_name").toLowerCase()+",";

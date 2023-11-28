@@ -53,7 +53,8 @@
 	 */
 	@Override
 	@Transactional
-	public void save${entity}Info(JSONObject ${tablename}form) {
+	public void save${entity}Info(JSONObject pageData) {
+		JSONObject ${tablename}form = pageData.getJSONObject("${tablename}EntityData");
 		${entity} ${tablename} = JSON.parseObject(${tablename}form.toJSONString(), ${entity}.class);
   		if(StringUtil.isEmpty(${tablename}.get${config.pkU}())) {
   			${tablename}.set${config.pkU}(UUIDGenerator.generate());
@@ -77,9 +78,9 @@
 		try {
 			${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
 			session.delete(${tablename});
-        } catch (Exception e) {
-            throw new ServiceException("删除失败！");
-        }
+		} catch (Exception e) {
+			throw new ServiceException("删除失败！");
+		}
 	}
 </#if>	
 

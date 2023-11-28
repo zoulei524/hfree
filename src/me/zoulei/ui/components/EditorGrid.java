@@ -233,9 +233,9 @@ public class EditorGrid extends JPanel {
         //表格上边工具栏
         JToolBar toolBar = new JToolBar();
 		toolBar.setFloatable(false);
-		JLabel dslabel= new JLabel("表格的属性设置: ", JLabel.LEFT);
-		dslabel.setFont(new Font("宋体", Font.PLAIN, 18));
-		toolBar.add(dslabel);
+//		JLabel dslabel= new JLabel("表格的属性设置: ", JLabel.LEFT);
+//		dslabel.setFont(new Font("宋体", Font.PLAIN, 18));
+//		toolBar.add(dslabel);
 		//是否增删改查功能
 		crudCheckBox = new JCheckBox("增删改查功能",true);
 		toolBar.add(crudCheckBox);
@@ -273,7 +273,7 @@ public class EditorGrid extends JPanel {
 				header.setPreferredSize(new Dimension(table.getColumnModel().getTotalColumnWidth(), 80));
 				//改变宽的值
 				for(int i = 0; i < table.getColumnModel().getColumnCount(); i++) {
-					model.setValueAt(cm.getColumn(i).getWidth(), 2, i);
+					table.setValueAt(cm.getColumn(i).getWidth(), 2, i);
 				}
 		            
 				
@@ -523,6 +523,7 @@ public class EditorGrid extends JPanel {
     	//int rowCount = this.model.getRowCount();
     	int colCount = this.model.getColumnCount();
     	this.codetypes.clear();
+    	//this.model 是原始的排序  this.table对表格排序之后的
     	for(int c=0; c<colCount; c++) {
     		//字段配置
     		field = new HashMap<String, String>();
@@ -531,31 +532,32 @@ public class EditorGrid extends JPanel {
     		String comments = this.getColNameText(this.header.getColumnModel().getColumn(c).getHeaderValue().toString());
     		field.put("comments", comments);
     		//原备注
-    		field.put("comments2", this.getColNameText(this.model.getColumnName(c)));
+    		//this.getColNameText(this.model.getColumnName(c))
+    		field.put("comments2", comments);
     		
     		//字段名
-    		String column_name = this.model.getValueAt(0, c).toString();
+    		String column_name = this.table.getValueAt(0, c).toString();
     		field.put("column_name", column_name);
     		//其他信息
-    		String orther = this.model.getValueAt(1, c).toString();
+    		String orther = this.table.getValueAt(1, c).toString();
     		String[] orthers = orther.split(":");
     		field.put("data_type", orthers[0]);
     		field.put("data_length", orthers[1]);
     		field.put("p", orthers[2]);
     		//列宽
-    		String width = this.model.getValueAt(2, c).toString();
+    		String width = this.table.getValueAt(2, c).toString();
     		field.put("width", width);
     		//是否显示
-    		String visible = this.model.getValueAt(3, c).toString();
+    		String visible = this.table.getValueAt(3, c).toString();
     		field.put("visible", visible);
     		//水平对齐
-    		String align = this.model.getValueAt(4, c).toString();
+    		String align = this.table.getValueAt(4, c).toString();
     		field.put("align", align);
     		//2023年10月18日17:13:19  加上保存校验项
-    		String validate = this.model.getValueAt(5, c).toString();
+    		String validate = this.table.getValueAt(5, c).toString();
     		field.put("validate", validate);
     		//2023年10月31日16:49:06  加上代码类型的字段
-    		String codetype = this.model.getValueAt(6, c).toString();
+    		String codetype = this.table.getValueAt(6, c).toString();
     		if("文本".equals(codetype)||"公务员常用时间控件".equals(codetype)) {
     			field.put("codetype", "");
     			field.put("editortype", codetype);

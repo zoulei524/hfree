@@ -1,9 +1,12 @@
+	
+	@Autowired
+	HYBeanUtil bean;
+	
 	/**
 	 * ====================================================================================================
 	 * 方法名称: ${tablecomment}--列表<br>
 	 * 方法创建日期: ${time}<br>
 	 * 方法创建人员: ${author}<br>
-	 * 方法维护信息: 写明时间，维护人员，维护内容<br>
 	 * 方法功能描述: ${tablecomment}--列表 分页查询<br>
 	 * 方法: ●原创○沿用○重构汇
 	 * ====================================================================================================
@@ -49,7 +52,11 @@
 	}
 	
 	
-	
+	public List<${entity}Dto> get${entity}DtoList(JSONObject pageData) {
+		List<Map<String,Object>> ${tablename}MapList = this.get${entity}MapList(pageData);
+		List<${entity}Dto> ${tablename}DtoList = bean.toHYBean(${tablename}MapList, ${entity}Dto.class);
+		return ${tablename}DtoList;
+	}
 	
 	
 	

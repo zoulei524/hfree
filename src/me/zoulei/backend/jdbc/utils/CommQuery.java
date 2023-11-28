@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import me.zoulei.backend.jdbc.datasource.DataSource;
+import me.zoulei.dbc.ui.components.north.DataSourceDBC;
 
 /**
  * 2023年9月6日18:20:26   zoulei
@@ -129,9 +130,21 @@ public class CommQuery {
 	}
 	
 	public void setConnection() {
-		conn = DataSource.openDMConn();
+		if(conn==null) {
+			conn = DataSource.openDMConn();
+		}
+		
 	}
 	
+	public CommQuery() {
+		
+	}
+	
+
+	public CommQuery(DataSourceDBC dbc) {
+		this.conn = dbc.con;
+	}
+
 	/**
 	 * @param string
 	 */
