@@ -109,10 +109,12 @@ public class CommQuery {
 			rs=stmt.executeQuery(querySQL);
 			rsmd=rs.getMetaData();
 			cols=rsmd.getColumnCount();
+			String r;
 			while(rs.next()){
 				HashMap hm= isOrder?new LinkedHashMap():new HashMap();
 				for(int j=1;j<=cols;j++){
-					hm.put((rsmd.getColumnName(j)).toLowerCase(),rs.getString(j));
+					r = rs.getString(j);
+					hm.put((rsmd.getColumnName(j)).toLowerCase(),r==null?"":r);
 				}
 				rtnVector.add(hm);
 			}

@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import me.zoulei.dbc.ui.components.center.ExecCP;
-import me.zoulei.dbc.ui.components.center.ResultsLog;
+import me.zoulei.dbc.ui.components.center.ResultsLogUI;
 
 /**
  * 2023年11月27日10:27:49 zoulei
@@ -23,7 +23,7 @@ import me.zoulei.dbc.ui.components.center.ResultsLog;
  */
 public class NorthUI extends JPanel{
 
-	public NorthUI(ResultsLog resultsLog) {
+	public NorthUI(ResultsLogUI resultsLog) {
 		//数据库连接放在上方 上方位置
 		this.setLayout(new FlowLayout());
 		

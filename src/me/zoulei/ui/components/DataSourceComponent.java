@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -31,12 +30,16 @@ import me.zoulei.exception.myException;
  * 2023年9月14日11:28:15  zoulei  
  * 该组件用于配置数据库连接参数，若连接成功，则加载 搜索数据库表的组件。
  */
-public class DataSourceComponent {
+public class DataSourceComponent extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1192359776935702082L;
 	//表名搜索 点击连接后的的其他组件生成
-    SearchComponent searchComponent = new SearchComponent();
+    public SearchComponent searchComponent = new SearchComponent();
 	
-	public JPanel setComp() {
+	public DataSourceComponent() {
 		
 		String baseDir = System.getProperty("user.dir")+"/dsProp";
 		
@@ -144,10 +147,9 @@ public class DataSourceComponent {
 		});
 		
 		
-		JPanel controlPanel = new JPanel();
-	    controlPanel.setLayout(new FlowLayout());//FlowLayout是默认布局，它以方向流布局组件。
+	    this.setLayout(new FlowLayout());//FlowLayout是默认布局，它以方向流布局组件。
 	    //数据源选择控件
-	    controlPanel.add(dbSource);
+	    this.add(dbSource);
 	    //选择数据源事件
 	    dbSource.addActionListener(new ActionListener() {
 			@Override
@@ -171,23 +173,21 @@ public class DataSourceComponent {
 		});
 		
 	    
-	    controlPanel.add(dslabel);
-	    controlPanel.add(dsText);
-	    controlPanel.add(driverlabel);
-	    controlPanel.add(driverText);
+	    this.add(dslabel);
+	    this.add(dsText);
+	    this.add(driverlabel);
+	    this.add(driverText);
 	    
-	    controlPanel.add(urllabel);
-	    controlPanel.add(urlText);
-	    controlPanel.add(namelabel);
-	    controlPanel.add(userText);
-	    controlPanel.add(passwordLabel);       
-	    controlPanel.add(passwordText);
-	    controlPanel.add(loginButton);
-	    controlPanel.add(saveButton);
+	    this.add(urllabel);
+	    this.add(urlText);
+	    this.add(namelabel);
+	    this.add(userText);
+	    this.add(passwordLabel);       
+	    this.add(passwordText);
+	    this.add(loginButton);
+	    this.add(saveButton);
 	    //位置及大小
 	    //controlPanel.setBounds(0, 5, 1700, 35);
-	    
-	    return controlPanel;
 	}
 	
 	/**

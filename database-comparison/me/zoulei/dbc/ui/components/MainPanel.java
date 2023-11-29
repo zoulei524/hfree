@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import me.zoulei.MainApp;
-import me.zoulei.dbc.ui.components.center.ResultsLog;
+import me.zoulei.dbc.ui.components.center.ResultsLogUI;
 import me.zoulei.dbc.ui.components.north.NorthUI;
 
 /**
@@ -29,7 +29,7 @@ public class MainPanel {
 		mainFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		//加入结果日志面板
-		ResultsLog resultsLog = new ResultsLog();
+		ResultsLogUI resultsLog = new ResultsLogUI();
        
 		
 		//主面板BorderLayout 北面ui

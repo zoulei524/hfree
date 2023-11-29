@@ -58,9 +58,8 @@ public class MainApp {
 		
 		
         //数据库连接
-        DataSourceComponent dsf = new DataSourceComponent();
+        DataSourceComponent controlPanel = new DataSourceComponent();
         //数据库连接设置
-        JPanel controlPanel = dsf.setComp();
         controlPanel.setBorder(MainApp.lineBorder);
 	    north.add(controlPanel,BorderLayout.NORTH);
 	    
