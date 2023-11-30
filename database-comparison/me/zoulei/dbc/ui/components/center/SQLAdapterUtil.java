@@ -12,6 +12,10 @@ public class SQLAdapterUtil {
 	}
 
 	public static String getColumnSQL(DataSourceDBC dbc) {
+		String SCHEMA_NAME = "SCHEMA_NAME";
+		if(dbc.DBType.equals("oracle")) {
+			SCHEMA_NAME = "owner";
+		}
 		String columnSQL = "";
 		if(dbc.DBType.equals("mysql")) {
 			columnSQL = "SELECT b.table_name,b.column_name, b.column_comment, b.data_type,\r\n"
@@ -54,15 +58,16 @@ public class SQLAdapterUtil {
 					+ "         then t.DATA_TYPE || '(' || nvl2(t.DATA_PRECISION,t.DATA_PRECISION||nvl2(t.DATA_SCALE,','||t.DATA_SCALE,''),t.data_length||'') || ')'\r\n"
 					+ "          else t.DATA_TYPE end)\r\n"
 					+ "||nvl2(t.DATA_DEFAULT,' default '||'SdefaultS','')||decode(t.NULLABLE,'N',' not null ','')  \r\n"
-					+ "||';'||chr(10)||\r\n"
-					+ "'-- Add comments to the columns'||chr(10)||'comment on column '||t.TABLE_NAME||'.'||t.COLUMN_NAME||' is '||''''||c.COMMENTS||''';' ) add_column,t.DATA_DEFAULT COLUMN_DEFAULT"
+					+ "||';') add_column,\r\n"
+					+ "('-- Add comments to the columns'||chr(10)||'comment on column '||t.TABLE_NAME||'.'||t.COLUMN_NAME||' is '||''''||c.COMMENTS||''';' ) add_COMMENTS,"
+					+ "t.DATA_DEFAULT COLUMN_DEFAULT"
 					+ ""
 					+ "  from ALL_tab_cols t,\r\n"
 					+ "       ALL_col_comments c\r\n"
 					+ "      \r\n"
 					+ " where t.TABLE_NAME = c.table_name\r\n"
 					+ "   and t.COLUMN_NAME = c.column_name\r\n"
-					+ "   and t.owner = c.owner\r\n"
+					+ "   and t.owner = c."+SCHEMA_NAME+"\r\n"
 					+ "   and t.owner = upper('%s')\r\n"
 					+ "   and t.TABLE_NAME in (select TABLE_NAME from all_tables where OWNER = upper('%s'))"
 					+ " ORDER BY t.TABLE_NAME,t.COLUMN_ID";

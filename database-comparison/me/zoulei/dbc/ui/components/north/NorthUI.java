@@ -52,6 +52,8 @@ public class NorthUI extends JPanel{
         //第2个数据库连接
         DataConnComponent dcc2 = new DataConnComponent(schemaSelectPanel2,"选择第2个的数据库模式：");
         this.add(dcc2);
+        dcc2.other=dcc;
+        dcc.other=dcc2;
         
         
         //第一个连接之后显示模式选择的面板

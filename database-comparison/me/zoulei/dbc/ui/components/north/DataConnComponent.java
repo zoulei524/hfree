@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,6 +21,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import org.apache.commons.lang.StringUtils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -42,6 +45,17 @@ public class DataConnComponent extends JPanel{
 	
 	//数据库连接之后显示的模式选择框， 左边一个右边一个 都放在panel中
 	public SchemaSelectComponent schemaSelectComponent = new SchemaSelectComponent();
+	
+	/**
+	 * 比对数据库有2个连接，这是另一个，因为在另存为连接的时候，当前连接选项加了一个选项，要在另一个选择框里也加上新的连接
+	 */
+	public DataConnComponent other;
+
+	/**
+	 * 下拉选择数据库的下拉框
+	 */
+	private JComboBox<Item> dbSource;
+	
 	
 	public DataConnComponent(JPanel north, String label) {
 		DataSourceDBC dbc = new DataSourceDBC();
@@ -82,7 +96,7 @@ public class DataConnComponent extends JPanel{
 		
 		
 		//选择数据库配置控件
-		JComboBox<Item> dbSource = new JComboBox<Item>(items);
+		this.dbSource = new JComboBox<Item>(items);
 		dbSource.setSize(60, 30);
 		//ui初始化
 		JLabel  dslabel= new JLabel("数据库: ", JLabel.LEFT);
@@ -141,20 +155,39 @@ public class DataConnComponent extends JPanel{
 		JButton saveButton = new JButton("保存连接");
 		saveButton.addActionListener(new ActionListener() {
 	         public void actionPerformed(ActionEvent e) {    
+	        	 
 	        	 Item item = (Item) dbSource.getSelectedItem();
+	        	 
 	        	 if(item!=null) {
+					String name = JOptionPane.showInputDialog("连接名称：",item);
+					if(StringUtils.isEmpty(name)) {
+						return;
+					}
 					Properties p = item.getProp();
 					p.setProperty("user", userText.getText());
-		            p.setProperty("password", passwordText.getText());
-		            p.setProperty("url", urlText.getText());
-		            p.setProperty("forname", driverText.getText());
-		            p.setProperty("DBType", dsText.getText());
+					p.setProperty("password", passwordText.getText());
+					p.setProperty("url", urlText.getText());
+					p.setProperty("forname", driverText.getText());
+					p.setProperty("DBType", dsText.getText());
+					p.setProperty("desc", name);
 		            try {
-		            	item.getFile().delete();
+		            	//item.getFile().delete();
 		            	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(item.getFile()), "utf-8");
 						p.store(outputStreamWriter, new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date()));
 						outputStreamWriter.close();
 						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存成功！"); 
+						//刷新下拉选
+						//dbSource.removeAllItems();
+						for (int i = 0; i < items.length; i++) {
+							Item m = items[i];
+							if(item.key.equals(m.key)) {
+								item.key = name;
+								dbSource.setSelectedIndex(i);
+								break;
+							}
+							//dbSource.addItem(m);
+						}
+						other.dbSource.setSelectedIndex(other.dbSource.getSelectedIndex());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存失败："+e1.getMessage());    
@@ -164,6 +197,46 @@ public class DataConnComponent extends JPanel{
 	         }
 		});
 		
+		
+		JButton saveAsButton = new JButton("另存为");
+		saveAsButton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {    
+	        	 Item item = (Item) dbSource.getSelectedItem();
+	        	 if(item!=null) {
+	        		String name = JOptionPane.showInputDialog("请输入名称：");
+					if(StringUtils.isEmpty(name)) {
+						return;
+					}
+					Properties p = new Properties();
+					p.setProperty("user", userText.getText());
+		            p.setProperty("password", passwordText.getText());
+		            p.setProperty("url", urlText.getText());
+		            p.setProperty("forname", driverText.getText());
+		            p.setProperty("DBType", dsText.getText());
+		            p.setProperty("desc", name);
+		            try {
+		            	//原文件不删除
+		            	//item.getFile().delete();
+		            	int itemCount = dbSource.getItemCount()+1;
+		            	
+		            	File newFile = new File(baseDir + "/"+String.format("%03d", itemCount)
+		            					+(UUID.randomUUID().toString().replaceAll("-", ""))+".properties");
+		            	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(newFile), "utf-8");
+						p.store(outputStreamWriter, new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date()));
+						outputStreamWriter.close();
+						Item newitem = new Item(name, p, newFile);
+						dbSource.addItem(newitem);
+						dbSource.setSelectedItem(newitem);
+						other.dbSource.addItem(newitem);
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存成功！"); 
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存失败："+e1.getMessage());    
+					}
+
+	        	 }
+	         }
+		});
 		
 		
 	    this.setLayout(new FlowLayout());//FlowLayout是默认布局，它以方向流布局组件。
@@ -210,6 +283,7 @@ public class DataConnComponent extends JPanel{
 	    this.add(passwordText);
 	    this.add(loginButton);
 	    this.add(saveButton);
+	    this.add(saveAsButton);
 	    //位置及大小
 	    //controlPanel.setBounds(0, 5, 1700, 35);
 	    

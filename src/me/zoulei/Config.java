@@ -34,18 +34,18 @@ public class Config {
 	        	f.mkdir();
 		        //达梦 oracle mysql三种类型
 	        	//返回读取指定资源的输入流  /hfree/src/me/zoulei/ui/components/dsProp/1.properties
-		        InputStream is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/1.properties");   
-		        File p1 = new File(baseDir+"/1.properties");
+		        InputStream is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/001.properties");   
+		        File p1 = new File(baseDir+"/001.properties");
 		        this.copyInputStreamToFile(is, p1);
 		        is.close();
 		        
-		        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/2.properties");  
-		        File p2 = new File(baseDir+"/2.properties");
+		        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/002.properties");  
+		        File p2 = new File(baseDir+"/002.properties");
 		        this.copyInputStreamToFile(is, p2);
 		        is.close();
 		        
-		        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/3.properties");  
-		        File p3 = new File(baseDir+"/3.properties");
+		        is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/components/dsProp/003.properties");  
+		        File p3 = new File(baseDir+"/003.properties");
 		        this.copyInputStreamToFile(is, p3);
 		        is.close();
 	        }

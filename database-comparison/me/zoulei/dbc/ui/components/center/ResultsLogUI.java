@@ -2,6 +2,8 @@ package me.zoulei.dbc.ui.components.center;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -33,6 +35,11 @@ public class ResultsLogUI extends JPanel{
 	 * 库2中多的表和字段
 	 */
 	public RSyntaxTextArea textAreaDDL1;
+	
+	/**
+	 * 滚动条是否继续向下滚动
+	 */
+	public boolean isDone=false;
 	
 	public ResultsLogUI() {
 		//this.setBackground(Color.red);
@@ -76,8 +83,36 @@ public class ResultsLogUI extends JPanel{
 		gbaglayout.setConstraints(pDDL2, constraints);
 		this.add(pDDL2);
 		
+		//滚动条
+		pLog.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+            	if(!isDone) {
+            		 e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            	}
+            }
+        });
+		pDDL1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+            	if(!isDone) {
+            		e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            	}
+                
+            }
+        });
+		pDDL2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            @Override
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+            	if(!isDone) {
+            		e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            	}
+            }
+        });
+		
 		//显示区域大小调整 2023年11月28日18:55:34
 		addListener(pLog,pDDL1,pDDL2,gbaglayout,constraints);
+		
 	}
 	
 	
