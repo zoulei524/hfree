@@ -44,7 +44,7 @@ public class DataSourceComponent extends JPanel{
 		String baseDir = System.getProperty("user.dir")+"/dsProp";
 		
 		//读取数据库配置
-		String url = baseDir + "/1.properties";
+		String url = baseDir + "/001.properties";
 		Properties p = new Properties();
 		Item[] items = null;
 		
