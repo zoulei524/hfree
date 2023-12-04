@@ -62,13 +62,13 @@ public class DataConnComponent extends JPanel{
 		
 		String baseDir = System.getProperty("user.dir")+"/dsProp";
 		//读取数据库配置
-		String url = baseDir + "/001.properties";
-		Properties p = new Properties();
+		//String url = baseDir + "/001.properties";
+		//Properties p = new Properties();
 		
 		if(items==null) {
 			try {
 				
-				p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
+				//p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
 				//获取所有数据库配置
 				File[] listFiles = new File(baseDir).listFiles();
 				items = new Item[listFiles.length];
@@ -80,15 +80,15 @@ public class DataConnComponent extends JPanel{
 				}
 				
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(MainPanel.mainFrame, "读取1.properties失败："+e.getMessage());
+				JOptionPane.showMessageDialog(MainPanel.mainFrame, "读取.properties文件失败："+e.getMessage());
 				e.printStackTrace();
 				System.exit(0);
 			}
 		}else {
 			try {	
-				p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
+				//p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(MainPanel.mainFrame, "读取1.properties失败："+e.getMessage());
+				JOptionPane.showMessageDialog(MainPanel.mainFrame, "读取001.properties失败："+e.getMessage());
 				e.printStackTrace();
 				System.exit(0);
 			}
@@ -100,19 +100,19 @@ public class DataConnComponent extends JPanel{
 		dbSource.setSize(60, 30);
 		//ui初始化
 		JLabel  dslabel= new JLabel("数据库: ", JLabel.LEFT);
-		JTextField dsText = new JTextField(p.getProperty("DBType"),5);
+		JTextField dsText = new JTextField("",5);
 		
 		JLabel  driverlabel= new JLabel("驱动: ", JLabel.LEFT);
-		JTextField driverText = new JTextField(p.getProperty("forname"),14);
+		JTextField driverText = new JTextField("",14);
 		
 		JLabel  urllabel= new JLabel("jdbc-URL: ", JLabel.LEFT);
-		JTextField urlText = new JTextField(p.getProperty("url"),40);
+		JTextField urlText = new JTextField("",40);
 		
 		JLabel  namelabel= new JLabel("用户名: ", JLabel.RIGHT);
-		JTextField userText = new JTextField(p.getProperty("user"),12);
+		JTextField userText = new JTextField("",12);
 		
 		JLabel  passwordLabel = new JLabel("密码: ", JLabel.CENTER);
-		JTextField passwordText = new JTextField(p.getProperty("password"),12);      
+		JTextField passwordText = new JTextField("",12);      
 
 		JButton loginButton = new JButton("连接数据库");
 		loginButton.addActionListener(new ActionListener() {
@@ -286,7 +286,7 @@ public class DataConnComponent extends JPanel{
 	    this.add(saveAsButton);
 	    //位置及大小
 	    //controlPanel.setBounds(0, 5, 1700, 35);
-	    
+	    dbSource.setSelectedIndex(0);
 	}
 	
 	/**

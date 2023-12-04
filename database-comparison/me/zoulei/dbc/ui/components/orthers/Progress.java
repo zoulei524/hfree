@@ -6,17 +6,10 @@ import lombok.Data;
 import me.zoulei.dbc.ui.components.MainPanel;
 import me.zoulei.dbc.ui.components.center.ExecCP;
 
-/*
-    ProgressMonitor的用法与ProgressBar相似 , ProgressMonitor可以直接创建一个进度对话框
-    提供的构造方法:
-    public ProgressMonitor(Component parentComponent,Object message,String note,
-    int min,int max):
-    parentComponent: 对话框的父组件
-    message: 对话框的描述信息
-    note: 进度的提示信息
-    min: 进度条的最小值
-    max: 进度条的最大值
-*/
+/**
+ * 2023年12月1日14:57:05 zoulei
+ * 执行比对数据库时的进度条
+ */
 public class Progress {
 
 	public SimulatorActivity simulaterActivity;

@@ -16,6 +16,10 @@ import me.zoulei.exception.myException;
  * 数据源
  */
 public class DataSourceDBC {
+	
+	/**
+	 * 分别为oracle、达梦、和mysql， 若是其它文本会报错
+	 */
 	public String DBType = "";
 	
 	

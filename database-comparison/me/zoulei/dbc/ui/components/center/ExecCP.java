@@ -23,14 +23,24 @@ import me.zoulei.dbc.ui.components.orthers.Progress;
 import me.zoulei.dbc.ui.components.orthers.Progress.SimulatorActivity;
 
 /**
- * 2023年11月15日16:11:16 zoulei
+ * 2023年11月15日16:11:16
+ * @author zoulei
  * 执行数据库表结构比对  
  * 比对单独线程执行。 否则进度条只能在执行比对线程结束，才能显示。
  */
 public class ExecCP extends Thread{
 	
+	/**
+	 * 比对库模式1
+	 */
 	private SchemaSelectComponent schema1;
+	/**
+	 * 比对库模式2
+	 */
 	private SchemaSelectComponent schema2;
+	/**
+	 * 比对结束后存放日志的ui控件
+	 */
 	private ResultsLogUI resultsLog;
 	//进度条
 	Progress progress = new Progress();

@@ -17,13 +17,16 @@ import lombok.Data;
 import me.zoulei.MainApp;
 import me.zoulei.backend.jdbc.utils.CommQuery;
 
+
 /**
- * 2023年11月15日11:33:26  zoulei
- * 加载数据库模式  oracle和达梦，mysql
+ *@ClassName: SchemaSelectComponent
+ * 加载数据库模式  oracle和达梦，mysql。
+ * 包含数据库连接和选择的模式名称。
+ *@author zoulei
+ *@date 2023年11月15日11:33:26
  */
 public class SchemaSelectComponent {
 
-	Item[] items;
 	String[] items2 = new String[] {"sadsa","dsf","fsdfg","dsadsfx"};
 	
 //	List<Component> removeComponents = new ArrayList<Component>();

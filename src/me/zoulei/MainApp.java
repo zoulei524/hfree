@@ -21,6 +21,7 @@ import javax.swing.border.TitledBorder;
 import me.zoulei.dbc.ui.components.MainPanel;
 import me.zoulei.ui.components.DataSourceComponent;
 import me.zoulei.ui.components.SearchComponent;
+import me.zoulei.ui.menu.MainMenuBar;
 import me.zoulei.ui.toolSamples.DocumentTool;
 
 /**
@@ -55,38 +56,14 @@ public class MainApp {
 		north.setPreferredSize(new Dimension(-1, 110));
 		mainFrame.add(north,BorderLayout.NORTH);
 		
-		
-		
         //数据库连接
         DataSourceComponent controlPanel = new DataSourceComponent();
         //数据库连接设置
         controlPanel.setBorder(MainApp.lineBorder);
 	    north.add(controlPanel,BorderLayout.NORTH);
 	    
-	    
-	    
-	    
 	    //菜单
-	    JMenuBar menuBar = new JMenuBar();
-	    JMenu view = new JMenu("查看");
-		menuBar.add(view);
-		JMenuItem showstatus = new JMenuItem("一些常用代码");
-		showstatus.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new DocumentTool("123");
-			}
-		});
-		view.add(showstatus);
-		
-		
-		JMenuItem dc = new JMenuItem("数据库表结构比对");
-		view.add(dc);
-		dc.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MainPanel.main(args);
-			}
-		});
-	    
+	    JMenuBar menuBar = new MainMenuBar();
 	    
 		mainFrame.setJMenuBar(menuBar);
 	    
