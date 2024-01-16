@@ -1,28 +1,18 @@
 package me.zoulei.ui.toolSamples;
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -38,9 +28,6 @@ import javax.swing.event.DocumentListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
-
-import me.zoulei.ui.components.codeEditor.FindDialogDoc;
-import me.zoulei.ui.components.codeEditor.JFontDialog;
  
 @SuppressWarnings("serial")
 public class DocumentTool extends JFrame implements ActionListener, DocumentListener {
@@ -118,12 +105,13 @@ public class DocumentTool extends JFrame implements ActionListener, DocumentList
 		//创建一个在上面显示标签，布局方式为自动换行的空选项卡
 		JTabbedPane tabbedPane = new JTabbedPane();
 		pane.add(tabbedPane);
+		///hfree/src/me/zoulei/ui/toolSamples/samples/excelImp.txt
 		
- 
-		RSyntaxTextArea textArea_vue = new RSyntaxTextArea(s);
+		RSyntaxTextArea textArea_vue = new RSyntaxTextArea();
 		
 		initTextArea(textArea_vue,SyntaxConstants.SYNTAX_STYLE_JAVA);
 		textArea = textArea_vue;
+		
  
 		RTextScrollPane sp = new RTextScrollPane(textArea_vue);
 		//添加选项卡
@@ -188,6 +176,17 @@ public class DocumentTool extends JFrame implements ActionListener, DocumentList
 		setVisible(true);
 		//只有该窗口会关闭
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		
+		InputStream is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/ui/toolSamples/samples/excelImp.txt");
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+            	textArea_vue.append(line+"\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
  
 	}
  

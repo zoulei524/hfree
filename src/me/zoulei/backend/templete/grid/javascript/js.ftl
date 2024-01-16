@@ -17,6 +17,7 @@ ${entityJSON},
 			//这里放布尔类型的变量
 			booleanObj: {
 				is${entity}EditDisabled: true,//表格是否可编辑
+				isShow${entity}Form:false,//是否显示编辑区域
 			},
 			//提示框对象
 			dialog: {
@@ -96,9 +97,25 @@ ${config.codetype_json}
 	},
     
 	methods: {
-		// 表格行单击事件
+		// 表格行单击事件 用户查看
 		row${entity}Click(row, column, event) {
-            
+<#if config.iscrud>
+			//获取选中条的数据
+			this.query${entity}Data(row.${config.pk});
+			//表单可编辑并显示保存和取消按钮
+			this.booleanObj.is${entity}EditDisabled = true;
+			//显示表单
+			this.booleanObj.isShow${entity}Form = true;
+</#if>            
+		},
+		
+		// 表格行双击事件 用于双击编辑
+		row${entity}DblClick(row, column, event) {
+<#if config.iscrud>
+		    //获取选中条的数据
+		    this.query${entity}Data(row.${config.pk});
+		    this.setEditable();
+</#if>
 		},
        
 		// 查询列表数据
@@ -124,7 +141,7 @@ ${config.codetype_json}
 			//表单控件值重置
 			this.reset${entity}Fields();
 			//表单可编辑并显示保存和取消按钮
-			this.booleanObj.is${entity}EditDisabled = false;
+			this.setEditable();
 		},
 
         // 编辑按钮
@@ -132,7 +149,15 @@ ${config.codetype_json}
 			//获取选中条的数据
 		    this.query${entity}Data(data.${config.pk});
 		    //表单可编辑并显示保存和取消按钮
+		    this.setEditable();
+		},
+		
+		//设置可编辑
+		setEditable(){
+		    //表单可编辑并显示保存和取消按钮
 		    this.booleanObj.is${entity}EditDisabled = false;
+		    //显示表单
+		    this.booleanObj.isShow${entity}Form = true;
 		},
 		
 		// 根据主键id查询数据
@@ -145,6 +170,16 @@ ${config.codetype_json}
 		    _this.$api.commonPost(url, param).then(function (res) {
 		        if (res.status == "0") {
 		            _this.${tablename}EntityData = res.data;
+					//弹出框是否禁用
+					for (let x in _this.${tablename}EntityData) {
+						if (_this.${tablename}EntityData[x].p) {
+							if (_this.booleanObj.is${entity}EditDisabled) {
+								_this.${tablename}EntityData[x].p = "D";
+							} else {
+								_this.${tablename}EntityData[x].p = "R";
+							}
+						}
+					}
 		        }else{
 		            _this.$message.error(res.message);
 		        }

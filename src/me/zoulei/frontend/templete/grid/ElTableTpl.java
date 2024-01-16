@@ -104,6 +104,7 @@ public class ElTableTpl {
 		this.info_box = info_box;
 		VueNode el_table = new VueNode("el-table");
 		el_table.addAttr(new VueAttr("@row-click","row"+tablenameCap+"Click"))
+		.addAttr(new VueAttr("@row-dblclick","row"+tablenameCap+"DblClick"))
 		.addAttr(new VueAttr(":data",tablenameL + "TableData"))
 		.addAttr(new VueAttr("height","450"))
 		.addAttr(new VueAttr("header-cell-class-name","headerCell"))
@@ -136,20 +137,28 @@ public class ElTableTpl {
 	        <svg class="icon">
 	          <use xlink:href="#el-icon-gwy-add" /></svg>
 	          &nbsp;新增
+	          
+	          <img src="@/assets/imgs/zzgb/rygl/icon-bc.png" alt="" class="icon" />
+	                &nbsp;添加
 	      </el-button>
+	      
+	      
 		 */
 		
-		Node elbuttonadd = new VueNode("el-button","&nbsp;新增","")
+		Node elbuttonadd = new VueNode("el-button","&nbsp;添加","")
 				.addAttr(new VueAttr("@click","add"+tablenameCap+"Info"))
 				;
 		this.divbtn.append(elbuttonadd);
 		
-		Node svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
-		elbuttonadd.append(svg);
-		
-		Node use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-add"));
-		svg.append(use);
-		
+//		Node svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
+//		elbuttonadd.append(svg);
+//		
+//		Node use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-add"));
+//		svg.append(use);
+		//增加图标 2024年1月15日14:25:40
+		Node img = new VueNode("img").addAttr(new VueAttr("class","icon"))
+				.addAttr(new VueAttr("src", "@/assets/imgs/zzgb/rygl/icon-bc.png"));
+		elbuttonadd.append(img);
 		
 		
 		/* 
@@ -167,28 +176,45 @@ public class ElTableTpl {
 		//this.el_table.append(col);  
 		this.editorelbutton = col;
 		col.addAttr(new VueAttr("label", "操作"))
-			.addAttr(new VueAttr("width", "220"))
-			.addAttr(new VueAttr("fixed","right"))
+			//.addAttr(new VueAttr("width", "220"))
+			//.addAttr(new VueAttr("fixed","right"))
+			.addAttr(new VueAttr("align","center"))
 			;
 		Node template = new VueNode("template")
 				.addAttr(new VueAttr("slot-scope", "scope"))
 				;
 		col.append(template);
+		//按钮居中 2024年1月15日14:25:23
+		Node templateDiv = new VueNode("div")
+				.addAttr(new VueAttr("style", "text-align: center;"))
+				;
+		template.append(templateDiv);
+		
 		Node elbutton = new VueNode("el-button","编辑","")
-				.addAttr(new VueAttr("@click", "handle"+tablenameCap+"Edit(scope.row)"))
+				.addAttr(new VueAttr("@click.stop", "handle"+tablenameCap+"Edit(scope.row)"))
 				.addAttr(new VueAttr("type", "text"))
-				.addAttr(new VueAttr("icon", "el-icon-edit"))
+				//.addAttr(new VueAttr("icon", "el-icon-edit"))
 				.addAttr(new VueAttr("size", "small"))
 				;
-		template.append(elbutton);
+		//2024年1月15日14:51:54
+		img = new VueNode("img").addAttr(new VueAttr("class","icon"))
+				.addAttr(new VueAttr("src", "@/assets/imgs/zzgb/grid_icon/edit.svg"));
+		elbutton.append(img);
+		
+		templateDiv.append(elbutton);
 		elbutton = new VueNode("el-button","删除","")
-				.addAttr(new VueAttr("@click", "dialog."+config.getPk()+"=scope.row."+config.getPk()+";dialog.visible=true;dialog.msg = '确定删除，是否继续？';dialog.wintitle='系统提示';"))
+				.addAttr(new VueAttr("@click.stop", "dialog."+config.getPk()+"=scope.row."+config.getPk()+";dialog.visible=true;dialog.msg = '确定删除，是否继续？';dialog.wintitle='系统提示';"))
 				.addAttr(new VueAttr("type", "text"))
-				.addAttr(new VueAttr("icon", "el-icon-delete"))
+				//.addAttr(new VueAttr("icon", "el-icon-delete"))
 				.addAttr(new VueAttr("size", "small"))
-				.addAttr(new VueAttr("style", "color: red;"))
+				//.addAttr(new VueAttr("style", "color: red;"))
 				;
-		template.append(elbutton);
+		//2024年1月15日14:51:38
+		img = new VueNode("img").addAttr(new VueAttr("class","icon"))
+				.addAttr(new VueAttr("src", "@/assets/imgs/zzgb/grid_icon/del.svg"));
+		elbutton.append(img);
+		
+		templateDiv.append(elbutton);
 		
 		
 		
@@ -196,7 +222,7 @@ public class ElTableTpl {
 		
 		
 		
-		Node titles = new VueNode("div").addAttr(new VueAttr("class","titles"));
+		Node titles = new VueNode("div").addAttr(new VueAttr("class","titles")).addAttr(new VueAttr("v-if","booleanObj.isShow"+tablenameCap+"Form"));
 		VueNode titlesP = new VueNode("p","详情","");
 		titles.append(titlesP);
 		
@@ -209,6 +235,7 @@ public class ElTableTpl {
 				.addAttr(new VueAttr("label-width","80px"))
 				.addAttr(new VueAttr("class","elform"))
 				.addAttr(new VueAttr(":disabled","booleanObj.is"+tablenameCap+"EditDisabled"))
+				.addAttr(new VueAttr("v-if","booleanObj.isShow"+tablenameCap+"Form"))
 				;
 		this.info_page.append(titles).append(elform);
 		this.elform = elform;
@@ -275,7 +302,7 @@ public class ElTableTpl {
 				
 				
 				//判断下拉选或弹出框
-				if("文本".equals(column.get("editortype"))||"公务员常用时间控件".equals(column.get("editortype"))){//公务员常用时间控件还没开发
+				if("文本".equals(column.get("editortype"))){//
 					Node elcol = new VueNode("el-col").addAttr(new VueAttr(":span", "8"));
 					elrow.append(elcol);
 					Node elformitem = new VueNode("el-form-item")
@@ -292,12 +319,14 @@ public class ElTableTpl {
 				}else if("弹出框".equals(column.get("editortype"))) {
 					Node eplpublicwindowedit = new VueNode("epl-public-window-edit")
 							.addAttr(new VueAttr("colspan", "8"))
+							.addAttr(new VueAttr("labelWidth", "80", "与上面label-width保持一致"))
 							.addAttr(new VueAttr("label", column.get("comments")))
 							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应
+							//.addAttr(new VueAttr("style", "width: 100%"))//宽度 2024年1月15日15:15:41
 							.addAttr(new VueAttr(":property", tablenameL+"EntityData."+column.get("column_name").toLowerCase()))
 							//.addAttr(new VueAttr(":hideLabel", "true"))
 							.addAttr(new VueAttr(":codetype", tablenameL+"EntityData."+column.get("column_name").toLowerCase()+".codetype"))
-							.addAttr(new VueAttr(":p", tablenameL+"EntityData."+column.get("column_name").toLowerCase()+".p"))
+							//.addAttr(new VueAttr(":p", tablenameL+"EntityData."+column.get("column_name").toLowerCase()+".p"))//在property里面设置
 							.addAttr(new VueAttr("placeholder", "请选择"+column.get("comments")))
 							;
 					elrow.append(eplpublicwindowedit);
@@ -305,6 +334,7 @@ public class ElTableTpl {
 				}else if("下拉选".equals(column.get("editortype"))) {
 					Node epselect = new VueNode("ep-select")
 							.addAttr(new VueAttr("colspan", "8"))
+							.addAttr(new VueAttr("labelWidth", "80", "与上面label-width保持一致"))
 							.addAttr(new VueAttr(":custom-path", "dataUrl"))
 							//.addAttr(new VueAttr("labelWidth", "0"))
 							.addAttr(new VueAttr("label", column.get("comments")))
@@ -315,12 +345,23 @@ public class ElTableTpl {
 							;
 					elrow.append(epselect);
 					((VueNode)epselect).setAttrNotNewLine(false);
+				}else if("公务员常用时间控件".equals(column.get("editortype"))) {//2024年1月15日19:25:02 时间控件
+					Node epselect = new VueNode("epl-timeinput")
+							.addAttr(new VueAttr("colspan", "8"))
+							.addAttr(new VueAttr("labelWidth", "80", "与上面label-width保持一致"))
+							.addAttr(new VueAttr("label", column.get("comments")))
+							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应
+							.addAttr(new VueAttr(":property", tablenameL+"EntityData."+column.get("column_name").toLowerCase()))
+							.addAttr(new VueAttr("placeholder", "示例：202301或20230101"))
+							;
+					elrow.append(epselect);
+					((VueNode)epselect).setAttrNotNewLine(false);
 				}
 				
 				
 				//生成校验规则 非空
 				
-				if("非空".equals(column.get("validate"))) {
+				if("必填".equals(column.get("validate"))) {
 					rules.append("\t\t\t\t").append(column.get("column_name").toLowerCase()).append(": [\n");
 					rules.append("\t\t\t\t\t").append("{ required: true, message: '请输入"+column.get("comments")+"', trigger: 'blur' }").append(",\n");
 					rules.append("\t\t\t\t").append("],\n");
@@ -331,37 +372,71 @@ public class ElTableTpl {
 		}
 		config.setRules(rules.toString());
 		
-		elrow = new VueNode("el-row");
-		Node elcol = new VueNode("el-col").addAttr(new VueAttr(":push","10"));
-		elrow.append(elcol);
+		//以下注释 ；按钮放到form外面
+//		elrow = new VueNode("el-row");
+//		Node elcol = new VueNode("el-col").addAttr(new VueAttr(":push","10"));
+//		elrow.append(elcol);
+//		
+//		elbutton = new VueNode("el-button","&nbsp;保存","")
+//				.addAttr(new VueAttr("@click","save"+tablenameCap+"InfoValidate"))
+//				.addAttr(new VueAttr("v-if","!booleanObj.is"+tablenameCap+"EditDisabled"))
+//				;
+//		elcol.append(elbutton);
+//		
+//		Node svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
+//		elbutton.append(svg);
+//		
+//		Node use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-save"));
+//		svg.append(use);
+//		
+//		
+//		elbutton = new VueNode("el-button","&nbsp;取消","")
+//				.addAttr(new VueAttr("@click","booleanObj.is"+tablenameCap+"EditDisabled=true;reset"+tablenameCap+"Fields()"))
+//				.addAttr(new VueAttr("v-if","!booleanObj.is"+tablenameCap+"EditDisabled"))
+//				;
+//		elcol.append(elbutton);
+//		
+//		svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
+//		elbutton.append(svg);
+//		
+//		use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-close"));
+//		svg.append(use);
+//		
+//		//加上保存，取消按钮
+//		elform.append(elrow);
+		//2024年1月15日16:08:00 按钮放到form外面
+		
+		Node btnDiv = new VueNode("div").addAttr(new VueAttr("style","text-align: center; margin: 10px 0px;"));
 		
 		elbutton = new VueNode("el-button","&nbsp;保存","")
 				.addAttr(new VueAttr("@click","save"+tablenameCap+"InfoValidate"))
 				.addAttr(new VueAttr("v-if","!booleanObj.is"+tablenameCap+"EditDisabled"))
 				;
-		elcol.append(elbutton);
+		img = new VueNode("img").addAttr(new VueAttr("class","icon"))
+				.addAttr(new VueAttr("src", "@/assets/imgs/zzgb/rygl/bc.png"));
+		elbutton.append(img);
+		btnDiv.append(elbutton);
 		
-		svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
-		elbutton.append(svg);
-		
-		use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-save"));
-		svg.append(use);
-		
+		elbutton = new VueNode("el-button","&nbsp;关闭","")
+				.addAttr(new VueAttr("@click","booleanObj.isShow"+tablenameCap+"Form=false;reset"+tablenameCap+"Fields()"))
+				.addAttr(new VueAttr("v-if","booleanObj.is"+tablenameCap+"EditDisabled&&booleanObj.isShow"+tablenameCap+"Form"))
+				;
+		img = new VueNode("img").addAttr(new VueAttr("class","icon"))
+				.addAttr(new VueAttr("src", "@/assets/imgs/zzgb/rygl/qx.png"));
+		elbutton.append(img);
+		btnDiv.append(elbutton);
 		
 		elbutton = new VueNode("el-button","&nbsp;取消","")
-				.addAttr(new VueAttr("@click","booleanObj.is"+tablenameCap+"EditDisabled=true;reset"+tablenameCap+"Fields()"))
+				.addAttr(new VueAttr("@click","booleanObj.is"+tablenameCap+"EditDisabled=true;booleanObj.isShow"+tablenameCap+"Form=false;reset"+tablenameCap+"Fields()"))
 				.addAttr(new VueAttr("v-if","!booleanObj.is"+tablenameCap+"EditDisabled"))
 				;
-		elcol.append(elbutton);
+		img = new VueNode("img").addAttr(new VueAttr("class","icon"))
+				.addAttr(new VueAttr("src", "@/assets/imgs/zzgb/rygl/qx.png"));
+		elbutton.append(img);
+		btnDiv.append(elbutton);
 		
-		svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
-		elbutton.append(svg);
 		
-		use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-close"));
-		svg.append(use);
-		
-		//加上保存，取消按钮
-		elform.append(elrow);
+		this.info_page.append(btnDiv);
     
     /*
     <!-- 弹框提示 -->

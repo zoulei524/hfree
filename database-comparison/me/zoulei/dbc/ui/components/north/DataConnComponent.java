@@ -24,10 +24,9 @@ import javax.swing.JTextField;
 
 import org.apache.commons.lang.StringUtils;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import me.zoulei.Constants;
 import me.zoulei.dbc.ui.components.MainPanel;
-import me.zoulei.exception.myException;
+import me.zoulei.ui.components.Item;
 
 /**
  * 2023年11月14日10:53:48 zoulei
@@ -39,8 +38,7 @@ public class DataConnComponent extends JPanel{
 	 */
 	private static final long serialVersionUID = 8070098865369824453L;
 
-	//选择数据库配置控件
-	static Item[] items = null;
+	
 	
 	
 	//数据库连接之后显示的模式选择框， 左边一个右边一个 都放在panel中
@@ -65,18 +63,18 @@ public class DataConnComponent extends JPanel{
 		//String url = baseDir + "/001.properties";
 		//Properties p = new Properties();
 		
-		if(items==null) {
+		if(Constants.items==null) {
 			try {
 				
 				//p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
 				//获取所有数据库配置
 				File[] listFiles = new File(baseDir).listFiles();
-				items = new Item[listFiles.length];
+				Constants.items = new Item[listFiles.length];
 				int i=0;
 				for(File f : listFiles) {
 					Properties fp = new Properties();
 					fp.load(new InputStreamReader(new FileInputStream(f), "utf-8"));
-					items[i++] = new Item(fp.getProperty("desc"), fp, f);
+					Constants.items[i++] = new Item(fp.getProperty("desc"), fp, f);
 				}
 				
 			} catch (Exception e) {
@@ -84,23 +82,16 @@ public class DataConnComponent extends JPanel{
 				e.printStackTrace();
 				System.exit(0);
 			}
-		}else {
-			try {	
-				//p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
-			} catch (Exception e) {
-				JOptionPane.showMessageDialog(MainPanel.mainFrame, "读取001.properties失败："+e.getMessage());
-				e.printStackTrace();
-				System.exit(0);
-			}
 		}
 		
 		
 		//选择数据库配置控件
-		this.dbSource = new JComboBox<Item>(items);
+		this.dbSource = new JComboBox<Item>(Constants.items);
 		dbSource.setSize(60, 30);
 		//ui初始化
 		JLabel  dslabel= new JLabel("数据库: ", JLabel.LEFT);
-		JTextField dsText = new JTextField("",5);
+		JComboBox<String> dsText = new JComboBox<String>(Constants.dbTypes);
+		//JTextField dsText = new JTextField("",5);
 		
 		JLabel  driverlabel= new JLabel("驱动: ", JLabel.LEFT);
 		JTextField driverText = new JTextField("",14);
@@ -124,7 +115,7 @@ public class DataConnComponent extends JPanel{
 	        	 dbc.dsprop.setProperty("url", urlText.getText());
 	        	 dbc.dsprop.setProperty("forname", driverText.getText());
 	            try {
-	            	dbc.DBType = dsText.getText();
+	            	dbc.DBType = dsText.getSelectedItem().toString();
 	            	Connection c = dbc.openDMConn();
 	            	if(c==null) {
 	            		return;
@@ -168,7 +159,7 @@ public class DataConnComponent extends JPanel{
 					p.setProperty("password", passwordText.getText());
 					p.setProperty("url", urlText.getText());
 					p.setProperty("forname", driverText.getText());
-					p.setProperty("DBType", dsText.getText());
+					p.setProperty("DBType", dsText.getSelectedItem().toString());
 					p.setProperty("desc", name);
 		            try {
 		            	//item.getFile().delete();
@@ -178,16 +169,16 @@ public class DataConnComponent extends JPanel{
 						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存成功！"); 
 						//刷新下拉选
 						//dbSource.removeAllItems();
-						for (int i = 0; i < items.length; i++) {
-							Item m = items[i];
-							if(item.key.equals(m.key)) {
-								item.key = name;
+						for (int i = 0; i < Constants.items.length; i++) {
+							Item m = Constants.items[i];
+							if(item.getKey().equals(m.getKey())) {
+								item.setKey(name);
 								dbSource.setSelectedIndex(i);
 								break;
 							}
 							//dbSource.addItem(m);
 						}
-						other.dbSource.setSelectedIndex(other.dbSource.getSelectedIndex());
+						//other.dbSource.setSelectedIndex(other.dbSource.getSelectedIndex());
 					} catch (IOException e1) {
 						e1.printStackTrace();
 						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存失败："+e1.getMessage());    
@@ -212,7 +203,7 @@ public class DataConnComponent extends JPanel{
 		            p.setProperty("password", passwordText.getText());
 		            p.setProperty("url", urlText.getText());
 		            p.setProperty("forname", driverText.getText());
-		            p.setProperty("DBType", dsText.getText());
+		            p.setProperty("DBType", dsText.getSelectedItem().toString());
 		            p.setProperty("desc", name);
 		            try {
 		            	//原文件不删除
@@ -228,6 +219,7 @@ public class DataConnComponent extends JPanel{
 						dbSource.addItem(newitem);
 						dbSource.setSelectedItem(newitem);
 						other.dbSource.addItem(newitem);
+						Constants.addItem(newitem);
 						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存成功！"); 
 					} catch (IOException e1) {
 						e1.printStackTrace();
@@ -249,7 +241,7 @@ public class DataConnComponent extends JPanel{
 				Item item = (Item) dbSource.getSelectedItem();
 				if(item!=null) {
 					Properties p = item.getProp();
-					dsText.setText(p.getProperty("DBType"));
+					dsText.setSelectedItem(p.getProperty("DBType"));
 					driverText.setText(p.getProperty("forname"));
 					urlText.setText(p.getProperty("url"));
 					userText.setText(p.getProperty("user"));
@@ -289,17 +281,5 @@ public class DataConnComponent extends JPanel{
 	    dbSource.setSelectedIndex(0);
 	}
 	
-	/**
-	 * 表名选择下拉框
-	 */
-	@Data
-	@AllArgsConstructor
-	public class Item {
-		private String key;
-		private Properties prop;
-		private File file;
-		public String toString(){
-			return key;
-		}
-	}
+	
 }

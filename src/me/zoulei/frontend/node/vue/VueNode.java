@@ -62,10 +62,16 @@ public class VueNode implements Node{
 			if(this.attrs.size()==1||this.isAttrNotNewLine()) {
 				vueStr.append(" " + attrStr);
 				//开始标签结束
+				if("img".equalsIgnoreCase(this.name)||"br".equalsIgnoreCase(this.name)) {
+					vueStr.append(" /");
+				}
 				vueStr.append(">\n");
 			}else {
 				vueStr.append(attrStr);
 				//开始标签结束
+				if("img".equalsIgnoreCase(this.name)||"br".equalsIgnoreCase(this.name)) {
+					vueStr.append(" /");
+				}
 				vueStr.append(tabStr+">\n");
 			}
 			
@@ -79,12 +85,15 @@ public class VueNode implements Node{
 		});
 		
 		//标签内容
-		if(this.text.length()>0) {
+		if(this.text.length()>0&&!"img".equalsIgnoreCase(this.name)&&!"br".equalsIgnoreCase(this.name)) {
 			vueStr.append(tabStr+"	").append(this.text).append("\n");
 		}
 		
 		//结束标签
-		vueStr.append(tabStr+"</").append(this.name).append(">\n");
+		if(!"img".equalsIgnoreCase(this.name)&&!"br".equalsIgnoreCase(this.name)) {
+			vueStr.append(tabStr+"</").append(this.name).append(">\n");
+		}
+		
 		return vueStr.toString();
 	}
 	

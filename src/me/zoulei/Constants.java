@@ -1,5 +1,7 @@
 package me.zoulei;
 
+import me.zoulei.ui.components.Item;
+
 /**
  * 
 * @author zoulei 
@@ -24,6 +26,20 @@ public class Constants {
 	
 	/**存取codetype的项*/
 	public static String[] codetype_items=new String[1];
+	
+	/**选择数据库配置 的下拉选*/
+	public static Item[] items = null;
+	public static void addItem(Item item) {
+		if(items!=null) {
+			Item[] newItem = new Item[items.length+1];
+			System.arraycopy(items, 0, newItem, 0, items.length);
+			newItem[newItem.length-1] = item;
+			items = newItem;
+		}
+	}
+	
+	/**数据库类型 的下拉选*/
+	public static String[] dbTypes = new String[] {"mysql","达梦","oracle"};
 	
 	/** 
      * 功能：将输入字符串的首字母改成大写 

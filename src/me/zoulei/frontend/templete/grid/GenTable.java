@@ -58,9 +58,12 @@ public class GenTable {
 				col.setComments(col.getComments()+":"+(column.get("comments2")==null?column.get("comments"):column.get("comments2")));
 				//prop="yb001"
 			    //label="序号"
-				if("".equals(column.get("codetype"))) {
+				//System.out.println(column);
+				if("文本".equals(column.get("editortype"))) {
 					col.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()));
-				}else {
+				}else if("公务员常用时间控件".equals(column.get("editortype"))){//2024年1月15日19:36:04  时间控件
+					col.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()+".time"));
+				}else{
 					col.addAttr(new VueAttr("prop", column.get("column_name").toLowerCase()+".value"));
 				}
 				col.addAttr(new VueAttr("label", column.get("comments")))

@@ -38,12 +38,16 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.apache.commons.lang.StringUtils;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.Theme;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import me.zoulei.MainApp;
+import me.zoulei.backend.templete.grid.TableMetaDataConfig;
+import me.zoulei.dbc.ui.components.MainPanel;
+import me.zoulei.gencode.Gencode2Files;
  
 /**
  * 
@@ -229,7 +233,7 @@ public class CodeDocument extends JFrame implements ActionListener, DocumentList
 	}
 	
 	
-	public CodeDocument(Map<String,String[]> codemap) {
+	public CodeDocument(Map<String,String[]> codemap, TableMetaDataConfig config) {
  
 		super("代码查看");
 		setSize(1300, 950);
@@ -280,8 +284,31 @@ public class CodeDocument extends JFrame implements ActionListener, DocumentList
 		ta.setWrapStyleWord(true);
  
 		//隐藏菜单。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
-		//setJMenuBar(menuBar);
+		//菜单用来生成目录结构  前端和后台的，根据名字生成
+		setJMenuBar(menuBar);
+		file_1 = new JMenu("操作");
+		//file_1.setMnemonic('F');
+		menuBar.add(file_1);
+		n = new JMenuItem("生成目录结构");
+		n.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String name = JOptionPane.showInputDialog("请输入英文名称，用来拼接java类名：");
+				if(StringUtils.isEmpty(name)) {
+					JOptionPane.showMessageDialog(MainPanel.mainFrame, "请输入名称！"); 
+					return;
+				}
+				boolean matche = name.matches("^[A-Za-z_][A-Za-z_0-9]*$");
+				if(!matche) {
+					JOptionPane.showMessageDialog(MainPanel.mainFrame, "名称不合法，请重新输入！"); 
+				}
+				new Gencode2Files(codemap,config,name);
+				
+			}
+		});
+		//n.setMnemonic('N');
+		file_1.add(n);
  
+		/*
 		file_1 = new JMenu("文件");
 		file_1.setMnemonic('F');
 		menuBar.add(file_1);
@@ -423,6 +450,8 @@ public class CodeDocument extends JFrame implements ActionListener, DocumentList
 			}
 		});
 		help.add(about);
+		
+		*/
  
 		pane.add(toolBar, BorderLayout.SOUTH);
  

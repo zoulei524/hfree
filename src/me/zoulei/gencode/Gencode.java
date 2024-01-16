@@ -27,7 +27,7 @@ import me.zoulei.ui.components.codeEditor.CodeDocument;
 public class Gencode {
 	
 	public void gencode(TableMetaDataConfig config) throws Exception {
-
+		
 		//表格vue
 		GenTable table = new GenTable(config);
 		
@@ -68,7 +68,7 @@ public class Gencode {
 		//其他工具类
 		GenDep dep = new GenDep(config);
 		codemap.put("4个工具类用于兼容下拉和弹出框的，加一次就好了", new String[] {dep.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
-        new CodeDocument(codemap);
+        new CodeDocument(codemap,config);
         /*
         genEntity = new GenEntity(new TableMetaDataConfig("a01","select * from code_value"));  
         System.out.println(genEntity.getEntity_content());

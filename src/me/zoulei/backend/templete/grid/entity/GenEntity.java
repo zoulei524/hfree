@@ -187,8 +187,9 @@ public class GenEntity {
         		}
         		
         	}
-        	
-        	if("".equals(fconf.get("codetype"))) {//非代码字段
+        	//System.out.println(fconf);
+        	//2024年1月15日19:10:43 下拉、时间、弹出框都需要特殊字段
+        	if("文本".equals(fconf.get("editortype"))) {//非代码字段
         		sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
                 jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"\"\","  );
                 if("Date".equals(sqlType2JavaType(fconf.get("data_type")))) {
@@ -199,7 +200,23 @@ public class GenEntity {
                 }
         	}else {
         		if("enety".equals(type)) {
-        			sb.append("\t@Type(type =\"com.insigma.business.components.hyfield.HYfieldType\", parameters = { @Parameter(name =\"codetype\", value =\""+fconf.get("codetype")+"\"), @Parameter(name =\"p\", value =\"E\")})\n");
+        			//2024年1月15日19:10:50  R—必填，E—可编辑，H—隐藏，D—不可编辑, E,R—编辑可变为必填
+        			String pvalue = "E";
+        			if("必填".equals(fconf.get("validate"))) {
+        				pvalue = "R";
+        			}
+        			
+        			String controltype = "text";
+        			if("公务员常用时间控件".equals(fconf.get("editortype"))) {
+        				controltype = "date";
+        			}else if("下拉选".equals(fconf.get("editortype"))) {
+        				controltype = "select";
+        			}else if("弹出框".equals(fconf.get("editortype"))) {
+        				controltype = "popwin";
+        			}
+        			String timetype = "@Parameter(name =\"type\", value =\""+controltype+"\"),";
+        			
+        			sb.append("\t@Type(type =\"com.insigma.business.components.hyfield.HYfieldType\", parameters = { "+timetype+" @Parameter(name =\"codetype\", value =\""+fconf.get("codetype")+"\"), @Parameter(name =\"p\", value =\""+pvalue+"\")})\n");
         			sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
         			//sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
         		}else {

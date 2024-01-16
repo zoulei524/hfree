@@ -135,13 +135,13 @@ public class EditorGrid extends JPanel {
     		
     		tableDate[4][i] = "center";
     		//是否必输项校验
-    		tableDate[5][i] = "可空";
+    		tableDate[5][i] = "非必填";
     		//表单控件类型
     		tableDate[6][i] = "文本";
     		
     		if("1".equals(p)) {//主键
     			tableDate[3][i] = "不显示";
-    			tableDate[5][i] = "非空";
+    			tableDate[5][i] = "必填";
     		}
     	}
         table = new JTable(tableDate,colnames) {
@@ -562,10 +562,14 @@ public class EditorGrid extends JPanel {
     			field.put("codetype", "");
     			field.put("editortype", codetype);
     		}else {
-    			String[] codetypes = codetype.split(":");//ZB01:下拉选 ZB01:弹出框
+    			codetype = codetype + ":a";
+    			String[] codetypes = codetype.split(":");//ZB01:下拉选:备注 ZB01:弹出框:备注
     			field.put("codetype", codetypes[0]);
     			field.put("editortype", codetypes[1]);
-    			this.codetypes.add(new String[] {codetypes[0],codetypes[2]});
+    			//只需要下拉选要初始化代码
+    			if("下拉选".equals(codetypes[1])) {
+    				this.codetypes.add(new String[] {codetypes[0],codetypes[2]});
+    			}
     		}
     	}
     	return tmd;
@@ -626,7 +630,7 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 		jbox3.setSelectedIndex(1);
 		
 		//校验项
-		jbox4 = new JComboBox<String>(new String[] {"可空","非空"});
+		jbox4 = new JComboBox<String>(new String[] {"非必填","必填"});
 		//选择后触发编辑完毕
 		jbox4.addActionListener(new ActionListener() {
 			@Override

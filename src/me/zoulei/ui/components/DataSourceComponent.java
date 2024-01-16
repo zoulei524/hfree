@@ -12,6 +12,7 @@ import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,10 +21,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import org.apache.commons.lang.StringUtils;
+
+import me.zoulei.Constants;
 import me.zoulei.MainApp;
 import me.zoulei.backend.jdbc.datasource.DataSource;
+import me.zoulei.dbc.ui.components.MainPanel;
 import me.zoulei.exception.myException;
 
 /**
@@ -38,52 +41,53 @@ public class DataSourceComponent extends JPanel{
 	private static final long serialVersionUID = -1192359776935702082L;
 	//表名搜索 点击连接后的的其他组件生成
     public SearchComponent searchComponent = new SearchComponent();
-	
+    
 	public DataSourceComponent() {
 		
 		String baseDir = System.getProperty("user.dir")+"/dsProp";
 		
 		//读取数据库配置
-		String url = baseDir + "/001.properties";
-		Properties p = new Properties();
-		Item[] items = null;
-		
-		try {
-			p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
-			//获取所有数据库配置
-			File[] listFiles = new File(baseDir).listFiles();
-			items = new Item[listFiles.length];
-			int i=0;
-			for(File f : listFiles) {
-				Properties fp = new Properties();
-				fp.load(new InputStreamReader(new FileInputStream(f), "utf-8"));
-				items[i++] = new Item(fp.getProperty("desc"), fp, f);
+//		String url = baseDir + "/001.properties";
+//		Properties p = new Properties();
+		if(Constants.items==null) {
+			try {
+				//p.load(new InputStreamReader(new FileInputStream(url), "utf-8"));
+				//获取所有数据库配置
+				File[] listFiles = new File(baseDir).listFiles();
+				Constants.items = new Item[listFiles.length];
+				int i=0;
+				for(File f : listFiles) {
+					Properties fp = new Properties();
+					fp.load(new InputStreamReader(new FileInputStream(f), "utf-8"));
+					Constants.items[i++] = new Item(fp.getProperty("desc"), fp, f);
+				}
+				
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(MainApp.mainFrame, "读取1.properties失败："+e.getMessage());
+				e.printStackTrace();
+				System.exit(0);
 			}
-			
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(MainApp.mainFrame, "读取1.properties失败："+e.getMessage());
-			e.printStackTrace();
-			System.exit(0);
 		}
 		
 		//选择数据库配置控件
-		JComboBox<Item> dbSource = new JComboBox<Item>(items);
+		JComboBox<Item> dbSource = new JComboBox<Item>(Constants.items);
 		dbSource.setSize(60, 30);
 		//ui初始化
 		JLabel  dslabel= new JLabel("数据库: ", JLabel.LEFT);
-		JTextField dsText = new JTextField(p.getProperty("DBType"),5);
+		JComboBox<String> dsText = new JComboBox<String>(Constants.dbTypes);
+		//JTextField dsText = new JTextField("",5);
 		
 		JLabel  driverlabel= new JLabel("驱动: ", JLabel.LEFT);
-		JTextField driverText = new JTextField(p.getProperty("forname"),14);
+		JTextField driverText = new JTextField("",14);
 		
 		JLabel  urllabel= new JLabel("jdbc-URL: ", JLabel.LEFT);
-		JTextField urlText = new JTextField(p.getProperty("url"),30);
+		JTextField urlText = new JTextField("",30);
 		
 		JLabel  namelabel= new JLabel("用户名: ", JLabel.RIGHT);
-		JTextField userText = new JTextField(p.getProperty("user"),12);
+		JTextField userText = new JTextField("",12);
 		
 		JLabel  passwordLabel = new JLabel("密码: ", JLabel.CENTER);
-		JTextField passwordText = new JTextField(p.getProperty("password"),12);      
+		JTextField passwordText = new JTextField("",12);      
 
 		JButton loginButton = new JButton("连接数据库");
 		loginButton.addActionListener(new ActionListener() {
@@ -95,7 +99,7 @@ public class DataSourceComponent extends JPanel{
 	            DataSource.dsprop.setProperty("url", urlText.getText());
 	            DataSource.dsprop.setProperty("forname", driverText.getText());
 	            try {
-	            	DataSource.DBType = dsText.getText();
+	            	DataSource.DBType = dsText.getSelectedItem().toString();
 					DataSource.testDMConn();
 					//JOptionPane.showMessageDialog(MainApp.mainFrame, "连接成功！");    
 					//表格配置组件
@@ -122,21 +126,37 @@ public class DataSourceComponent extends JPanel{
 		
 		JButton saveButton = new JButton("保存连接");
 		saveButton.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {    
-	        	 Item item = (Item) dbSource.getSelectedItem();
-	        	 if(item!=null) {
+			public void actionPerformed(ActionEvent e) {    
+				Item item = (Item) dbSource.getSelectedItem();
+				if(item!=null) {
+					String name = JOptionPane.showInputDialog("连接名称：",item);
+					if(StringUtils.isEmpty(name)) {
+						return;
+					}
 					Properties p = item.getProp();
 					p.setProperty("user", userText.getText());
-		            p.setProperty("password", passwordText.getText());
-		            p.setProperty("url", urlText.getText());
-		            p.setProperty("forname", driverText.getText());
-		            p.setProperty("DBType", dsText.getText());
-		            try {
-		            	item.getFile().delete();
-		            	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(item.getFile()), "utf-8");
+					p.setProperty("password", passwordText.getText());
+					p.setProperty("url", urlText.getText());
+					p.setProperty("forname", driverText.getText());
+					p.setProperty("DBType", dsText.getSelectedItem().toString());
+					p.setProperty("desc", name);
+					try {
+						item.getFile().delete();
+						OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(item.getFile()), "utf-8");
 						p.store(outputStreamWriter, new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date()));
 						outputStreamWriter.close();
 						JOptionPane.showMessageDialog(MainApp.mainFrame, "保存成功！"); 
+						//刷新下拉选
+						//dbSource.removeAllItems();
+						for (int i = 0; i < Constants.items.length; i++) {
+							Item m = Constants.items[i];
+							if(item.getKey().equals(m.getKey())) {
+								item.setKey(name);
+								dbSource.requestFocus();
+								break;
+							}
+							//dbSource.addItem(m);
+						}
 					} catch (IOException e1) {
 						e1.printStackTrace();
 						JOptionPane.showMessageDialog(MainApp.mainFrame, "保存失败："+e1.getMessage());    
@@ -146,6 +166,47 @@ public class DataSourceComponent extends JPanel{
 	         }
 		});
 		
+		
+		
+		JButton saveAsButton = new JButton("另存为");
+		saveAsButton.addActionListener(new ActionListener() {
+	         public void actionPerformed(ActionEvent e) {    
+	        	 Item item = (Item) dbSource.getSelectedItem();
+	        	 if(item!=null) {
+	        		String name = JOptionPane.showInputDialog("请输入名称：");
+					if(StringUtils.isEmpty(name)) {
+						return;
+					}
+					Properties p = new Properties();
+					p.setProperty("user", userText.getText());
+		            p.setProperty("password", passwordText.getText());
+		            p.setProperty("url", urlText.getText());
+		            p.setProperty("forname", driverText.getText());
+		            p.setProperty("DBType", dsText.getSelectedItem().toString());
+		            p.setProperty("desc", name);
+		            try {
+		            	//原文件不删除
+		            	//item.getFile().delete();
+		            	int itemCount = dbSource.getItemCount()+1;
+		            	
+		            	File newFile = new File(baseDir + "/"+String.format("%03d", itemCount)
+		            					+(UUID.randomUUID().toString().replaceAll("-", ""))+".properties");
+		            	OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(newFile), "utf-8");
+						p.store(outputStreamWriter, new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date()));
+						outputStreamWriter.close();
+						Item newitem = new Item(name, p, newFile);
+						dbSource.addItem(newitem);
+						dbSource.setSelectedItem(newitem);
+						Constants.addItem(newitem);
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存成功！"); 
+					} catch (IOException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "保存失败："+e1.getMessage());    
+					}
+
+	        	 }
+	         }
+		});
 		
 	    this.setLayout(new FlowLayout());//FlowLayout是默认布局，它以方向流布局组件。
 	    //数据源选择控件
@@ -157,7 +218,7 @@ public class DataSourceComponent extends JPanel{
 				Item item = (Item) dbSource.getSelectedItem();
 				if(item!=null) {
 					Properties p = item.getProp();
-					dsText.setText(p.getProperty("DBType"));
+					dsText.setSelectedItem(p.getProperty("DBType"));
 					driverText.setText(p.getProperty("forname"));
 					urlText.setText(p.getProperty("url"));
 					userText.setText(p.getProperty("user"));
@@ -186,21 +247,10 @@ public class DataSourceComponent extends JPanel{
 	    this.add(passwordText);
 	    this.add(loginButton);
 	    this.add(saveButton);
+	    this.add(saveAsButton);
 	    //位置及大小
 	    //controlPanel.setBounds(0, 5, 1700, 35);
+	    dbSource.setSelectedIndex(0);
 	}
 	
-	/**
-	 * 表名选择下拉框
-	 */
-	@Data
-	@AllArgsConstructor
-	public class Item {
-		private String key;
-		private Properties prop;
-		private File file;
-		public String toString(){
-			return key;
-		}
-	}
 }

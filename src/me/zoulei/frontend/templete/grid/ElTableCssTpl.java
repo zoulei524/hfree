@@ -90,7 +90,7 @@ public class ElTableCssTpl {
 		 */
 		CSSClassNameNode eltablebtn = new CSSClassNameNode("el-table__body .el-button--text span","表格单元格内按钮样式");
 		eltablebtn.setPrefix("/deep/.");//前缀不要加“.”了
-		eltablebtn.addAttr(new CSSAttr("margin", "0 10px"));
+		//eltablebtn.addAttr(new CSSAttr("margin", "0 10px"));
 		eltablebtn.addAttr(new CSSAttr("display", "inline-block"));
 		info_box.append(eltablebtn);
 		
@@ -144,6 +144,8 @@ public class ElTableCssTpl {
 					.addAttr(new CSSAttr("margin-top", "10px"))
 					.addAttr(new CSSAttr("overflow-y", "auto"))
 					.addAttr(new CSSAttr("overflow-x", "hidden"))
+					.addAttr(new CSSAttr("background", "#f4f4f4", "表单背景颜色"))
+					.addAttr(new CSSAttr("padding-top", "15px"))
 					;
 			info_page.append(elform);
 			
