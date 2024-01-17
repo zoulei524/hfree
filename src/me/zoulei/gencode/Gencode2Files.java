@@ -120,15 +120,15 @@ public class Gencode2Files {
 		    is = this.getClass().getResourceAsStream("ftl/serviceImp.ftl");
 			tpl = IOUtils.toString(is,"utf-8");
 			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
-			new File(servicedir+ "imp/").mkdir();
-			File serviceImpfile = new File(servicedir+ "imp/" + initcap(name) + "ServiceImp.java");
+			new File(servicedir+ "impl/").mkdir();
+			File serviceImpfile = new File(servicedir+ "impl/" + initcap(name) + "ServiceImpl.java");
 			result = new FileWriter(serviceImpfile);
 			params.put("content", codemap.get("  ServiceImp   ")[0]);
 		    template.process(params, result);
 		    result.close();
 		    is.close();
 		    
-		    File excelfile = new File(servicedir+ "imp/" + params.get("entity") + "Excel.java");
+		    File excelfile = new File(servicedir+ "impl/" + params.get("entity") + "Excel.java");
 		    excelfile.createNewFile();
 		    result = new FileWriter(excelfile);
 		    result.write(codemap.get("  ExcelExp   ")[0]);

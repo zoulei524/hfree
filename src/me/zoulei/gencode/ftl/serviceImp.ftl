@@ -20,7 +20,7 @@ import com.insigma.odin.framework.persistence.HBSession;
 
 
 @Service
-public class ${name}Impl implements ${name}Service {
+public class ${name}ServiceImpl implements ${name}Service {
 
 	@Autowired
 	private ${name}Dao dao;

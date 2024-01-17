@@ -232,7 +232,7 @@ public class ElTableTpl {
 				.addAttr(new VueAttr(":rules","rules"))
 				.addAttr(new VueAttr("ref",tablenameL + "Form"))
 				.addAttr(new VueAttr(":model",tablenameL+"EntityData"))
-				.addAttr(new VueAttr("label-width","80px"))
+				.addAttr(new VueAttr("label-width","100px"))
 				.addAttr(new VueAttr("class","elform"))
 				.addAttr(new VueAttr(":disabled","booleanObj.is"+tablenameCap+"EditDisabled"))
 				.addAttr(new VueAttr("v-if","booleanObj.isShow"+tablenameCap+"Form"))
@@ -247,7 +247,7 @@ public class ElTableTpl {
       :rules="rules"
       ref="form"
       :model="y34042"
-      label-width="80px"
+      label-width="100px"
       class="elform"
       :disabled="booleanObj.isY34042EditDisabled"-----后面加
     >
@@ -319,7 +319,7 @@ public class ElTableTpl {
 				}else if("弹出框".equals(column.get("editortype"))) {
 					Node eplpublicwindowedit = new VueNode("epl-public-window-edit")
 							.addAttr(new VueAttr("colspan", "8"))
-							.addAttr(new VueAttr("labelWidth", "80", "与上面label-width保持一致"))
+							.addAttr(new VueAttr("labelWidth", "100", "与上面label-width保持一致"))
 							.addAttr(new VueAttr("label", column.get("comments")))
 							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应
 							//.addAttr(new VueAttr("style", "width: 100%"))//宽度 2024年1月15日15:15:41
@@ -334,7 +334,8 @@ public class ElTableTpl {
 				}else if("下拉选".equals(column.get("editortype"))) {
 					Node epselect = new VueNode("ep-select")
 							.addAttr(new VueAttr("colspan", "8"))
-							.addAttr(new VueAttr("labelWidth", "80", "与上面label-width保持一致"))
+							.addAttr(new VueAttr("isHideKey", "true"))
+							.addAttr(new VueAttr("labelWidth", "100", "与上面label-width保持一致"))
 							.addAttr(new VueAttr(":custom-path", "dataUrl"))
 							//.addAttr(new VueAttr("labelWidth", "0"))
 							.addAttr(new VueAttr("label", column.get("comments")))
@@ -348,8 +349,7 @@ public class ElTableTpl {
 				}else if("公务员常用时间控件".equals(column.get("editortype"))) {//2024年1月15日19:25:02 时间控件
 					Node epselect = new VueNode("epl-timeinput")
 							.addAttr(new VueAttr("colspan", "8"))
-							.addAttr(new VueAttr("isHideKey", "true"))
-							.addAttr(new VueAttr("labelWidth", "80", "与上面label-width保持一致"))
+							.addAttr(new VueAttr("labelWidth", "100", "与上面label-width保持一致"))
 							.addAttr(new VueAttr("label", column.get("comments")))
 							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应
 							.addAttr(new VueAttr(":property", tablenameL+"EntityData."+column.get("column_name").toLowerCase()))
