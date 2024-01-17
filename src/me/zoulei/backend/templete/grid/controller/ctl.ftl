@@ -1,7 +1,5 @@
-	//import com.alibaba.fastjson.JSONObject;
 	
-	@Autowired
-	private PageInitService pageInitService;
+	
 	//代码初始化
 	@PostMapping("/doInit")
 	public ResponseMessage doInit(@RequestBody JSONObject jsonObject) {

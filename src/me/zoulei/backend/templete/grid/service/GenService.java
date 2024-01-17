@@ -23,6 +23,8 @@ public class GenService {
 	
 	/**输出的java代码*/
 	private String code;
+	private String codeimp;
+	private String codeexcel;
 	
 	public GenService(TableMetaDataConfig config) throws Exception {
 		
@@ -37,7 +39,26 @@ public class GenService {
 		Template template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
 		StringWriter result = new StringWriter();
 	    template.process(params, result);
+	    is.close();
 		this.code = result.toString();
+		
+		
+		is = this.getClass().getResourceAsStream("serviceImp.ftl");
+		tpl = IOUtils.toString(is,"utf-8");
+		template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+		result = new StringWriter();
+	    template.process(params, result);
+	    is.close();
+		this.codeimp = result.toString();
+		
+		
+		is = this.getClass().getResourceAsStream("excel.ftl");
+		tpl = IOUtils.toString(is,"utf-8");
+		template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+		result = new StringWriter();
+	    template.process(params, result);
+	    is.close();
+		this.codeexcel = result.toString();
 	}
 	
 	public static void main(String[] args) throws Exception {

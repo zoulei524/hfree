@@ -62,6 +62,8 @@ public class Gencode {
 		codemap.put("    Dto   ", new String[] {genEntity.getDto_content(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put(" Controller ", new String[] {ctl.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("  Service   ", new String[] {serv.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put("  ServiceImp   ", new String[] {serv.getCodeimp(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+		codemap.put("  ExcelExp   ", new String[] {serv.getCodeexcel(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Dao     ", new String[] {dao.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Xml     ", new String[] {xml.getCode(), SyntaxConstants.SYNTAX_STYLE_XML});
 		

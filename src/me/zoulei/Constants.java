@@ -12,7 +12,8 @@ public class Constants {
 	
 	public static String VERSION = "1.0.0";
 	
-	/**接口路径 RequestMapping*/
+	//2024年1月17日15:42:06 废弃
+	/**接口路径 RequestMapping  */
 	public static String DATA_URL = "/Test";
 	/**属性是否换行 配置项*/
 	public static Boolean ATTR_NOT_NEW_LINE = true;

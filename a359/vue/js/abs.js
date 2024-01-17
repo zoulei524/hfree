@@ -1,47 +1,60 @@
 
 
 export default {
-	name: "${tablename}-page",
+	name: "a359-page",
 	components: {
         
 	},
 	data() {
 		return {
-			dataUrl: '/business/${tablename}', //请求地址
-			${tablename}TableData: [],//表格数据对象
+			dataUrl: '/business/a359', //请求地址
+			a359TableData: [],//表格数据对象
 			//单条数据对象 用于编辑
-${entityJSON},
-			${tablename}EntityDataText: '',
+			a359EntityData : {
+				a35900: "", /** 主键 */
+				a0000: "", /** 人员唯一标识符 */
+				a35901: {key: "", value: "", p: "E", codetype: "ZZGB132"}, /** 类别 */
+				a35902: {key: "", value: "", p: "E", codetype: "A0215A_YJB"}, /** 级别 */
+				a35903: {key: "", value: "", p: "E", codetype: ""}, /** 开始时间 */
+				a35904: {key: "", value: "", p: "E", codetype: ""}, /** 结束时间 */
+				a35991: "",
+				a35991_str: "", /** 创建时间 */
+				a35992: "", /** 创建用户编码 */
+				a35994: "",
+				a35994_str: "", /** 修改时间 */
+				a35995: "", /** 更新用户编码 */
+			},
+			a359EntityDataText: '',
 			
-<#if config.iscrud>
 			//这里放布尔类型的变量
 			booleanObj: {
-				is${entity}EditDisabled: true,//表格是否可编辑
-				isShow${entity}Form:false,//是否显示编辑区域
+				isA359EditDisabled: true,//表格是否可编辑
+				isShowA359Form:false,//是否显示编辑区域
 			},
 			//提示框对象
 			dialog: {
 				visible: false,//显示隐藏
 				wintitle: '',//窗口左上角title
 				msg: '',//提示信息
-				${config.pk} : '',//${tablename}主键
+				a35900 : '',//a359主键
 			},
 			//表单校验规则，只生成不为空校验
 			rules: {
-${config.rules}
+
 			},
-</#if>      
 
 			//分页页面默认20行一页，若不分页默认显示500行
-			${tablename}PageInfo: {
+			a359PageInfo: {
 				total: 0, //总行数
-				pageSize: ${config.pagination?then(20,500)}, //每页显示数：${config.pagination?then('分页','不分页')}
+				pageSize: 20, //每页显示数：分页
 				currentPage: 1, //当前页
 			},
 
 			//下拉选的代码
 			codeTypes: {
-${config.codetype_json}
+				ZZGB132: [], //艰苦地区类别(浙江消防干部)
+				A0215A_YJB: [], //专业技术职务(浙江消防干部)
+
 			}, 
                
 		};
@@ -54,15 +67,6 @@ ${config.codetype_json}
 	
 	created(){
 		//这里是针对ep-select的代码初始化 没有就注释了
-		<#if config.codetype_json=="">
-		let param = {
-			path:this.dataUrl,
-			codeTypes: this.codeTypes,
-		};
-		//sessionStorage.removeItem(this.dataUrl);
-		//this.$store.dispatch("SET_PATH", this.dataUrl);
-		//this.$store.dispatch("SET_INIT", param);
-        <#else>
         let param = {
 			path:this.dataUrl,
 			codeTypes: this.codeTypes,
@@ -70,21 +74,18 @@ ${config.codetype_json}
 		sessionStorage.removeItem(this.dataUrl);
 		this.$store.dispatch("SET_PATH", this.dataUrl);
 		this.$store.dispatch("SET_INIT", param);
-        </#if>
 	},
 	
 	mounted() {
 		// 查询列表数据
-		this.query${entity}List();
-<#if config.iscrud>
+		this.queryA359List();
 		//将空对象序列化成文本，通过反序列化重置对象
-		this.${tablename}EntityDataText = JSON.stringify(this.${tablename}EntityData);
+		this.a359EntityDataText = JSON.stringify(this.a359EntityData);
 		//这里数据维护若超出边界，设置高度，通过纵向滚动条显示
 		//let ef = $('.elform');
 		setTimeout(() => {
 			//ef.height(ef.parent().parent().parent().parent().height()-565)
 		}, 500);
-</#if>      
 	},
 	
 	destroyed(){
@@ -98,56 +99,51 @@ ${config.codetype_json}
     
 	methods: {
 		// 表格行单击事件 用户查看
-		row${entity}Click(row, column, event) {
-<#if config.iscrud>
+		rowA359Click(row, column, event) {
 			//获取选中条的数据
-			this.query${entity}Data(row.${config.pk});
+			this.queryA359Data(row.a35900);
 			//表单可编辑并显示保存和取消按钮
-			this.booleanObj.is${entity}EditDisabled = true;
+			this.booleanObj.isA359EditDisabled = true;
 			//显示表单
-			this.booleanObj.isShow${entity}Form = true;
-</#if>            
+			this.booleanObj.isShowA359Form = true;
 		},
 		
 		// 表格行双击事件 用于双击编辑
-		row${entity}DblClick(row, column, event) {
-<#if config.iscrud>
+		rowA359DblClick(row, column, event) {
 		    //获取选中条的数据
-		    this.query${entity}Data(row.${config.pk});
+		    this.queryA359Data(row.a35900);
 		    this.setEditable();
-</#if>
 		},
        
 		// 查询列表数据
-		query${entity}List() {
+		queryA359List() {
 			let _this = this;
-			let url = _this.dataUrl + "/get${entity}List";
+			let url = _this.dataUrl + "/getA359List";
 			//请求参数
 			let param = {
-                pageInfo: this.${tablename}PageInfo,
+                pageInfo: this.a359PageInfo,
 			};
 			_this.$api.commonPost(url, param).then(function (res) {
 				if (res.status == "0") {
 					//表格数据
-					_this.${tablename}TableData = res.data.tableData;
-					_this.${tablename}PageInfo = res.data.pageInfo;
+					_this.a359TableData = res.data.tableData;
+					_this.a359PageInfo = res.data.pageInfo;
 				}
 			});
 		},
 		
-<#if config.iscrud>		
 		//新增
-		add${entity}Info() {
+		addA359Info() {
 			//表单控件值重置
-			this.reset${entity}Fields();
+			this.resetA359Fields();
 			//表单可编辑并显示保存和取消按钮
 			this.setEditable();
 		},
 
         // 编辑按钮
-		handle${entity}Edit(data) {
+		handleA359Edit(data) {
 			//获取选中条的数据
-		    this.query${entity}Data(data.${config.pk});
+		    this.queryA359Data(data.a35900);
 		    //表单可编辑并显示保存和取消按钮
 		    this.setEditable();
 		},
@@ -155,28 +151,28 @@ ${config.codetype_json}
 		//设置可编辑
 		setEditable(){
 		    //表单可编辑并显示保存和取消按钮
-		    this.booleanObj.is${entity}EditDisabled = false;
+		    this.booleanObj.isA359EditDisabled = false;
 		    //显示表单
-		    this.booleanObj.isShow${entity}Form = true;
+		    this.booleanObj.isShowA359Form = true;
 		},
 		
 		// 根据主键id查询数据
-		query${entity}Data(${config.pk}) {
+		queryA359Data(a35900) {
 		    let _this = this;
-		    let url = _this.dataUrl + "/get${entity}InfoById";
+		    let url = _this.dataUrl + "/getA359InfoById";
 		    let param = {
-		        ${config.pk},
+		        a35900,
 		    };
 		    _this.$api.commonPost(url, param).then(function (res) {
 		        if (res.status == "0") {
-		            _this.${tablename}EntityData = res.data;
+		            _this.a359EntityData = res.data;
 					//弹出框是否禁用
-					for (let x in _this.${tablename}EntityData) {
-						if (_this.${tablename}EntityData[x].p) {
-							if (_this.booleanObj.is${entity}EditDisabled) {
-								_this.${tablename}EntityData[x].p = "D";
+					for (let x in _this.a359EntityData) {
+						if (_this.a359EntityData[x].p) {
+							if (_this.booleanObj.isA359EditDisabled) {
+								_this.a359EntityData[x].p = "D";
 							} else {
-								_this.${tablename}EntityData[x].p = "R";
+								_this.a359EntityData[x].p = "R";
 							}
 						}
 					}
@@ -187,10 +183,10 @@ ${config.codetype_json}
 		},
 
 		//保存前校验
-		save${entity}InfoValidate() {
-			this.$refs['${tablename}Form'].validate((valid) => {
+		saveA359InfoValidate() {
+			this.$refs['a359Form'].validate((valid) => {
 				if (valid) {//校验通过保存数据
-					this.save${entity}Info();
+					this.saveA359Info();
 				} else {
 					return false;
 				}
@@ -199,48 +195,48 @@ ${config.codetype_json}
 		},
 
 		//保存
-		save${entity}Info() {
+		saveA359Info() {
 			let _this = this;
-			let url = _this.dataUrl + "/save${entity}Info";
+			let url = _this.dataUrl + "/saveA359Info";
 			let param = {
-				${tablename}EntityData: _this.${tablename}EntityData,
+				a359EntityData: _this.a359EntityData,
 			};
 			_this.$api.commonPost(url, param).then(function (res) {
 				if (res.status == "0") {
 					_this.$message.success("保存成功！");
 					//重新查询列表
-					_this.query${entity}List();
+					_this.queryA359List();
 					//表单设置不可编辑并隐藏保存和取消按钮
-					_this.booleanObj.is${entity}EditDisabled = true;
+					_this.booleanObj.isA359EditDisabled = true;
 					//表单控件值重置
-					_this.reset${entity}Fields();
+					_this.resetA359Fields();
 				} else {
 					//显示错误信息
 					_this.$message.error(res.message);
 					//重新查询列表
-					_this.query${entity}List();
+					_this.queryA359List();
 				}
 			});
 		},
 		
 		// 删除
-		handle${entity}Delete() {
+		handleA359Delete() {
 			//已经确删除了，这里隐藏提示框
 			this.dialog.visible = false
 			let _this = this;
 			//主键作为参数，根据主键删除
 			let param = {
-				${config.pk}: this.dialog.${config.pk},
+				a35900: this.dialog.a35900,
 			};
-			let url = _this.dataUrl + "/delete${entity}ById";
+			let url = _this.dataUrl + "/deleteA359ById";
 			_this.$api.commonPost(url, param).then(function (res) {
 				if (res.status == "0") {
 					//重新加载列表
-					_this.query${entity}List();
+					_this.queryA359List();
 					//表单控件值重置
-					_this.reset${entity}Fields();
+					_this.resetA359Fields();
 					//表单设置不可编辑并隐藏保存和取消按钮
-					_this.booleanObj.is${entity}EditDisabled = true;
+					_this.booleanObj.isA359EditDisabled = true;
 					_this.$message.success("删除成功！");
 				} else {
 					_this.$message.error(res.message);
@@ -250,19 +246,17 @@ ${config.codetype_json}
 		},
 		
 		//清空表单
-		reset${entity}Fields() {
-			this.${tablename}EntityData = JSON.parse(this.${tablename}EntityDataText);
+		resetA359Fields() {
+			this.a359EntityData = JSON.parse(this.a359EntityDataText);
 		},
-</#if> 		
 		
-<#if config.exportExcel>		
 		// 导出全部列表数据到excel
-		export${entity}Excel() {
+		exportA359Excel() {
 			let _this = this;
-			let url = _this.dataUrl + "/export${entity}Excel";
+			let url = _this.dataUrl + "/exportA359Excel";
 			//请求参数
 			let param = {
-                pageInfo: this.${tablename}PageInfo,
+                pageInfo: this.a359PageInfo,
 			};
 			const loading = this.$loading({
 				target: $('.info-page')[0],
@@ -281,7 +275,6 @@ ${config.codetype_json}
 				}
 			});
 		},
- </#if>
         
 	},
 };

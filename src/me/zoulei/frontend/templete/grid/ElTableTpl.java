@@ -348,6 +348,7 @@ public class ElTableTpl {
 				}else if("公务员常用时间控件".equals(column.get("editortype"))) {//2024年1月15日19:25:02 时间控件
 					Node epselect = new VueNode("epl-timeinput")
 							.addAttr(new VueAttr("colspan", "8"))
+							.addAttr(new VueAttr("isHideKey", "true"))
 							.addAttr(new VueAttr("labelWidth", "80", "与上面label-width保持一致"))
 							.addAttr(new VueAttr("label", column.get("comments")))
 							.addAttr(new VueAttr("name", column.get("column_name").toLowerCase()))//这个相当于上面的prop跟校验的key相对应

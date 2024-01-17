@@ -1,12 +1,19 @@
 package me.zoulei.gencode;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.Version;
+import me.zoulei.backend.templete.grid.CFGParse;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 
 /**
@@ -56,6 +63,7 @@ public class Gencode2Files {
 			String javadir = gendir + "/java";
 			new File(javadir).mkdir();
 			
+			/***前端代码**********************/
 			File vuefile = new File(vuedir + "/" + initlow(name) + ".vue");
 			vuefile.createNewFile();
 			
@@ -73,8 +81,98 @@ public class Gencode2Files {
 			String js = codemap.get("     JS     ")[0] ;
 			jsfw.write(js);
 			jsfw.close();
+			/********前端代码结束***************************/
 			
-		} catch (IOException e) {
+			//配置项
+			HashMap<String, Object> params = new HashMap<String, Object>();
+			CFGParse.parse(params, config);
+			params.put("content", codemap.get(" Controller ")[0]);
+			params.put("name", this.initcap(name));
+			
+			/*****controller********************************/
+			InputStream is = this.getClass().getResourceAsStream("ftl/ctl.ftl");
+			String tpl = IOUtils.toString(is,"utf-8");
+			Template template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			//输出目录
+			new File(javadir + "/controller").mkdir();
+			File controllerfile = new File(javadir + "/controller/" + initcap(name) + "Controller.java");
+			FileWriter result = new FileWriter(controllerfile);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+			/*****controller********************************/
+			
+		    
+		    /*****service**********************************************************************/
+		    is = this.getClass().getResourceAsStream("ftl/service.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			//输出目录
+			String servicedir = javadir + "/service/";
+			new File(servicedir).mkdir();
+			File servicefile = new File(servicedir+ initcap(name) + "Service.java");
+			result = new FileWriter(servicefile);
+			params.put("content", codemap.get("  Service   ")[0]);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+		    
+		    is = this.getClass().getResourceAsStream("ftl/serviceImp.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			new File(servicedir+ "imp/").mkdir();
+			File serviceImpfile = new File(servicedir+ "imp/" + initcap(name) + "ServiceImp.java");
+			result = new FileWriter(serviceImpfile);
+			params.put("content", codemap.get("  ServiceImp   ")[0]);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+		    
+		    File excelfile = new File(servicedir+ "imp/" + params.get("entity") + "Excel.java");
+		    excelfile.createNewFile();
+		    result = new FileWriter(excelfile);
+		    result.write(codemap.get("  ExcelExp   ")[0]);
+		    result.close();
+		    /*****service***************************************************************************/
+		    
+		    /*****dao**********************************************************************/
+		    is = this.getClass().getResourceAsStream("ftl/dao.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			//输出目录
+			String daodir = javadir + "/dao/";
+			new File(daodir).mkdir();
+			File daofile = new File(daodir+ initcap(name) + "Dao.java");
+			result = new FileWriter(daofile);
+			params.put("content", codemap.get("    Dao     ")[0]);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+		    
+		    
+		    is = this.getClass().getResourceAsStream("ftl/xml.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+		    File xmlfile = new File(daodir+ initcap(name) + "Dao.sql.xml");
+			result = new FileWriter(xmlfile);
+			params.put("content", codemap.get("    Xml     ")[0]);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+		    
+		    //实体类
+		    File entityfile = new File(daodir + params.get("entity") + ".java");
+			jsfile.createNewFile();
+			result = new FileWriter(entityfile);
+			result.write(codemap.get("    实体类   ")[0]);
+			result.close();
+		    /*****dao**********************************************************************/
+			
+			//打开文件夹
+			Desktop desktop = Desktop.getDesktop();
+			desktop.open(f_gendir);
+			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

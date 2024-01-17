@@ -66,7 +66,7 @@ public class Config {
 	        }else {
 	        	//生成配置
 	        	SafeProperties p = new SafeProperties();
-	        	p.setProperty("DATA_URL", Constants.DATA_URL,"接口路径 RequestMapping");
+	        	p.setProperty("DATA_URL", Constants.DATA_URL,"接口路径 RequestMapping。 已废弃 接口默认拼接表名，生成后自己改");
 	        	
 	        	p.setProperty("ATTR_NOT_NEW_LINE", Constants.ATTR_NOT_NEW_LINE.toString(),"属性是否换行");
 	        	

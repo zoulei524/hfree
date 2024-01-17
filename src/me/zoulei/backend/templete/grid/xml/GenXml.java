@@ -42,6 +42,7 @@ public class GenXml {
 		Template template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
 		StringWriter result = new StringWriter();
 	    template.process(params, result);
+	    is.close();
 		this.code = result.toString();
 	}
 	
