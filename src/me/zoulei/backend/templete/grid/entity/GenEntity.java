@@ -111,6 +111,12 @@ public class GenEntity {
             sb.append("import org.hibernate.annotations.Parameter;\n"); 
             sb.append("import org.hibernate.annotations.Type;\n"); 
             sb.append("import com.insigma.business.components.hyfield.HYField;\n"); 
+            sb.append("import com.insigma.business.components.hyfield.HYfieldType;\n"); 
+        }else {
+        	sb.append("import org.hibernate.annotations.Parameter;\n"); 
+            sb.append("import org.hibernate.annotations.Type;\n"); 
+            sb.append("import com.insigma.business.components.hyfield.HYField;\n"); 
+            sb.append("import com.insigma.business.components.hyfield.HYfieldType;\n"); 
         }
         
         sb.append("import java.io.Serializable;\n\n"); 
@@ -199,30 +205,32 @@ public class GenEntity {
                     jsonSB.append("\n\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + "_str: " +"\"\","  );
                 }
         	}else {
-        		if("enety".equals(type)) {
+        		//if("enety".equals(type)) {
         			//2024年1月15日19:10:50  R—必填，E—可编辑，H—隐藏，D—不可编辑, E,R—编辑可变为必填
         			String pvalue = "E";
         			if("必填".equals(fconf.get("validate"))) {
         				pvalue = "R";
         			}
         			
-        			String controltype = "text";
+        			String controltype = "";
+        			String jstime = "";
         			if("公务员常用时间控件".equals(fconf.get("editortype"))) {
-        				controltype = "date";
+        				controltype = "HYfieldType.DATE";
+        				jstime = ", time: \"\"";
         			}else if("下拉选".equals(fconf.get("editortype"))) {
-        				controltype = "select";
+        				controltype = "HYfieldType.SELECT";
         			}else if("弹出框".equals(fconf.get("editortype"))) {
-        				controltype = "popwin";
+        				controltype = "HYfieldType.POPWIN";
         			}
         			String timetype = "@Parameter(name =\"type\", value =\""+controltype+"\"),";
         			
         			sb.append("\t@Type(type =\"com.insigma.business.components.hyfield.HYfieldType\", parameters = { "+timetype+" @Parameter(name =\"codetype\", value =\""+fconf.get("codetype")+"\"), @Parameter(name =\"p\", value =\""+pvalue+"\")})\n");
-        			sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
+        			sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
         			//sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
-        		}else {
-            		sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
-        		}
-                jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"{key: \"\", value: \"\", p: \"E\", codetype: \""+fconf.get("codetype")+"\"},"  );
+//        		}else {
+//            		sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
+//        		}
+                jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"{key: \"\", value: \"\", p: \"E\", codetype: \""+fconf.get("codetype")+"\""+jstime+"},"  );
         	}
             
             if(StringUtil.isNotEmpty(fconf.get("comments"))) {

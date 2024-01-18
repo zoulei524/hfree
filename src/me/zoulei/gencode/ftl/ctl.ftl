@@ -25,15 +25,15 @@ public class ${name}Controller {
 	
 	private Log log = LogFactory.getLog(this.getClass());
 
-    @Autowired
-    private CurrentUserService currentUserService;
-
+	@Autowired
+	private CurrentUserService currentUserService;
+	
 	@Autowired
 	private PageInitService pageInitService;
 	
-    @Autowired
-    private ${name}Service service;
-    
+	@Autowired
+	private ${name}Service service;
+
 ${content}
 
 }
