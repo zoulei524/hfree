@@ -14,6 +14,7 @@ import me.zoulei.backend.templete.grid.entity.GenEntity;
 import me.zoulei.frontend.node.Node;
 import me.zoulei.frontend.node.vue.VueAttr;
 import me.zoulei.frontend.node.vue.VueNode;
+import me.zoulei.ui.components.ItemEnum;
 
 /**
 * @author zoulei 
@@ -53,7 +54,7 @@ public class GenTable {
 		List<Object> excelCFG = new ArrayList<Object>();
 		list.forEach(column->{
 			//表格列
-			if("显示".equals(column.get("visible"))) {
+			if(ItemEnum.A.toString().equals(column.get("visible"))||ItemEnum.C.toString().equals(column.get("visible"))) {
 				VueNode col = ElTableColTpl.getTPL();
 				col.setComments(col.getComments()+":"+(column.get("comments2")==null?column.get("comments"):column.get("comments2")));
 				//prop="yb001"

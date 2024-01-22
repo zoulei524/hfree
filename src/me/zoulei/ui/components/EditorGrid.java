@@ -134,7 +134,7 @@ public class EditorGrid extends JPanel {
     		tableDate[0][i] = column_name;
     		tableDate[1][i] = data_type+":"+data_length+":"+p;
     		//设置默认值
-    		tableDate[3][i] = "显示";
+    		tableDate[3][i] = ItemEnum.A.toString();
     		
     		tableDate[4][i] = "center";
     		//是否必输项校验
@@ -143,7 +143,7 @@ public class EditorGrid extends JPanel {
     		tableDate[6][i] = "文本";
     		
     		if("1".equals(p)) {//主键
-    			tableDate[3][i] = "不显示";
+    			tableDate[3][i] = ItemEnum.B.toString();
     			tableDate[5][i] = "必填";
     		}
     	}
@@ -382,7 +382,7 @@ public class EditorGrid extends JPanel {
         headers.add("字段名");
         headers.add("数据类型:长度:主键");
         headers.add("列宽");
-        headers.add("是否显示");
+        headers.add("显示维护");
         headers.add("水平对齐");
         headers.add("前端校验项");
         //表单控件类型 文本、公务员常用时间控件、codetype
@@ -643,7 +643,7 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 	public JBoxTestCell() {
 		JBoxTestCell boxcell = this;
 		//是否显示列配置
-		jbox2 = new JComboBox<String>(new String[] {"显示","不显示"});
+		jbox2 = new JComboBox<String>(new String[] {ItemEnum.A.toString(),ItemEnum.B.toString(),ItemEnum.C.toString(),ItemEnum.D.toString()});
 		//选择后触发编辑完毕
 		jbox2.addActionListener(new ActionListener() {
 			@Override

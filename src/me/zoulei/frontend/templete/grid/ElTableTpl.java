@@ -9,6 +9,7 @@ import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.frontend.node.Node;
 import me.zoulei.frontend.node.vue.VueAttr;
 import me.zoulei.frontend.node.vue.VueNode;
+import me.zoulei.ui.components.ItemEnum;
 
 /**
  * 2023年9月6日18:40:33 zoulei
@@ -294,7 +295,7 @@ public class ElTableTpl {
 		for(int i=0; i<list.size(); i++) {
 			HashMap<String, String> column = list.get(i);
 			//表格列
-			if("显示".equals(column.get("visible"))) {
+			if(ItemEnum.A.toString().equals(column.get("visible"))||ItemEnum.D.toString().equals(column.get("visible"))) {
 				if(colIndex++%3==0) {//三个一行
 					elrow = new VueNode("el-row");
 					elform.append(elrow);
