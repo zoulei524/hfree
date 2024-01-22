@@ -11,6 +11,10 @@ import lombok.Data;
  *  @Type(type ="com.insigma.business.components.hyfield.HYfieldType", 
  * 		parameters = { @Parameter(name ="codetype", value ="GB8561"), @Parameter(name ="p", value ="E")})
  * 2023年10月26日11:08:56 zoulei
+ *
+ *
+ * 2024年1月19日11:15:49
+ * 加上时间显示4位点2位
  */
 @Data
 public class HYField  implements Serializable{
@@ -24,6 +28,9 @@ public class HYField  implements Serializable{
 	
 	/**代码类别*/
 	private String codetype;
+	
+	/**如果是时间显示4位点2位*/
+	private String time = "";
 
 	public HYField() {
 	}
@@ -49,10 +56,12 @@ public class HYField  implements Serializable{
 		}
 		return this.value;
 	}
+	
 }
 
 
 
+/******************************分隔符****************************************************************************/
 
 
 
@@ -70,20 +79,24 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.insigma.business.QGGWY.QGGWY_PUB001.QGGWY_PUB001_0004.consts.Consiants;
+import com.insigma.business.ZZGBGL.ZZGBGL_GBZLGL.ZZGBGL_GBZLGL001.ZZGBGL_GBZLGL001_0001.controller.CadreRecruitmentController;
 import com.insigma.business.components.pub.SysCodeUtil;
+import com.insigma.common.exception.ServiceException;
 import com.insigma.framework.exception.AppException;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -106,6 +119,8 @@ public class HYBeanUtil {
 	
 	@Autowired
 	SysCodeUtil sysCodeUtil;
+
+    Log log= LogFactory.getLog(CadreRecruitmentController.class);
 	
 	/**
      * 将数据库查询返回的map对象转bean对象，bean可以有 HYField 类型的字段,针对有代码的对象
@@ -139,8 +154,25 @@ public class HYBeanUtil {
                     field.setAccessible(true);
                     //主要是针对代码字段
                     if (field.getType() == HYField.class) {
+                    	
+                    	//获取注解
+                    	Map<String, String> anno = new HashMap<String, String>();
+                    	Type[] annotationsByType = field.getAnnotationsByType(org.hibernate.annotations.Type.class);
+                    	Type type = annotationsByType[0];
+                    	Parameter[] parameters = type.parameters();
+                    	for(Parameter p : parameters) {
+                    		anno.put(p.name(), p.value());
+                    	}
+                    	// 2024年1月18日10:14:02 根据注解设置对象的值
+                    	String p_type = anno.get("type");
+                    	String p_codetype = anno.get("codetype");
+                    	String p_p = anno.get("p");
+                    	
                     	//dto里只允许这种HYField类型的字段
-                        HYField hf = (HYField) field.get(entity);
+                    	// 2024年1月18日10:14:54 HYField直接创建新对象
+                    	HYField hf = new HYField();
+                    	field.set(entity, hf);
+                        
                     	if(object.getClass() == JSONObject.class) {
                     		JSONObject hyObject = (JSONObject) object;
                         	String k = hyObject.getString("key");
@@ -149,16 +181,35 @@ public class HYBeanUtil {
                             hf.setValue(v);
     						hf.setKey(k);
     						hf.setP(p);
+    						hf.setCodetype(hyObject.getString("codetype"));
+    						hf.setTime(hyObject.getString("time"));
                     	}else {
-                    		//设置codetype的值
-                        	String codetype = hf.getCodetype();
-                        	if(codetype!=null) {
-        						String codeName = sysCodeUtil.getCodeName(codetype, object.toString());
-        						hf.setValue(codeName);
+                    		hf.setCodetype(p_codetype);
+                    		hf.setP(p_p);
+                    		//2024年1月18日17:32:55  下拉框或弹出框， 或者未定义类型按照代码转换赋值
+                    		if(HYfieldType.POPWIN.equals(p_type)||HYfieldType.SELECT.equals(p_type)||p_type==null||p_type.equals("")) {
+                    			//设置codetype的值
+                            	String codetype = hf.getCodetype();
+                            	if(codetype!=null) {
+            						String codeName = sysCodeUtil.getCodeName(codetype, object.toString());
+            						hf.setValue(codeName);
+            						hf.setKey(object.toString());
+                            	}else {
+                            		hf.setValue(object.toString());
+                            	}
+                    		}else if(HYfieldType.DATE.equals(p_type)) {
+                    			hf.setValue(object.toString());
         						hf.setKey(object.toString());
-                        	}else {
-                        		hf.setValue(object.toString());
-                        	}
+        						String v = object.toString();
+        		                v = v.replace(".", "");
+        						if(v.length()>=6) {
+        							hf.setTime(v.substring(0,4)+"."+v.substring(4,6));
+        						}else {
+        							hf.setTime("");
+        						}
+                    		}
+                    		
+                    		
                     	}
                     	
                     }else
@@ -172,6 +223,19 @@ public class HYBeanUtil {
                         Timestamp timestamp = (Timestamp) object;
                         if (field.getType() == LocalDateTime.class) {
                             field.set(entity, timestamp.toLocalDateTime());
+                        } else if (field.getType() == Timestamp.class) {
+                            field.set(entity, timestamp);
+                        }else if (field.getType() == java.util.Date.class) {
+                        	//Timestamp->java.util.Date
+                        	// 将Timestamp转换为LocalDateTime
+                            LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                            // 指定要转换到的时区（这里使用默认系统时区）
+                            ZoneId zoneId = ZoneId.systemDefault();
+                            // 根据时区获取ZonedDateTime对象
+                            java.time.ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zoneId);
+                            // 将ZonedDateTime转换为Date对象
+                            java.util.Date date = Date.from(zonedDateTime.toInstant());
+                        	field.set(entity, date);
                         }
                     } else if (object instanceof Date) {
                         Date date = (Date) object;
@@ -186,6 +250,13 @@ public class HYBeanUtil {
                             field.set(entity, bytes);
                         } else if (field.getType() == Boolean.class) {
                             field.set(entity, bytes.intValue() == 1);
+                        }
+                    } else if (object instanceof Integer) {
+                    	Integer integer = (Integer) object;
+                        if (field.getType() == Long.class) {
+                            field.set(entity, integer.longValue());
+                        } else if (field.getType() == object.getClass()) {
+                            field.set(entity, object);
                         }
                     } else if (field.getType() == object.getClass()) {
                         field.set(entity, object);
@@ -257,21 +328,62 @@ public class HYBeanUtil {
                     field.setAccessible(true);
                     //主要是针对代码字段
                     if (field.getType() == HYField.class) {
+                    	//获取注解
+                    	Map<String, String> anno = new HashMap<String, String>();
+                    	Type[] annotationsByType = field.getAnnotationsByType(org.hibernate.annotations.Type.class);
+                    	Type type = annotationsByType[0];
+                    	Parameter[] parameters = type.parameters();
+                    	for(Parameter par : parameters) {
+                    		anno.put(par.name(), par.value());
+                    	}
+                    	// 2024年1月18日10:14:02 根据注解设置对象的值
+                    	String p_type = anno.get("type");
+                    	String p_codetype = anno.get("codetype");
+                    	String p_p = anno.get("p");
+                    	
                     	//dto里只允许这种HYField类型的字段
-                        HYField hf = (HYField) field.get(entity);
-                        //pageData对应的HYField设置到bean上
-                        if(object.getClass() == JSONObject.class) {
-                        	JSONObject hyObject = (JSONObject) object;
+                    	// 2024年1月18日10:14:54 HYField直接创建新对象
+                    	HYField hf = new HYField();
+                    	field.set(entity, hf);
+                        
+                    	if(object.getClass() == JSONObject.class) {
+                    		JSONObject hyObject = (JSONObject) object;
                         	k = hyObject.getString("key");
-                            v = hyObject.getString("value");
-                            p = hyObject.getString("p");
+                        	v = hyObject.getString("value");
+                        	p = hyObject.getString("p");
                             hf.setValue(v);
     						hf.setKey(k);
     						hf.setP(p);
-                        }else {
-                        	hf.setValue(object.toString());
-    						hf.setKey(object.toString());
-                        }
+    						hf.setCodetype(hyObject.getString("codetype"));
+    						hf.setTime(hyObject.getString("time"));
+                    	}else {
+                    		hf.setCodetype(p_codetype);
+                    		hf.setP(p_p);
+                    		//2024年1月18日17:32:55  下拉框或弹出框， 或者未定义类型按照代码转换赋值
+                    		if(HYfieldType.POPWIN.equals(p_type)||HYfieldType.SELECT.equals(p_type)||p_type==null||p_type.equals("")) {
+                    			//设置codetype的值
+                            	String codetype = hf.getCodetype();
+                            	if(codetype!=null) {
+            						String codeName = sysCodeUtil.getCodeName(codetype, object.toString());
+            						hf.setValue(codeName);
+            						hf.setKey(object.toString());
+                            	}else {
+                            		hf.setValue(object.toString());
+                            	}
+                    		}else if(HYfieldType.DATE.equals(p_type)) {
+                    			hf.setValue(object.toString());
+        						hf.setKey(object.toString());
+        						v = object.toString();
+        		                v = v.replace(".", "");
+        						if(v.length()>=6) {
+        							hf.setTime(v.substring(0,4)+"."+v.substring(4,6));
+        						}else {
+        							hf.setTime("");
+        						}
+                    		}
+                    		
+                    		
+                    	}
                         
                         
                     }else if(object.getClass() == JSONObject.class) {
@@ -295,6 +407,19 @@ public class HYBeanUtil {
                         Timestamp timestamp = (Timestamp) object;
                         if (field.getType() == LocalDateTime.class) {
                             field.set(entity, timestamp.toLocalDateTime());
+                        }else if (field.getType() == Timestamp.class) {
+                            field.set(entity, timestamp);
+                        }else if (field.getType() == java.util.Date.class) {
+                        	//Timestamp->java.util.Date
+                        	// 将Timestamp转换为LocalDateTime
+                            LocalDateTime localDateTime = timestamp.toLocalDateTime();
+                            // 指定要转换到的时区（这里使用默认系统时区）
+                            ZoneId zoneId = ZoneId.systemDefault();
+                            // 根据时区获取ZonedDateTime对象
+                            java.time.ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zoneId);
+                            // 将ZonedDateTime转换为Date对象
+                            java.util.Date date = Date.from(zonedDateTime.toInstant());
+                        	field.set(entity, date);
                         }
                     } else if (object instanceof Date) {
                         Date date = (Date) object;
@@ -317,13 +442,22 @@ public class HYBeanUtil {
                         } else if (field.getType() == object.getClass()) {
                             field.set(entity, object);
                         }
+                    }else if (object instanceof Long) {
+                    	Long lo = (Long) object;
+                    	java.util.Date d = new java.util.Date(lo);
+                        if (field.getType() == java.util.Date .class) {
+                            field.set(entity, d);
+                        } else if (field.getType() == object.getClass()) {
+                            field.set(entity, object);
+                        }
                     } else if (field.getType() == object.getClass()) {
                         field.set(entity, object);
                     }
                     Object value = field.get(entity);
                     field.setAccessible(accessible);
                     if (value == null) {
-                        throw new ClassCastException(String.format("%s.%s 无法将 %s 转换为 %s ", entity.getClass(), field.getName(), object.getClass(), field.getType()));
+//                        throw new ClassCastException(String.format("%s.%s 无法将 %s 转换为 %s ", entity.getClass(), field.getName(), object.getClass(), field.getType()));
+                        log.info(String.format("%s.%s 无法将 %s 转换为 %s ", entity.getClass(), field.getName(), object.getClass(), field.getType()));
                     }
                 }
                 
@@ -331,7 +465,7 @@ public class HYBeanUtil {
             return entity;
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new AppException(ex.getMessage());
+            throw new ServiceException(ex.getMessage());
  
         }
         
@@ -339,6 +473,8 @@ public class HYBeanUtil {
     
 }
 
+
+/*****************************分隔符*****************************************************************************/
 
 
 
@@ -367,6 +503,7 @@ public class AppContext implements ApplicationContextAware {
 
 
 
+/******************************分隔符****************************************************************************/
 
 
 
@@ -393,9 +530,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.insigma.business.QGGWY.QGGWY_PUB001.QGGWY_PUB001_0004.enums.ECODE;
 import com.insigma.business.util.EhCacheUtil;
-import com.insigma.odin.framework.persistence.HBSession;
 
 /**
+ * 2024年1月16日10:05:02 zoulei
+ * @see HYField
  * hibernate实体的转换
  */
 public class HYfieldType implements UserType, DynamicParameterizedType{
@@ -404,11 +542,13 @@ public class HYfieldType implements UserType, DynamicParameterizedType{
 	
 	private String codetype;
 	private String p;
+	private String type;
 	
 	@Override
 	public void setParameterValues(Properties parameters) {
 		this.codetype = parameters.getProperty("codetype");
 		this.p = parameters.getProperty("p");
+		this.type = parameters.getProperty("type");
 	}
 	
 	@Override
@@ -467,17 +607,31 @@ public class HYfieldType implements UserType, DynamicParameterizedType{
 	@Override
 	public Object nullSafeGet(ResultSet rs, String[] names, SessionImplementor session, Object owner)
 			throws HibernateException, SQLException {
-		String data = rs.getString(names[0]); 
+		String data = rs.getString(names[0]);
 		if(rs.wasNull()){  
-            return null;  
+            return new HYField(codetype, p);  
         }else{  
             HYField hyField = new HYField(codetype, p);
             if(data==null){
             	return hyField;
             }
-            hyField.setKey(data);
-            String v = this.getCodeName(codetype, data, "");
-            hyField.setValue(v);
+            
+            //2024年1月18日17:32:55  下拉框或弹出框， 或者未定义类型按照代码转换赋值
+            if(SELECT.equals(this.type)||POPWIN.equals(this.type)||"".equals(this.type)||this.type==null) {
+            	hyField.setKey(data);
+                String v = this.getCodeName(codetype, data, "");
+                hyField.setValue(v);
+            }else if(DATE.equals(this.type)){//日期
+            	hyField.setKey(data);
+                String v = data;
+                hyField.setValue(v);
+                v = v.replace(".", "");
+				if(v.length()>=6) {
+					hyField.setTime(v.substring(0,4)+"."+v.substring(4,6));
+				}else {
+					hyField.setTime("");
+				}
+    		}
             return hyField;  
         }  
 	}
@@ -492,6 +646,12 @@ public class HYfieldType implements UserType, DynamicParameterizedType{
 		if(codevalue == null || "".equals(codevalue)){
 			return  "";
 		}
+		if(codetype == null || "".equals(codetype)){
+			return  codevalue;
+		}
+		
+		
+		
 		String codetypeNum = "".equals(codeNameNum) ? codetype : codetype + "_" + codeNameNum;
 		HashMap<String,String> hashmap=(HashMap<String,String>)EhCacheUtil.getObjectInCache(codetypeNum+ECODE.SELECT.getCode());
 		if(hashmap!=null) {
@@ -517,10 +677,27 @@ public class HYfieldType implements UserType, DynamicParameterizedType{
         }else {  
         	HYField hyField = (HYField) value;
         	String k = hyField.getKey();
+        	if(k==null || "".equals(k)) {
+        		k = hyField.getValue();
+        	}
         	st.setString(index, k);  
         }
 		
 	}
+
+	/**
+	 * 下拉框
+	 */
+	public final static String SELECT = "1";
+	/**
+	 * 弹出框
+	 */
+	public final static String POPWIN = "2";
+	/**
+	 * 日期6位点2位
+	 */
+	public final static String DATE = "3";
+	
 }
 
 

@@ -25,7 +25,7 @@ public class GenEntity {
 	
 	TableMetaDataConfig config;
 	
-    private String packageOutPath = Constants.PACKAGE_OUTPATH;//指定实体生成所在包的路径  
+    private String packageOutPath = Constants.OUTPUT_PACKAGE + ".dao";//指定实体生成所在包的路径  
     private String authorName = Constants.AUTHOR;//作者名字  
     private boolean f_util = false; // 是否需要导入包java.util.*  
     private boolean f_sql = false; // 是否需要导入包java.sql.*  
@@ -98,7 +98,12 @@ public class GenEntity {
      */  
     private void parse(String type) {  
         StringBuilder sb = new StringBuilder();  
-        sb.append("package " + this.packageOutPath + ";\n");  
+        
+        if("enety".equals(type)) {
+        	sb.append("package " + this.packageOutPath + ";\n");  
+        }else {
+        	sb.append("package " + Constants.OUTPUT_PACKAGE + ".dto" + ";\n");  
+        }
         sb.append("\n");  
         
         sb.append("import lombok.Data;\n\n"); 
@@ -222,9 +227,9 @@ public class GenEntity {
         			}else if("弹出框".equals(fconf.get("editortype"))) {
         				controltype = "HYfieldType.POPWIN";
         			}
-        			String timetype = "@Parameter(name =\"type\", value =\""+controltype+"\"),";
+        			String timetype = "@Parameter(name = \"type\", value = "+controltype+"),";
         			
-        			sb.append("\t@Type(type =\"com.insigma.business.components.hyfield.HYfieldType\", parameters = { "+timetype+" @Parameter(name =\"codetype\", value =\""+fconf.get("codetype")+"\"), @Parameter(name =\"p\", value =\""+pvalue+"\")})\n");
+        			sb.append("\t@Type(type = \"com.insigma.business.components.hyfield.HYfieldType\", parameters = { "+timetype+" @Parameter(name = \"codetype\", value = \""+fconf.get("codetype")+"\"), @Parameter(name = \"p\", value = \""+pvalue+"\")})\n");
         			sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
         			//sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
 //        		}else {

@@ -20,13 +20,14 @@ import me.zoulei.backend.templete.grid.TableMetaDataConfig;
  * 将前端和后台的代码生成到文件目录中
  * controller
  * --XXController.java
+ * dto
  * dao
  * --entity.java
  * --XXDao.java
  * --XXDao.sql.xml
  * service
- * --XXServiceImp.java
- * --imp
+ * --XXServiceImpl.java
+ * --impl
  * ----XXService.java
  * 
  * 
@@ -167,6 +168,18 @@ public class Gencode2Files {
 			result.write(codemap.get("    实体类   ")[0]);
 			result.close();
 		    /*****dao**********************************************************************/
+			
+			/*****dto**********************************************************************/
+			//输出目录
+			String dtodir = javadir + "/dto/";
+			new File(dtodir).mkdir();
+			File dtofile = new File(dtodir + params.get("entity") + "Dto.java");
+			dtofile.createNewFile();
+			result = new FileWriter(dtofile);
+			result.write(codemap.get("    Dto   ")[0]);
+			result.close();
+
+			/*****dto**********************************************************************/
 			
 			//打开文件夹
 			Desktop desktop = Desktop.getDesktop();

@@ -1,4 +1,4 @@
-package com;
+package ${config.outputpackage}.service.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -1,4 +1,4 @@
-package com;
+package ${config.outputpackage}.service.impl;
 
 import java.util.List;
 import java.util.Map;
@@ -17,6 +17,11 @@ import com.insigma.business.util.UUIDGenerator;
 import com.insigma.common.exception.ServiceException;
 import com.insigma.framework.exception.AppException;
 import com.insigma.odin.framework.persistence.HBSession;
+import com.insigma.sys.common.CurrentUserService;
+
+import ${config.outputpackage}.dao.${entity};
+import ${config.outputpackage}.dao.${name}Dao;
+import ${config.outputpackage}.service.${name}Service;
 
 
 @Service

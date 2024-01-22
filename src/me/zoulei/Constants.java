@@ -28,6 +28,9 @@ public class Constants {
 	/**存取codetype的项*/
 	public static String[] codetype_items=new String[1];
 	
+	/**导出类的包名，填写到controller前一个目录*/
+	public static String OUTPUT_PACKAGE = "com.insigma.business";
+	
 	/**选择数据库配置 的下拉选*/
 	public static Item[] items = null;
 	public static void addItem(Item item) {

@@ -300,6 +300,7 @@ public class CodeDocument extends JFrame implements ActionListener, DocumentList
 				boolean matche = name.matches("^[A-Za-z_][A-Za-z_0-9]*$");
 				if(!matche) {
 					JOptionPane.showMessageDialog(MainPanel.mainFrame, "名称不合法，请重新输入！"); 
+					return;
 				}
 				new Gencode2Files(codemap,config,name);
 				

@@ -5,9 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
@@ -63,6 +60,7 @@ public class Config {
 	        	Constants.AUTHOR = p.getProperty("AUTHOR");
 	        	Constants.PACKAGE_OUTPATH = p.getProperty("PACKAGE_OUTPATH");
 	        	Constants.CODE_VALUE_SQL = p.getProperty("CODE_VALUE_SQL");
+	        	Constants.OUTPUT_PACKAGE = p.getProperty("OUTPUT_PACKAGE");
 	        }else {
 	        	//生成配置
 	        	SafeProperties p = new SafeProperties();
@@ -72,7 +70,9 @@ public class Config {
 	        	
 	        	p.setProperty("AUTHOR", Constants.AUTHOR,"作者");
 	        	
-	        	p.setProperty("PACKAGE_OUTPATH", Constants.PACKAGE_OUTPATH,"实体类包");
+	        	p.setProperty("PACKAGE_OUTPATH", Constants.PACKAGE_OUTPATH,"实体类包名。已废弃，放到dao下面了");
+	        	
+	        	p.setProperty("OUTPUT_PACKAGE", Constants.OUTPUT_PACKAGE,"导出类的包名，填写到controller前一个目录");
 	        	
 	        	p.setProperty("CODE_VALUE_SQL", Constants.CODE_VALUE_SQL,"获取codetype的sql");
 	        	

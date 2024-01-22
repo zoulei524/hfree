@@ -1,4 +1,4 @@
-package com;
+package ${config.outputpackage}.controller;
 
 import java.util.List;
 
@@ -17,6 +17,9 @@ import com.insigma.framework.ResponseMessage;
 import com.insigma.framework.exception.AppException;
 import com.insigma.sys.common.CurrentUserService;
 import com.insigma.web.support.service.PageInitService;
+
+import ${config.outputpackage}.dao.${entity};
+import ${config.outputpackage}.service.${name}Service;
 
 
 @RestController

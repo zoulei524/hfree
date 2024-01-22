@@ -52,7 +52,7 @@
 	}
 	
 	
-	public List<${entity}Dto> get${entity}DtoList(JSONObject pageData) {
+	public List<${entity}Dto> get${entity}DtoList(JSONObject pageData) throws AppException {
 		List<Map<String,Object>> ${tablename}MapList = this.get${entity}MapList(pageData);
 		List<${entity}Dto> ${tablename}DtoList = hybean.toHYBean(${tablename}MapList, ${entity}Dto.class);
 		return ${tablename}DtoList;

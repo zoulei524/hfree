@@ -51,6 +51,8 @@ public class TableMetaDataConfig {
 	private String codetype_json = "";
 	//接口路径
 	private String dataUrl = Constants.DATA_URL;
+	//类包名路径
+	private String outputpackage = Constants.OUTPUT_PACKAGE;
 	/**
 	 * 目前就2中情况，一种传tablename，生成实体类，一种传tablename和查询的sql，生成dto
 	 */
@@ -146,7 +148,10 @@ public class TableMetaDataConfig {
 		//是否有分页功能
 		this.pagination = editorGrid.paginationCheckBox.isSelected();
 		//是否导出excel
-		this.exportExcel = editorGrid.excelCheckBox.isSelected();
+		this.exportExcel = editorGrid.excelCheckBox.isSelected(); 
+		//类包名路径
+		this.outputpackage = editorGrid.packageInput.getText();
+		
 		//将所有的codetype转成json
 		this.codetype_json = editorGrid.codetypes.toString();
 	}

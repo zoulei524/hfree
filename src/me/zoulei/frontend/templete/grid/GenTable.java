@@ -69,6 +69,7 @@ public class GenTable {
 				col.addAttr(new VueAttr("label", column.get("comments")))
 				   .addAttr(new VueAttr("width", column.get("width")))
 				   .addAttr(new VueAttr("align", column.get("align")))
+				   .addAttr(new VueAttr("show-overflow-tooltip"))
 				;
 				
 				

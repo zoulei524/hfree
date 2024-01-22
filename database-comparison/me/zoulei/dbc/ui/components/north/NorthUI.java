@@ -92,7 +92,7 @@ public class NorthUI extends JPanel{
 	        	 caipinMap.put("版本","测试1.0.0");
 	        	 caipinMap.put("日期","2023年12月1日");
 	        	 caipinMap.put("作者","邹磊");
-	        	 caipinMap.put("联系方式","钉钉");        
+	        	 caipinMap.put("联系方式","18042307016");        
 	        	 String desc = "数据库表结构比对并生成相关日志。";
 	        	 VersionDialog d =new VersionDialog(MainPanel.mainFrame, true,caipinMap,360,320,desc);
 	        	 d.setVisible(true);

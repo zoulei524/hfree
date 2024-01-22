@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="GBK" ?>
-<hzb namespace="com.${name}Dao" >
+<hzb namespace="${config.outputpackage}.dao.${name}Dao" >
 
 ${content}
 

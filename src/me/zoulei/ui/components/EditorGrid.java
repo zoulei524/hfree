@@ -5,12 +5,13 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -23,6 +24,7 @@ import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.AbstractListModel;
+import javax.swing.Box;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -51,7 +53,6 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
-import javax.swing.text.JTextComponent;
 
 import me.zoulei.Constants;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
@@ -83,6 +84,8 @@ public class EditorGrid extends JPanel {
     public JCheckBox paginationCheckBox;
     //是否有导出excel功能
     public JCheckBox excelCheckBox;
+    //包名输入
+    public JTextField packageInput;
     //所有的code_type
     public List<String[]> codetypes = new ArrayList<String[]>() {
     	@Override
@@ -246,10 +249,31 @@ public class EditorGrid extends JPanel {
 		//是否有导出excel功能
 		excelCheckBox = new JCheckBox("导出excel数据",false);
 		toolBar.add(excelCheckBox);
+		//添加间隙
+		toolBar.add(Box.createHorizontalStrut(350));
+		//输入包名 2024年1月22日16:39:05
+		JLabel label_1 = new JLabel("请输入包名：");
+		toolBar.add(label_1);
+		packageInput = new JTextField(Constants.OUTPUT_PACKAGE, 62); 
+		//packageInput.setMaximumSize(packageInput.getPreferredSize());
+		toolBar.add(packageInput);
+		packageInput.addFocusListener(new FocusListener(){
+
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				Constants.OUTPUT_PACKAGE = packageInput.getText();
+			}
+			
+		});
 		
         scrollPane = new JScrollPane( table );
         //scrollPane.setBorder(new EmptyBorder(0, 14, 0, 14));
-        //设置表格行表头
+        
+        //设置表格行表头  第一列
         scrollPane.setRowHeaderView(buildRowHeader(table));
         
         table.setRowHeight(MIN_ROW_HEIGHT);
@@ -431,6 +455,8 @@ public class EditorGrid extends JPanel {
             @Override
             public void mouseDragged(MouseEvent e) {
                 super.mouseDragged(e);
+                //2024年1月22日10:46:57  改变行表头以及行的高
+                rowHeader.firePropertyChange("cellRenderer", 0, 1);
                 if (isResizeCursor() && index != -1) {
                     int y = e.getY();
                     if (oldY != -1) {
@@ -451,7 +477,10 @@ public class EditorGrid extends JPanel {
                         else System.out.println("HI");
                     }
                     oldY = y;
+                    
+                    //rowHeader.firePropertyChange("cellRenderer", 0, 1);
                 }
+                
             }
 
             private boolean isResizeCursor() {
@@ -462,7 +491,9 @@ public class EditorGrid extends JPanel {
         rowHeader.addMouseMotionListener(mouseAdapter);
         rowHeader.addMouseWheelListener(mouseAdapter);
 
+        //2024年1月22日10:46:57   这里RowHeaderRenderer(table)调用导致render循环调用，CPU占用一直处在高位
         rowHeader.setCellRenderer(new RowHeaderRenderer(table));
+        
         rowHeader.setBackground(table.getBackground());
         rowHeader.setForeground(table.getForeground());
         return rowHeader;
@@ -492,7 +523,9 @@ public class EditorGrid extends JPanel {
             setText((value == null) ? "" : value.toString());
             setPreferredSize(null);
             setPreferredSize(new Dimension((int) getPreferredSize().getWidth(), table.getRowHeight(index)));
-            list.firePropertyChange("cellRenderer", 0, 1);
+            //2024年1月22日10:46:57   这里调用导致render循环调用，也就是这个方法会被一直调用，下面的输出一直打印CPU占用一直处在高位  放在鼠标移动时调用
+            //list.firePropertyChange("cellRenderer", 0, 1);
+            //System.out.println(index);
             return this;
         }
     }
