@@ -559,11 +559,15 @@ public class ElTableTpl {
 				;
 		this.divbtn.append(elbuttonadd);
 		
-		Node svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
-		elbuttonadd.append(svg);
+//		Node svg = new VueNode("svg").addAttr(new VueAttr("class","icon"));
+//		elbuttonadd.append(svg);
+//		
+//		Node use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-excelmbdy"));
+//		svg.append(use);
 		
-		Node use = new VueNode("use").addAttr(new VueAttr("xlink:href","#el-icon-gwy-excelmbdy"));
-		svg.append(use);
+		Node img = new VueNode("img").addAttr(new VueAttr("class","icon"))
+				.addAttr(new VueAttr("src", "@/assets/imgs/zzgb/grid_icon/dcExcel.svg"));
+		elbuttonadd.append(img);
 		
 	}
 	

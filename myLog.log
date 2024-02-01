@@ -1120,3 +1120,53 @@ freemarker.core.InvalidReferenceException: [... Exception message was already pr
  me.zoulei.Config 2024-01-22 17:04:37,962 24
 - D:\workspace2023\hfree
  me.zoulei.Config 2024-01-22 17:05:14,158 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-01-25 10:40:51,317 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-01-25 15:51:48,598 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-01-31 12:03:02,594 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-02-01 11:24:51,938 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-02-01 11:32:45,149 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-02-01 11:34:22,188 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-02-01 14:32:24,710 24
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-02-01 15:42:42,330 26
+- 检查配置信息...
+ me.zoulei.Config 2024-02-01 15:42:42,333 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-02-01 15:42:42,333 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-02-01 15:42:42,333 60
+- 资源目录不存在，复制资源，资源包括图标和4个公共类。
+ me.zoulei.Config 2024-02-01 15:42:42,336 97
+- 检测配置完成。
+ me.zoulei.Config 2024-02-01 15:42:42,340 106
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-02-01 15:47:35,759 26
+- 检查配置信息...
+ me.zoulei.Config 2024-02-01 15:47:35,762 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-02-01 15:47:35,762 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-02-01 15:47:35,763 60
+- 资源目录不存在，复制资源，资源包括图标和4个公共类。
+ me.zoulei.Config 2024-02-01 15:47:38,767 97
+- 检测配置完成。
+ me.zoulei.Config 2024-02-01 15:47:50,623 106
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-02-01 15:49:24,107 26
+- 检查配置信息...
+ me.zoulei.Config 2024-02-01 15:49:24,109 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-02-01 15:49:24,110 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-02-01 15:49:24,110 60
+- 资源目录不存在，复制资源，资源包括图标和4个公共类。
+ me.zoulei.Config 2024-02-01 15:49:24,113 98
+- 检测配置完成。
+ me.zoulei.Config 2024-02-01 15:49:24,117 107

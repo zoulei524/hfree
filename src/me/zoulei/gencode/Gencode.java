@@ -67,9 +67,13 @@ public class Gencode {
 		codemap.put("    Dao     ", new String[] {dao.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Xml     ", new String[] {xml.getCode(), SyntaxConstants.SYNTAX_STYLE_XML});
 		
+		
+//		2024年2月1日14:50:42
+//		取消dep.ftl
+//		用到的图标和公共类都放在source.zip下，首次打开软件程序，将该包拷贝到程序目录下。
 		//其他工具类
-		GenDep dep = new GenDep(config);
-		codemap.put("4个工具类用于兼容下拉和弹出框的，加一次就好了", new String[] {dep.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
+//		GenDep dep = new GenDep(config);
+//		codemap.put("4个工具类用于兼容下拉和弹出框的，加一次就好了", new String[] {dep.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
         new CodeDocument(codemap,config);
         /*
         genEntity = new GenEntity(new TableMetaDataConfig("a01","select * from code_value"));  

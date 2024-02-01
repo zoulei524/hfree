@@ -8,6 +8,8 @@ import java.io.OutputStreamWriter;
 
 import org.apache.log4j.Logger;
 
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import me.zoulei.frame.SafeProperties;
 
 /**
@@ -16,18 +18,20 @@ import me.zoulei.frame.SafeProperties;
 * @date 2023年10月23日 下午6:22:11 
 * @description 初始化数据库配置，默认生成2个数据库文件，用于保存数据库配置信息。可以手动增加数据库配置。
  */
+@Log4j
 public class Config {
-	Logger logger = Logger.getLogger(Config.class);
 	public Config(){
 		
 		try {
-			logger.info(System.getProperty("user.dir"));
+			log.info(System.getProperty("user.dir"));
+			log.info("检查配置信息...");
 			
 	        String baseDir = System.getProperty("user.dir")+"/dsProp";
 	        File f = new File(baseDir);
 	        if(f.exists()&&f.isDirectory()) {
-	        	
+	        	log.info("dsProp目录已存在，用于放数据源配置文件");
 	        }else {
+	        	log.info("dsProp目录不存在，初始化数据源配置文件...");
 	        	f.mkdir();
 		        //达梦 oracle mysql三种类型
 	        	//返回读取指定资源的输入流  /hfree/src/me/zoulei/ui/components/dsProp/1.properties
@@ -45,6 +49,7 @@ public class Config {
 		        File p3 = new File(baseDir+"/003.properties");
 		        this.copyInputStreamToFile(is, p3);
 		        is.close();
+		        log.info("初始化数据源配置文件成功");
 	        }
 	        
 	        
@@ -52,6 +57,7 @@ public class Config {
 	        String inifilep = System.getProperty("user.dir")+"/hfree.ini";
 	        File inifile = new File(inifilep);
 	        if(inifile.exists()&&inifile.isFile()) {
+	        	log.info("读取hfree.ini配置");
 	        	//读取配置
 	        	SafeProperties p = new SafeProperties();
 	        	p.load(inifile);
@@ -62,6 +68,7 @@ public class Config {
 	        	Constants.CODE_VALUE_SQL = p.getProperty("CODE_VALUE_SQL");
 	        	Constants.OUTPUT_PACKAGE = p.getProperty("OUTPUT_PACKAGE");
 	        }else {
+	        	log.info("第一次使用，初始化hfree.ini文件");
 	        	//生成配置
 	        	SafeProperties p = new SafeProperties();
 	        	p.setProperty("DATA_URL", Constants.DATA_URL,"接口路径 RequestMapping。 已废弃 接口默认拼接表名，生成后自己改");
@@ -81,10 +88,29 @@ public class Config {
 				outputStreamWriter.close();
 	        }
 	       
-			
+	        //检测公共资源目录是否存在
+			String sourceDir = System.getProperty("user.dir")+"/source";
+	        File sf = new File(sourceDir);
+	        if(sf.exists()&&sf.isDirectory()) {
+	        	log.info("资源目录已经存在。资源包括图标和4个公共类。");
+	        }else {
+	        	sf.mkdir();
+	        	log.info("资源目录不存在，复制资源，资源包括图标和4个公共类。");
+	        	///hfree/src/me/zoulei/backend/templete/dependency/source.zip
+	        	InputStream is=this.getClass().getClassLoader().getResourceAsStream("me/zoulei/backend/templete/dependency/source.zip");   
+		        File p1 = new File(sourceDir+"/source.zip");
+		        this.copyInputStreamToFile(is, p1);
+		        is.close();
+	        }
+	        
+	        
+	        log.info("检测配置完成。");
 		} catch (Exception e) {
+			log.info("检测配置失败。");
 			e.printStackTrace();
 		}
+		
+		
 		
 	}
 	

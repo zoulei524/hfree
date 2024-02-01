@@ -4,11 +4,13 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.output.FileWriterWithEncoding;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -152,12 +154,13 @@ public class Gencode2Files {
 		    
 		    
 		    is = this.getClass().getResourceAsStream("ftl/xml.ftl");
-			tpl = IOUtils.toString(is,"utf-8");
-			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			tpl = IOUtils.toString(is,"gbk");
+			Configuration configuration = new Configuration(new Version("2.3.30"));
+			template = new Template("ctl", tpl, configuration );
 		    File xmlfile = new File(daodir+ initcap(name) + "Dao.sql.xml");
-			result = new FileWriter(xmlfile);
+		    FileWriterWithEncoding result2 = new FileWriterWithEncoding(xmlfile, "GBK");
 			params.put("content", codemap.get("    Xml     ")[0]);
-		    template.process(params, result);
+		    template.process(params, result2);
 		    result.close();
 		    is.close();
 		    
