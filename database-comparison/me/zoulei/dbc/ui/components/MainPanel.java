@@ -20,7 +20,11 @@ public class MainPanel {
 	public static JFrame mainFrame = null;
 
 	public static void main(String[] args) {
-		new Config();
+		if(args!=null&&args.length==1) {
+			
+		}else {
+			new Config();
+		}
 		mainFrame = new JFrame("库表比对");
 		mainFrame.setSize(1720, 950);
 		//mainFrame.setLocation(20, 20);

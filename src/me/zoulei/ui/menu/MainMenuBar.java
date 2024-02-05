@@ -35,7 +35,7 @@ public class MainMenuBar extends JMenuBar{
 		view.add(dc);
 		dc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainPanel.main(null);
+				MainPanel.main(new String[] {"1"});
 			}
 		});
 		
