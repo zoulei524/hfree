@@ -20,6 +20,7 @@ import com.insigma.odin.framework.persistence.HBSession;
 import com.insigma.sys.common.CurrentUserService;
 
 import ${config.outputpackage}.dao.${entity};
+import ${config.outputpackage}.dao.${entity}Dto;
 import ${config.outputpackage}.dao.${name}Dao;
 import ${config.outputpackage}.service.${name}Service;
 

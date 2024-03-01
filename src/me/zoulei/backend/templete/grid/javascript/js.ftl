@@ -43,6 +43,11 @@ ${config.rules}
 			codeTypes: {
 ${config.codetype_json}
 			}, 
+			
+			//代码过滤
+			codeTypeFilters: {
+				//样例：ZB09_YJB: " and code_value not in('800B','800A')",
+			},
                
 		};
 
@@ -66,6 +71,7 @@ ${config.codetype_json}
         let param = {
 			path:this.dataUrl,
 			codeTypes: this.codeTypes,
+			codeTypeFilters: this.$base64(JSON.stringify(this.codeTypeFilters)),
 		};
 		sessionStorage.removeItem(this.dataUrl);
 		this.$store.dispatch("SET_PATH", this.dataUrl);

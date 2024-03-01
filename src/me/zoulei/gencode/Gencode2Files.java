@@ -161,7 +161,7 @@ public class Gencode2Files {
 		    FileWriterWithEncoding result2 = new FileWriterWithEncoding(xmlfile, "GBK");
 			params.put("content", codemap.get("    Xml     ")[0]);
 		    template.process(params, result2);
-		    result.close();
+		    result2.close();
 		    is.close();
 		    
 		    //实体类

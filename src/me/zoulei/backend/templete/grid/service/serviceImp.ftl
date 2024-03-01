@@ -2,6 +2,14 @@
 	
 	//实现类
 	/**
+	 * 获取代码
+	 */
+	@Override
+	public List<Map<String, Object>> initCodeType(String codeType, String filter) {
+		return dao.initCodeType(codeType, filter);
+	}
+	
+	/**
 	 * ====================================================================================================
 	 * 方法名称: ${tablecomment}--列表<br>
 	 * 方法创建日期: ${time}<br>

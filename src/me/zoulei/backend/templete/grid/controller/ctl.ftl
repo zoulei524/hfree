@@ -1,10 +1,55 @@
 	
 	
-	//代码初始化
 	@PostMapping("/doInit")
-	public ResponseMessage doInit(@RequestBody JSONObject jsonObject) {
-		pageInitService.init(jsonObject);
-		return ResponseMessage.ok("初始化成功！", jsonObject);
+	public ResponseMessage doInit(@RequestBody JSONObject pageData) {
+		
+		List<String> codeTypeList = new ArrayList<String>();
+	    List<String> filterList = new ArrayList<String>();
+	    
+	    JSONObject codeTypes = pageData.getJSONObject("codeTypes");
+	    String encodeFilters = pageData.getString("codeTypeFilters");
+	    
+	    byte[] bytes = Base64.decode(encodeFilters);
+	    JSONObject codeTypeFilters = JSONObject.parseObject(new String(bytes));
+	    
+	    codeTypeList.addAll(codeTypes.keySet());
+	    filterList.addAll(codeTypeFilters.keySet());
+	    //需要全加载的code_type
+	    codeTypeList.removeAll(filterList);
+	    JSONObject codeTypeResult = this.getCodeJsonArrayList(codeTypeList);
+	    
+	    //需要过滤的代码
+	    codeTypeFilters.forEach((codeType, filter)->{
+	    	List<Map<String,Object>> c = service.initCodeType(codeType, (String)filter);
+	    	codeTypeResult.put(codeType,c);
+	    });
+	    
+	    pageData.put("codeTypes", codeTypeResult);
+		
+		return ResponseMessage.ok("初始化成功！", pageData);
+	}
+	
+	/**
+	 * 获取字典jsonobject对象
+	 * @param codetype
+	 * @return
+	 */
+	public  JSONObject getCodeJsonArrayList(List<String> codetypes) {
+		JSONObject jsonobjectResult = new JSONObject();
+		codetypes.forEach(s->{
+			HashMap<String,String> hashmap = EhCacheUtil.getCacheHashMap(s+SupportECODE.SELECT.getCode());
+			if(hashmap!=null) {
+				JSONArray jsonArray = new JSONArray();
+				hashmap.forEach((key, value) -> {
+					JSONObject temp = new JSONObject();
+					temp.put("key", key);
+					temp.put("value", value);
+		            jsonArray.add(temp);
+		        });
+				jsonobjectResult.put(s,jsonArray);
+			}
+		});
+		return jsonobjectResult;		
 	}
 
 	/**

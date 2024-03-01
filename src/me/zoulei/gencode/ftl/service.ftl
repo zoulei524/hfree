@@ -1,11 +1,13 @@
 package ${config.outputpackage}.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
 import com.insigma.framework.exception.AppException;
 
 import ${config.outputpackage}.dao.${entity};
+import ${config.outputpackage}.dao.${entity}Dto;
 
 /**
  * 
