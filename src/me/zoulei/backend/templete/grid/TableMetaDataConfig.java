@@ -24,34 +24,36 @@ import me.zoulei.ui.components.EditorGrid;
  */
 @Data
 public class TableMetaDataConfig {
-	//字段信息集合
+	/**字段信息集合*/
 	List<HashMap<String, String>> tableMetaData;
-	//表名
+	/**表名*/
 	private String tablename;
-	//表名中文描述
+	/**表名中文描述*/
 	private String tablecomment="";
-	//主键
+	/**主键*/
 	private String pk="";
-	//在表格保存时非空校验项  js 代码，在生成form对象的时候生成。所以确保先生成vue代码再生成js 
+	/**在表格保存时非空校验项  js 代码，在生成form对象的时候生成。所以确保先生成vue代码再生成js */
 	private String rules;
-	//导出excel的配置信息  在生成表格vue代码的时候生成该信息
+	/**导出excel的配置信息  在生成表格vue代码的时候生成该信息*/
 	private String excelCFG;
 	
-	//首字母大写的主键
+	/**首字母大写的主键*/
 	private String pkU="";
-	//字段拼接 表名别名为t
+	/**字段拼接 表名别名为t*/
 	private String sqlFields="";
-	//是否有增删改查功能
+	/**是否有增删改查功能*/
 	private boolean iscrud = true;
-	//是否有分页功能
+	/**是否有分页功能*/
 	private boolean pagination = false;
-	//是否有导出excel功能
+	/**是否有导出excel功能*/
 	private boolean exportExcel = false;
-	//所有的code_type
+	/**是否维护日志*/
+	private boolean addLog = false;
+	/**所有的code_type*/
 	private String codetype_json = "";
-	//接口路径
+	/**接口路径*/
 	private String dataUrl = Constants.DATA_URL;
-	//类包名路径
+	/**类包名路径*/
 	private String outputpackage = Constants.OUTPUT_PACKAGE;
 	/**
 	 * 目前就2中情况，一种传tablename，生成实体类，一种传tablename和查询的sql，生成dto
@@ -76,6 +78,7 @@ public class TableMetaDataConfig {
 			+ " case when b.COLUMN_KEY='PRI' then 1 else 0 end p "
 			+ " from information_schema.COLUMNS b "
 			+ " where b.table_schema = '%s' and b.table_name = '%s' order by b.ORDINAL_POSITION";
+	
 	
 	
 	/**
@@ -149,6 +152,8 @@ public class TableMetaDataConfig {
 		this.pagination = editorGrid.paginationCheckBox.isSelected();
 		//是否导出excel
 		this.exportExcel = editorGrid.excelCheckBox.isSelected(); 
+		//是否维护日志
+		this.addLog = editorGrid.logCheckBox.isSelected();
 		//类包名路径
 		this.outputpackage = editorGrid.packageInput.getText();
 		

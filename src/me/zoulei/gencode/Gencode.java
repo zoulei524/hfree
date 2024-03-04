@@ -6,12 +6,12 @@ import java.util.Map;
 
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 
-import me.zoulei.backend.templete.dependency.GenDep;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.backend.templete.grid.controller.GenCTL;
 import me.zoulei.backend.templete.grid.dao.GenDao;
 import me.zoulei.backend.templete.grid.entity.GenEntity;
 import me.zoulei.backend.templete.grid.javascript.GenJS;
+import me.zoulei.backend.templete.grid.logsql.GenLogSQL;
 import me.zoulei.backend.templete.grid.service.GenService;
 import me.zoulei.backend.templete.grid.xml.GenXml;
 import me.zoulei.frontend.templete.grid.GenCSS;
@@ -47,6 +47,9 @@ public class Gencode {
 		//xml层
 		GenXml xml = new GenXml(config);
 		
+		//日志脚本
+		GenLogSQL sql = new GenLogSQL(config);
+		
 		//js
 		HashMap<String, Object> params = new HashMap<String, Object>();
 		params.put("entityJSON", genEntity.getJson_content());
@@ -66,6 +69,8 @@ public class Gencode {
 		codemap.put("  ExcelExp   ", new String[] {serv.getCodeexcel(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Dao     ", new String[] {dao.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Xml     ", new String[] {xml.getCode(), SyntaxConstants.SYNTAX_STYLE_XML});
+		if(config.isAddLog())
+			codemap.put("    SQL     ", new String[] {sql.getCode(), SyntaxConstants.SYNTAX_STYLE_SQL});
 		
 		
 //		2024年2月1日14:50:42
