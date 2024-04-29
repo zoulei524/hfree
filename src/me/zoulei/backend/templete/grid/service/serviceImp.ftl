@@ -53,7 +53,8 @@
 	@Transactional
 	public void save${entity}Info(JSONObject pageData) {
 		JSONObject ${tablename}form = pageData.getJSONObject("${tablename}EntityData");
-		${entity} ${tablename} = JSON.parseObject(${tablename}form.toJSONString(), ${entity}.class);
+		//${entity} ${tablename} = JSON.parseObject(${tablename}form.toJSONString(), ${entity}.class);
+		${entity} ${tablename} = ${tablename}form.toJavaObject(${entity}.class);
   		if(StringUtil.isEmpty(${tablename}.get${config.pkU}())) {
   			${tablename}.set${config.pkU}(UUIDGenerator.generate());
   			session.save(${tablename});

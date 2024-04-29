@@ -45,14 +45,12 @@
 		String querySQL = "select * from (select rownum as numrow,c.* from (" + sql + ") c  where rownum<=" + (start + pageSize)+") where numrow>=" + (start + 1) ;
 		</#if>
 		
-		List<Map<String,Object>> ${tablename}List = session.queryForList(querySQL);
-		
 		return querySQL;
 	}
 	
 	public List<${entity}> get${entity}List(JSONObject pageData) {
 		String querySQL = this.get${entity}ListSQL(pageData);
-		List<${entity}> ${tablename}List = session.getCurrentSession().createSQLQuery(querySQL).addEntity(${entity}.class).list();
+		List<${entity}> ${tablename}List = session.getCurrentSession().createNativeQuery(querySQL).addEntity(${entity}.class).list();
 		return ${tablename}List;
 	}
 
