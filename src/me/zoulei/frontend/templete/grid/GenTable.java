@@ -82,6 +82,8 @@ public class GenTable {
 				m.put("width", column.get("width"));
 				m.put("align", column.get("align"));
 				m.put("label", column.get("comments"));
+				m.put("codetype", column.get("codetype"));
+				m.put("editortype", column.get("editortype"));
 				m.put("colname", column.get("column_name").toLowerCase());
 				m.put("type", GenEntity.sqlType2JavaType(column.get("data_type")));
 				excelCFG.add(m);

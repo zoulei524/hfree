@@ -9,6 +9,7 @@ import java.util.List;
 import dm.jdbc.util.StringUtil;
 import lombok.Data;
 import me.zoulei.Constants;
+import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.ui.components.ItemEnum;  
 
@@ -30,6 +31,7 @@ public class GenEntity {
     private String authorName = Constants.AUTHOR;//作者名字  
     private boolean f_util = false; // 是否需要导入包java.util.*  
     private boolean f_sql = false; // 是否需要导入包java.sql.*  
+    private boolean f_math = false; // 是否需要导入包java.math.BigDecimal  
     private String entity_content;
     private String dto_content;
     private String json_content;
@@ -63,6 +65,12 @@ public class GenEntity {
             if(colType.equalsIgnoreCase("blob") || colType.equalsIgnoreCase("char")){  
                 f_sql = true;  
             }  
+            
+            if(DataSource.DBType.equals("oracle")||DataSource.DBType.equals("达梦")){  
+            	if(colType.equalsIgnoreCase("number")){  
+            		f_math = true;  
+                } 
+            }
         }  
           
        parse("enety");  
@@ -106,6 +114,10 @@ public class GenEntity {
         	sb.append("package " + Constants.OUTPUT_PACKAGE + ".dto" + ";\n");  
         }
         sb.append("\n");  
+        if(f_math){  
+        	sb.append("import java.math.BigDecimal;\n\n"); 
+        }
+        
         
         sb.append("import lombok.Data;\n\n"); 
         
@@ -308,6 +320,10 @@ public class GenEntity {
                  || sqlType.equalsIgnoreCase("datetime")   
                  || sqlType.equalsIgnoreCase("timestamp with time zone")){  
             return "Date";  
+        }else if(DataSource.DBType.equals("oracle")||DataSource.DBType.equals("达梦")){  
+        	if(sqlType.equalsIgnoreCase("number")){
+                return "BigDecimal";  
+            }  
         }else if(sqlType.equalsIgnoreCase("number")||sqlType.equalsIgnoreCase("int")){  
             return "Long";  
         }  

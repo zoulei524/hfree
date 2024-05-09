@@ -214,3 +214,209 @@
  me.zoulei.Config 2024-04-24 14:21:22,139 95
 - 检测配置完成。
  me.zoulei.Config 2024-04-24 14:21:22,139 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-04-30 14:01:31,736 26
+- 检查配置信息...
+ me.zoulei.Config 2024-04-30 14:01:31,739 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-04-30 14:01:31,739 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-04-30 14:01:31,739 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-04-30 14:01:31,766 95
+- 检测配置完成。
+ me.zoulei.Config 2024-04-30 14:01:31,766 107
+- Error executing FreeMarker template
+ freemarker.log._Log4jLoggerFactory$Log4jLogger 2024-04-30 14:21:08,447 60
+FreeMarker template error:
+The following has evaluated to null or missing:
+==> name  [in template "ctl" at line 110, column 27]
+
+----
+Tip: If the failing expression is known to legally refer to something that's sometimes null or missing, either specify a default value like myOptionalVar!myDefault, or use <#if myOptionalVar??>when-present<#else>when-missing</#if>. (These only cover the last step of the expression; to cover the whole expression, use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??
+----
+----
+FTL stack trace ("~" means nesting-related):
+	- Failed at: ${name}  [in template "ctl" at line 110, column 25]
+
+----
+Java stack trace (for programmers):
+----
+freemarker.core.InvalidReferenceException: [... Exception message was already printed; see it above ...]
+	at freemarker.core.InvalidReferenceException.getInstance(InvalidReferenceException.java:134)
+	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:481)
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:401)
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:370)
+	at freemarker.core.DollarVariable.calculateInterpolatedStringOrMarkup(DollarVariable.java:100)
+	at freemarker.core.DollarVariable.accept(DollarVariable.java:63)
+	at freemarker.core.Environment.visit(Environment.java:334)
+	at freemarker.core.Environment.visit(Environment.java:340)
+	at freemarker.core.Environment.visit(Environment.java:340)
+	at freemarker.core.Environment.process(Environment.java:313)
+	at freemarker.template.Template.process(Template.java:383)
+	at me.zoulei.backend.templete.grid.service.GenService.<init>(GenService.java:50)
+	at me.zoulei.gencode.Gencode.gencode(Gencode.java:44)
+	at me.zoulei.ui.components.SearchComponent$3.actionPerformed(SearchComponent.java:162)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+- Error executing FreeMarker template
+ freemarker.log._Log4jLoggerFactory$Log4jLogger 2024-04-30 14:21:48,688 60
+FreeMarker template error:
+The following has evaluated to null or missing:
+==> name  [in template "ctl" at line 110, column 27]
+
+----
+Tip: If the failing expression is known to legally refer to something that's sometimes null or missing, either specify a default value like myOptionalVar!myDefault, or use <#if myOptionalVar??>when-present<#else>when-missing</#if>. (These only cover the last step of the expression; to cover the whole expression, use parenthesis: (myOptionalVar.foo)!myDefault, (myOptionalVar.foo)??
+----
+----
+FTL stack trace ("~" means nesting-related):
+	- Failed at: ${name}  [in template "ctl" at line 110, column 25]
+
+----
+Java stack trace (for programmers):
+----
+freemarker.core.InvalidReferenceException: [... Exception message was already printed; see it above ...]
+	at freemarker.core.InvalidReferenceException.getInstance(InvalidReferenceException.java:134)
+	at freemarker.core.EvalUtil.coerceModelToTextualCommon(EvalUtil.java:481)
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:401)
+	at freemarker.core.EvalUtil.coerceModelToStringOrMarkup(EvalUtil.java:370)
+	at freemarker.core.DollarVariable.calculateInterpolatedStringOrMarkup(DollarVariable.java:100)
+	at freemarker.core.DollarVariable.accept(DollarVariable.java:63)
+	at freemarker.core.Environment.visit(Environment.java:334)
+	at freemarker.core.Environment.visit(Environment.java:340)
+	at freemarker.core.Environment.visit(Environment.java:340)
+	at freemarker.core.Environment.process(Environment.java:313)
+	at freemarker.template.Template.process(Template.java:383)
+	at me.zoulei.backend.templete.grid.service.GenService.<init>(GenService.java:50)
+	at me.zoulei.gencode.Gencode.gencode(Gencode.java:44)
+	at me.zoulei.ui.components.SearchComponent$3.actionPerformed(SearchComponent.java:162)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(BasicButtonListener.java:252)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-04-30 14:23:34,252 26
+- 检查配置信息...
+ me.zoulei.Config 2024-04-30 14:23:34,255 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-04-30 14:23:34,255 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-04-30 14:23:34,255 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-04-30 14:23:34,258 95
+- 检测配置完成。
+ me.zoulei.Config 2024-04-30 14:23:34,259 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-08 15:27:51,084 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-08 15:27:51,088 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-08 15:27:51,089 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-08 15:27:51,089 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-08 15:27:51,115 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-08 15:27:51,115 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-09 09:46:08,681 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-09 09:46:08,684 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-09 09:46:08,684 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-09 09:46:08,684 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-09 09:46:08,711 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-09 09:46:08,711 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-09 14:26:13,375 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-09 14:26:13,378 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-09 14:26:13,378 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-09 14:26:13,379 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-09 14:26:13,381 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-09 14:26:13,381 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-09 15:42:19,439 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-09 15:42:19,442 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-09 15:42:19,442 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-09 15:42:19,442 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-09 15:42:19,445 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-09 15:42:19,445 107

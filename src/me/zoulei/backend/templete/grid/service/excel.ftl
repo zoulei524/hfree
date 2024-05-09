@@ -28,8 +28,11 @@ import com.alibaba.fastjson.JSONObject;
  * @date ${time}
  */
 //导出excel的类
+@Service
 public class ${entity}Excel {
    
+	@Resource
+	private SysCodeUtil sysCodeUtil;
  
     /**
 	 * 该方法用来将Excel中的ABCD列转换成具体的数据
@@ -209,6 +212,23 @@ public class ${entity}Excel {
 				align = cfgMap.get("align").toString();
 				//单元格数据
 				value = m.get(colname);
+				
+				//代码转换
+				String codetype = cfgMap.getString("codetype");
+				String editortype = cfgMap.getString("editortype");
+				if(StringUtils.isNotEmpty(codetype)) {
+					String codeName = sysCodeUtil.getCodeName(codetype, value);
+					if(StringUtils.isNotEmpty(codeName)) {
+						value = codeName;
+					}
+				}else if("公务员常用时间控件".equals(editortype)){//时间控件
+					String v = value==null?"":value.toString();
+					v = v.replaceAll("\\.", "");
+					if(v.length()>=6) {
+						value = v.substring(0,4)+"."+v.substring(4,6);
+					}
+				}
+				
 				//样式判断
 				if("String".equals(type)) {
 					if("left".equals(align)) {

@@ -40,6 +40,9 @@ public class ${name}ServiceImpl implements ${name}Service {
 	
 	@Autowired
 	private HBSession session;
+	
+	@Autowired
+    private ${entity}Excel ${tablename}Excel;
    
 ${content}
 

@@ -107,7 +107,7 @@
 		//通过分页方法获取数据
 		List<Map<String,Object>> ${tablename}List = dao.get${entity}MapList(pageData);
 		try {
-			${entity}Excel.writeSheetData(path, ${tablename}List);
+			${tablename}Excel.writeSheetData(path, ${tablename}List);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new AppException("导出失败：" + e.getMessage());
