@@ -2,16 +2,6 @@
 	@Autowired
 	HYBeanUtil hybean;
 	
-	//获取代码
-	public List<Map<String, Object>> initCodeType(String codeType, String filter) {
-		
-		SQLProcessor sqlPro = new SQLProcessor(session, this.getClass());
-		Map<String,Object> params = new HashMap<>();
-		params.put("codeType", codeType);
-		params.put("filter", filter);
-		String sql = sqlPro.getSQLFromXml("initCodeType", params);
-		return session.queryForList(sql);
-	}
 	
 	/**
 	 * ====================================================================================================
@@ -29,23 +19,10 @@
 		Map<String,Object> params = new HashMap<>();
 		String sql = sqlPro.getSQLFromXml("get${entity}List", params);
 		
-		//分页信息
-		JSONObject pageInfo = pageData.getJSONObject("pageInfo");
-		int currentPage = pageInfo.getIntValue("currentPage");
-		int pageSize = pageInfo.getIntValue("pageSize");
-		int start = (currentPage-1)*pageSize;
-		//总数
-		String countsql = "select count(*) from (" + sql + ") c";
-		int total = session.queryForInteger(countsql);
-		pageInfo.put("total", total);
-		//分页查询
-		<#if DBType=='mysql'>
-		String querySQL = "select * from (" + sql + ") c limit "+start+","+pageSize ;
-		<#else>
-		String querySQL = "select * from (select rownum as numrow,c.* from (" + sql + ") c  where rownum<=" + (start + pageSize)+") where numrow>=" + (start + 1) ;
-		</#if>
+		//分页sql，不需要分页的注释该行代码。
+		sql = this.getPageSql(pageData, sql);
 		
-		return querySQL;
+		return sql;
 	}
 	
 	public List<${entity}> get${entity}List(JSONObject pageData) {

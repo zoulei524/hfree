@@ -420,3 +420,63 @@ freemarker.core.InvalidReferenceException: [... Exception message was already pr
  me.zoulei.Config 2024-05-09 15:42:19,445 95
 - 检测配置完成。
  me.zoulei.Config 2024-05-09 15:42:19,445 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-09 16:47:27,005 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-09 16:47:27,009 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-09 16:47:27,010 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-09 16:47:27,010 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-09 16:47:27,012 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-09 16:47:27,013 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-10 11:01:32,253 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-10 11:01:32,257 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-10 11:01:32,257 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-10 11:01:32,258 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-10 11:01:32,284 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-10 11:01:32,284 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-10 11:10:16,084 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-10 11:10:16,086 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-10 11:10:16,086 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-10 11:10:16,087 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-10 11:10:16,089 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-10 11:10:16,089 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-10 11:10:22,115 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-10 11:10:22,117 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-10 11:10:22,118 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-10 11:10:22,118 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-10 11:10:22,121 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-10 11:10:22,121 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-10 11:11:30,239 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-10 11:11:30,242 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-10 11:11:30,242 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-10 11:11:30,242 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-10 11:11:30,245 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-10 11:11:30,245 107

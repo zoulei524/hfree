@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.alibaba.fastjson.JSONObject;
 import com.insigma.business.components.hyfield.HYBeanUtil;
+import com.insigma.business.components.hyfield.PageDao;
 import com.insigma.framework.exception.AppException;
 import com.insigma.odin.framework.datasource.SQLProcessor;
 import com.insigma.odin.framework.persistence.HBSession;
@@ -22,7 +23,7 @@ import ${config.outputpackage}.dto.${entity}Dto;
  * @date ${time}
  */
 @Repository
-public class ${name}Dao {
+public class ${name}Dao extends PageDao{
 
 	@Autowired
 	private HBSession session;

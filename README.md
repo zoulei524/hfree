@@ -23,3 +23,11 @@ ui表格界面，genTableMetaData 获取全部表格上配置的信息
 ###配置
 1、src/me/zoulei/Config.java
 配置类 第一次初始化生成Constants.java的ini文件，生成数据库配置文件。
+
+
+###更新
+2024年5月10日09:42:07 Excel导出加代码转换和时间转换，实体类达梦库number为bigdecimal类型。
+2024年5月10日11:06:27 分页查询代码和部分代码初始化提到公共类中
+
+
+
