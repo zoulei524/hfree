@@ -6,6 +6,9 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -17,10 +20,12 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.insigma.business.components.pub.SysCodeUtil;
 
 /**
  * 
@@ -132,7 +137,7 @@ public class ${entity}Excel {
 	 * @param aa10List 数据
 	 * @throws Exception 
 	 */
-	public static void writeSheetData(String path, List<Map<String, Object>> ${tablename}List) throws Exception {
+	public void writeSheetData(String path, List<Map<String, Object>> ${tablename}List) throws Exception {
 		
 		//表格列参数  宽度width，是否数字type，水平位置align，列名colname，列名描述label
 		String tableConfigStr = "${config.excelCFG}";
