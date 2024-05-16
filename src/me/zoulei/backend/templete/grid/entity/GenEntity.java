@@ -302,6 +302,7 @@ public class GenEntity {
      * @return 
      */  
     public static String sqlType2JavaType(String sqlType) {  
+    	
           
         if(sqlType.equalsIgnoreCase("binary_double")||sqlType.equalsIgnoreCase("decimal")||sqlType.equalsIgnoreCase("numeric")){  
             return "Double";  
@@ -323,9 +324,11 @@ public class GenEntity {
         }else if(DataSource.DBType.equals("oracle")||DataSource.DBType.equals("达梦")){  
         	if(sqlType.equalsIgnoreCase("number")){
                 return "BigDecimal";  
-            }  
+            }else if(sqlType.equalsIgnoreCase("INTEGER")) {
+            	return "Long"; 
+            }
         }else if(sqlType.equalsIgnoreCase("number")||sqlType.equalsIgnoreCase("int")){  
-            return "Long";  
+            return "Long"; 
         }  
           
         return "String";  
