@@ -25,7 +25,7 @@ import com.insigma.framework.exception.AppException;
 import com.insigma.framework.util.Base64;
 import com.insigma.sys.common.CurrentUserService;
 
-import ${config.outputpackage}.dao.${entity};
+import ${config.outputpackage}.entity.${entity};
 import ${config.outputpackage}.dto.${entity}Dto;
 import ${config.outputpackage}.service.${name}Service;
 

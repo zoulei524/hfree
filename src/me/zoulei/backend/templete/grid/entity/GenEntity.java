@@ -27,7 +27,7 @@ public class GenEntity {
 	
 	TableMetaDataConfig config;
 	
-    private String packageOutPath = Constants.OUTPUT_PACKAGE + ".dao";//指定实体生成所在包的路径  
+    private String packageOutPath = Constants.OUTPUT_PACKAGE + ".entity";//指定实体生成所在包的路径  
     private String authorName = Constants.AUTHOR;//作者名字  
     private boolean f_util = false; // 是否需要导入包java.util.*  
     private boolean f_sql = false; // 是否需要导入包java.sql.*  
@@ -168,7 +168,7 @@ public class GenEntity {
         	sb.append("@Entity \n");  
             sb.append("@Table(name = \""+(this.config.getTablename().toUpperCase())+"\") \n");  
         }
-        sb.append("public class " + initcap(this.config.getTablename()) +("enety".equals(type)?"":"Dto")+ " implements Serializable {\n");  
+        sb.append("public class " + initcap(this.config.getTablename().toLowerCase()) +("enety".equals(type)?"":"Dto")+ " implements Serializable {\n");  
         sb.append("\n\tprivate static final long serialVersionUID = "+new Date().getTime()+"L;\n\n");  
         
         //json对象

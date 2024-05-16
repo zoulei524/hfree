@@ -163,14 +163,18 @@ public class Gencode2Files {
 		    template.process(params, result2);
 		    result2.close();
 		    is.close();
+		    /*****dao**********************************************************************/
+		    
 		    
 		    //实体类
-		    File entityfile = new File(daodir + params.get("entity") + ".java");
-			jsfile.createNewFile();
+		    String entitydir = javadir + "/entity/";
+			new File(entitydir).mkdir();
+			File entityfile = new File(entitydir + params.get("entity") + ".java");
+			entityfile.createNewFile();
 			result = new FileWriter(entityfile);
 			result.write(codemap.get("    实体类   ")[0]);
 			result.close();
-		    /*****dao**********************************************************************/
+			
 			
 			/*****dto**********************************************************************/
 			//输出目录

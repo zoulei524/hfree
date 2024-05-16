@@ -6,7 +6,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSONObject;
 import com.insigma.framework.exception.AppException;
 
-import ${config.outputpackage}.dao.${entity};
+import ${config.outputpackage}.entity.${entity};
 import ${config.outputpackage}.dto.${entity}Dto;
 
 /**

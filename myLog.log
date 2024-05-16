@@ -492,3 +492,15 @@ freemarker.core.InvalidReferenceException: [... Exception message was already pr
  me.zoulei.Config 2024-05-10 17:31:34,154 95
 - 检测配置完成。
  me.zoulei.Config 2024-05-10 17:31:34,154 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-05-16 09:27:38,924 26
+- 检查配置信息...
+ me.zoulei.Config 2024-05-16 09:27:38,926 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-05-16 09:27:38,930 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-05-16 09:27:38,930 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-05-16 09:27:38,933 95
+- 检测配置完成。
+ me.zoulei.Config 2024-05-16 09:27:38,933 107
