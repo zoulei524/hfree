@@ -4,7 +4,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -187,6 +186,20 @@ public class Gencode2Files {
 			result.close();
 
 			/*****dto**********************************************************************/
+			
+			
+			/*****enums********************************/
+			is = this.getClass().getResourceAsStream("ftl/enum.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			//输出目录
+			new File(javadir + "/enums").mkdir();
+			File enumfile = new File(javadir + "/enums/" + initcap(name) + "Enum.java");
+			result = new FileWriter(enumfile);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+			/*****controller********************************/
 			
 			//打开文件夹
 			Desktop desktop = Desktop.getDesktop();
