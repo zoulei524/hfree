@@ -39,6 +39,9 @@ import me.zoulei.backend.templete.grid.TableMetaDataConfig;
  * @Desc: TODO
  * @author zoulei
  * @date 2024年1月16日 下午5:43:15
+ * 
+ * 2024年5月
+ * 加了异常枚举和常量包
  */
 public class Gencode2Files {
 
@@ -199,7 +202,22 @@ public class Gencode2Files {
 		    template.process(params, result);
 		    result.close();
 		    is.close();
-			/*****controller********************************/
+			/*****enums********************************/
+		    
+		    
+		    
+		    /*****constant********************************/
+			is = this.getClass().getResourceAsStream("ftl/constants.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			//输出目录
+			new File(javadir + "/constants").mkdir();
+			File constantfile = new File(javadir + "/constants/" + initcap(name) + "Constant.java");
+			result = new FileWriter(constantfile);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+			/*****constant********************************/
 			
 			//打开文件夹
 			Desktop desktop = Desktop.getDesktop();

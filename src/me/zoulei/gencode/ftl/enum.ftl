@@ -12,9 +12,10 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ${name}Enum implements BaseExceptionAssert {
+public ${name}Enum implements BaseExceptionAssert {
 
-	${entity}_NOT_FOUND(2001, "获取${tablecomment}失败！")
+	${entity}_NOT_FOUND(2001, "获取${tablecomment}失败！"),
+	exception(0000, "自定义！")
     ;
     
     /** 获取返回码 */
