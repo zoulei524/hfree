@@ -33,7 +33,7 @@ ${config.rules}
 </#if>      
 
 			//分页页面默认20行一页，若不分页默认显示500行
-			${tablename}PageInfo: {
+			pageInfo: {
 				total: 0, //总行数
 				pageSize: ${config.pagination?then(20,500)}, //每页显示数：${config.pagination?then('分页','不分页')}
 				currentPage: 1, //当前页

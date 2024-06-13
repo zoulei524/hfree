@@ -1,5 +1,7 @@
 package ${config.outputpackage}.constants;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * 常量信息
@@ -8,7 +10,7 @@ package ${config.outputpackage}.constants;
  */
 @Getter
 @AllArgsConstructor
-public ${name}Constant {
+public class ${name}Constant {
 
 	/**
 	 * 1是0否

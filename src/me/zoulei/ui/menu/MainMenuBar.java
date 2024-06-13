@@ -46,8 +46,10 @@ public class MainMenuBar extends JMenuBar{
 		about.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Map<String,String> caipinMap = new LinkedHashMap<String,String>();
-		        caipinMap.put("版本","测试1.0.0");
-		        caipinMap.put("日期","2023年12月1日");
+		        //caipinMap.put("版本","测试1.0.0");
+		        //caipinMap.put("日期","2023年12月1日");
+		        caipinMap.put("版本","测试1.0.1");
+		        caipinMap.put("日期","2024年6月11日");
 		        caipinMap.put("作者","邹磊");
 		        caipinMap.put("联系方式","18042307016");        
 		        String desc = "数据库表反向生成odin7c的前后端代码。";

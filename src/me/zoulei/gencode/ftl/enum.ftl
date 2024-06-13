@@ -12,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public ${name}Enum implements BaseExceptionAssert {
+public enum ${name}Enum implements BaseExceptionAssert {
 
 	${entity}_NOT_FOUND(2001, "获取${tablecomment}失败！"),
 	exception(0000, "自定义！")
