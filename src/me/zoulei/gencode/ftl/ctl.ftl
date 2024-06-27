@@ -35,7 +35,7 @@ import ${config.outputpackage}.service.${name}Service;
  * @date ${time}
  */
 @RestController
-@RequestMapping("/business/${tablename}")
+@RequestMapping("/${(config.outputpackage)?replace('.','/')}/${name}")
 public class ${name}Controller {
 	
 	private Log log = LogFactory.getLog(this.getClass());
