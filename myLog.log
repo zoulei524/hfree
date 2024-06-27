@@ -624,3 +624,39 @@ freemarker.core.InvalidReferenceException: [... Exception message was already pr
  me.zoulei.Config 2024-06-12 15:37:12,884 95
 - 检测配置完成。
  me.zoulei.Config 2024-06-12 15:37:12,885 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-06-19 15:24:59,981 26
+- 检查配置信息...
+ me.zoulei.Config 2024-06-19 15:24:59,983 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-06-19 15:24:59,983 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-06-19 15:24:59,983 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-06-19 15:24:59,985 95
+- 检测配置完成。
+ me.zoulei.Config 2024-06-19 15:24:59,985 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-06-21 09:05:54,190 26
+- 检查配置信息...
+ me.zoulei.Config 2024-06-21 09:05:54,193 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-06-21 09:05:54,193 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-06-21 09:05:54,193 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-06-21 09:05:54,197 95
+- 检测配置完成。
+ me.zoulei.Config 2024-06-21 09:05:54,197 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-06-25 09:55:22,854 26
+- 检查配置信息...
+ me.zoulei.Config 2024-06-25 09:55:22,856 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-06-25 09:55:22,858 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-06-25 09:55:22,858 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-06-25 09:55:22,862 95
+- 检测配置完成。
+ me.zoulei.Config 2024-06-25 09:55:22,862 107
