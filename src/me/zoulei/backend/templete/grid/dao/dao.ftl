@@ -20,7 +20,7 @@
 		String sql = sqlPro.getSQLFromXml("get${entity}List", params);
 		
 		//分页sql，不需要分页的注释该行代码。
-		sql = this.getPageSql(pageData, sql);
+		${config.pagination?then('','//')}sql = this.getPageSql(pageData, sql);
 		
 		return sql;
 	}
