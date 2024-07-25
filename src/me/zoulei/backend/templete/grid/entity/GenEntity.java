@@ -227,12 +227,12 @@ public class GenEntity {
         	//2024年1月15日19:10:43 下拉、时间、弹出框都需要特殊字段
         	if("文本".equals(fconf.get("editortype"))) {//非代码字段
         		sb.append("\tprivate " + sqlType2JavaType(fconf.get("data_type")) + " " + (fconf.get("column_name").toLowerCase()) + ";\n\n"); 
-                jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"\"\","  );
+                jsonSB.append("\t\t\t\t\"" + (fconf.get("column_name").toLowerCase()) + "\": " +"\"\","  );
                 if("Date".equals(sqlType2JavaType(fconf.get("data_type")))) {
                 	if("dto".equals(type)) {
                 		sb.append("\tprivate String " + (fconf.get("column_name").toLowerCase()) + "_str;\n\n"); 
                 	}
-                    jsonSB.append("\n\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + "_str: " +"\"\","  );
+                    jsonSB.append("\n\t\t\t\t\"" + (fconf.get("column_name").toLowerCase()) + "_str\": " +"\"\","  );
                 }
         	}else {
         		//if("enety".equals(type)) {
@@ -260,7 +260,7 @@ public class GenEntity {
 //        		}else {
 //            		sb.append("\tprivate HYField " + (fconf.get("column_name").toLowerCase()) + " = new HYField(\""+fconf.get("codetype")+"\");\n\n"); 
 //        		}
-                jsonSB.append("\t\t\t\t" + (fconf.get("column_name").toLowerCase()) + ": " +"{key: \"\", value: \"\", p: \"E\", codetype: \""+fconf.get("codetype")+"\""+jstime+"},"  );
+                jsonSB.append("\t\t\t\t\"" + (fconf.get("column_name").toLowerCase()) + "\": " +"{key: \"\", value: \"\", p: \"E\", codetype: \""+fconf.get("codetype")+"\""+jstime+"},"  );
         	}
             
             if(StringUtil.isNotEmpty(fconf.get("comments"))) {
