@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="workFlow-design"/>
 	<classpathentry kind="src" path="database-comparison"/>
 	<classpathentry kind="src" path="RSyntax"/>
 	<classpathentry kind="src" path="resources"/>

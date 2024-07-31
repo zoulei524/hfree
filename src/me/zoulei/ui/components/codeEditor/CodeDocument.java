@@ -150,7 +150,7 @@ public class CodeDocument extends JFrame implements ActionListener, DocumentList
 	JButton button = new JButton("Show Input Dialog Box");
 	JFileChooser fc = new JFileChooser();
  
-	private JTextArea ta;
+	//private JTextArea ta;
 	private int count;
 	private JMenuBar menuBar;
 	private String pad;
@@ -232,6 +232,9 @@ public class CodeDocument extends JFrame implements ActionListener, DocumentList
 		});
 	}
 	
+	public CodeDocument(Map<String,String[]> codemap) {
+		this(codemap, null);
+	}
 	
 	public CodeDocument(Map<String,String[]> codemap, TableMetaDataConfig config) {
  
@@ -274,40 +277,44 @@ public class CodeDocument extends JFrame implements ActionListener, DocumentList
  
 		count = 0;
 		pad = " ";
-		ta = new JTextArea(); // textarea
+		//ta = new JTextArea(); // textarea
  
 		menuBar = new JMenuBar();
 		toolBar = new JToolBar();
 		toolBar.setFloatable(false);
  
-		ta.setLineWrap(true);
-		ta.setWrapStyleWord(true);
+		//ta.setLineWrap(true);
+		//ta.setWrapStyleWord(true);
  
 		//隐藏菜单。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
 		//菜单用来生成目录结构  前端和后台的，根据名字生成
 		setJMenuBar(menuBar);
-		file_1 = new JMenu("操作");
-		//file_1.setMnemonic('F');
-		menuBar.add(file_1);
-		n = new JMenuItem("生成目录结构");
-		n.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String name = JOptionPane.showInputDialog("请输入英文名称，用来拼接java类名：");
-				if(StringUtils.isEmpty(name)) {
-					JOptionPane.showMessageDialog(MainPanel.mainFrame, "请输入名称！"); 
-					return;
+		
+		if(config!=null) {
+			file_1 = new JMenu("操作");
+			//file_1.setMnemonic('F');
+			menuBar.add(file_1);
+			n = new JMenuItem("生成目录结构");
+			n.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String name = JOptionPane.showInputDialog("请输入英文名称，用来拼接java类名：");
+					if(StringUtils.isEmpty(name)) {
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "请输入名称！"); 
+						return;
+					}
+					boolean matche = name.matches("^[A-Za-z_][A-Za-z_0-9]*$");
+					if(!matche) {
+						JOptionPane.showMessageDialog(MainPanel.mainFrame, "名称不合法，请重新输入！"); 
+						return;
+					}
+					new Gencode2Files(codemap,config,name);
+					
 				}
-				boolean matche = name.matches("^[A-Za-z_][A-Za-z_0-9]*$");
-				if(!matche) {
-					JOptionPane.showMessageDialog(MainPanel.mainFrame, "名称不合法，请重新输入！"); 
-					return;
-				}
-				new Gencode2Files(codemap,config,name);
-				
-			}
-		});
-		//n.setMnemonic('N');
-		file_1.add(n);
+			});
+			//n.setMnemonic('N');
+			file_1.add(n);
+		}
+		
  
 		/*
 		file_1 = new JMenu("文件");

@@ -76,12 +76,18 @@ public  class VersionDialog extends JDialog implements ActionListener  {
             cpNameLBL.setBounds(x,y,100,25);
             cpNameLBL.setName("lbl"+strKey);
             
-            JLabel noticeLbl = new JLabel(caipinMap.get(strKey));
-            noticeLbl.setHorizontalAlignment(JLabel.LEFT);
-            add(noticeLbl);
-            noticeLbl.setName("lbl"+strKey);
-            noticeLbl.setBounds(x+120,y,100,25);
-            y = y + 30;
+            if("日志".equals(strKey)) {
+            	
+            	y = y + 30;
+            }else {
+            	JLabel noticeLbl = new JLabel(caipinMap.get(strKey));
+                noticeLbl.setHorizontalAlignment(JLabel.LEFT);
+                add(noticeLbl);
+                noticeLbl.setName("lbl"+strKey);
+                noticeLbl.setBounds(x+120,y,100,25);
+                y = y + 30;
+            }
+            
         }
        
         add(okBtn);
