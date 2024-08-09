@@ -26,7 +26,7 @@ public class Constants {
 	public static String CODE_VALUE_SQL = "select code_type,type_name from HY_GBGL_ZZGB.code_type order by code_type";
 	
 	/**存取codetype的项*/
-	public static String[] codetype_items=new String[1];
+	public static String[] codetype_items=null;
 	
 	/**导出类的包名，填写到controller前一个目录*/
 	public static String OUTPUT_PACKAGE = "com.insigma.business";

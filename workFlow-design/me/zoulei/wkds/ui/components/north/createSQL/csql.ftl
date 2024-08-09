@@ -12,6 +12,7 @@ CREATE TABLE "HY_ZGGL_ZZGB"."${tablename}"
 
 
 /*
+"${tablename}60" VARCHAR2(20),
 "${tablename}61" VARCHAR2(2000),
 "${tablename}62" VARCHAR2(20),
 "${tablename}63" VARCHAR2(2000),
@@ -40,6 +41,7 @@ COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}00" IS '业务唯�
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}01" IS '请示名称';
 
 /*
+COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}60" IS '业务状态';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}61" IS '用人单位填写上报意见';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}62" IS '用人单位填写上报意见时间';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}63" IS '组织部门填写审核意见';

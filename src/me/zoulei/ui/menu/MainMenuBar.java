@@ -65,7 +65,7 @@ public class MainMenuBar extends JMenuBar{
 		        caipinMap.put("作者","邹磊");
 		        caipinMap.put("联系方式","18042307016");        
 		        String desc = "数据库表反向生成odin7c的前后端代码。";
-		        VersionDialog d =new VersionDialog(MainApp.mainFrame, true,caipinMap,360,320,desc);
+		        VersionDialog d =new VersionDialog(MainApp.getMainFrame(), true,caipinMap,360,320,desc);
 		        d.setVisible(true);
 			}
 		});

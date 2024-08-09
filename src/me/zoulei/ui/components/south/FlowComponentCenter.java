@@ -1,6 +1,5 @@
-package me.zoulei.ui.components;
+package me.zoulei.ui.components.south;
 
-import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,14 +28,17 @@ import me.zoulei.MainApp;
 import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.dbc.ui.components.MainPanel;
 import me.zoulei.exception.myException;
-import me.zoulei.ui.components.south.FlowComponentCenter;
-import me.zoulei.ui.components.south.FlowSearchComponentNorth;
+import me.zoulei.ui.components.Item;
+import me.zoulei.ui.components.SearchComponent;
 
 /**
- * 2023年9月14日11:28:15  zoulei  
- * 该组件用于配置数据库连接参数，若连接成功，则加载 搜索数据库表的组件。
+ * 流程生成配置
+ * @ClassName: FlowComponentCenter
+ * @Desc: TODO
+ * @author zoulei
+ * @date 2024年8月8日 下午6:46:04
  */
-public class DataSourceComponent extends JPanel{
+public class FlowComponentCenter extends JPanel{
 	
 	/**
 	 * 
@@ -45,7 +47,10 @@ public class DataSourceComponent extends JPanel{
 	//表名搜索 点击连接后的的其他组件生成
     public SearchComponent searchComponent = new SearchComponent();
     
-	public DataSourceComponent() {
+	public FlowComponentCenter() {
+		
+		//加上选择流程副表配置
+		
 		
 		String baseDir = System.getProperty("user.dir")+"/dsProp";
 		
@@ -72,10 +77,13 @@ public class DataSourceComponent extends JPanel{
 			}
 		}
 		
+		JLabel  lclabel= new JLabel("流程模型库: ", JLabel.LEFT);
+		this.add(lclabel);
 		//选择数据库配置控件
 		JComboBox<Item> dbSource = new JComboBox<Item>(Constants.items);
 		dbSource.setSize(60, 30);
 		//ui初始化
+		
 		JLabel  dslabel= new JLabel("数据库: ", JLabel.LEFT);
 		JComboBox<String> dsText = new JComboBox<String>(Constants.dbTypes);
 		//JTextField dsText = new JTextField("",5);
@@ -110,8 +118,7 @@ public class DataSourceComponent extends JPanel{
 			        //grid.setComp();
 					
 					
-					searchComponent.setComp();
-					
+					//searchComponent.setComp();
 			        loginButton.setEnabled(false);
 					/*
 			        String url = this.getClass().getResource("./dsProp/1.properties").getPath();
@@ -232,11 +239,12 @@ public class DataSourceComponent extends JPanel{
 					//断开数据库连接
 	            	DataSource.closeCon();
 	            	//先移除组件
-	            	searchComponent.removeAll();
+	            	//searchComponent.removeAll();
 				}
 			}
 		});
 		
+	    
 	    
 	    this.add(dslabel);
 	    this.add(dsText);

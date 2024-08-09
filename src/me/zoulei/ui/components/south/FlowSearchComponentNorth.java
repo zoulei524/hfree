@@ -1,4 +1,4 @@
-package me.zoulei.ui.components;
+package me.zoulei.ui.components.south;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -6,14 +6,11 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,50 +26,54 @@ import me.zoulei.backend.jdbc.datasource.DataSource;
 import me.zoulei.backend.jdbc.utils.CommQuery;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
 import me.zoulei.gencode.Gencode;
-import me.zoulei.ui.components.south.FlowComponentCenter;
-import me.zoulei.ui.components.south.FlowSearchComponentNorth;
+import me.zoulei.ui.components.GridComponent;
 import me.zoulei.ui.frame.AutoCompletion;
 
 /**
- * 2023年9月14日11:30:15  zoulei
+ * 2024年8月8日18:47:54 用于设置流程模型
  * 用于搜索数据库表的组件， 设置表后可以加载表格参数配置组件。  查询模式和表名 oracle和达梦，mysql
- * 2023年10月24日10:05:44 增加mysql类型
+ * 
  */
-public class SearchComponent {
+public class FlowSearchComponentNorth  extends JPanel {
 
+	private static final long serialVersionUID = -725870091266444579L;
 	Item[] items;
 	String[] items2 = new String[] {"sadsa","dsf","fsdfg","dsadsfx"};
 	
-	GridComponent grid;
+	FlowGridComponent grid;
 	List<Component> removeComponents = new ArrayList<Component>();
 	public void removeAll() {
 		//第一次进来没渲染，不需要移除。 
 		if(removeComponents.size()>0) {
 			removeComponents.forEach(c->{
-				MainApp.north.remove(c);
+				//MainApp.north.remove(c);
 			});
-			MainApp.south.removeAll();
-			MainApp.mainFrame.remove(this.grid.getEditorGrid());
-			MainApp.mainFrame.getContentPane().repaint();
+			
+			//MainApp.mainFrame.remove(this.grid.getEditorGrid());
+			//MainApp.mainFrame.getContentPane().repaint();
 		}
 		
 	}
 	
 	Font font = new Font("宋体", Font.PLAIN, 18);
 	
-	public void setComp() {
+	public FlowSearchComponentNorth() {
 		//初始化代码类别项
-		this.initCodeType();
+		//this.initCodeType();
 		//模式列表
 		this.searchOwner();
 		
 		//表格组件
-		this.grid = new GridComponent();
+		this.grid = new FlowGridComponent();
 		
-		//模式表名选择 放到北边的中间
+		//模式表名选择 放到主面板南面的北边
 		JPanel north2 = new JPanel();
-		MainApp.north.add(north2,BorderLayout.CENTER);
-		removeComponents.add(north2);
+		if(MainApp.debugbBorder!=null) {
+			north2.setBorder(MainApp.debugbBorder);
+		}
+		this.add(north2,BorderLayout.NORTH);
+		
+		removeComponents.add(this);
 		
 		JLabel  dslabel= new JLabel("选择模式: ", JLabel.LEFT);
 		north2.add(dslabel);
@@ -99,7 +100,7 @@ public class SearchComponent {
 		search((String) cbx2.getSelectedItem());
 		
 		
-		dslabel= new JLabel("输入表名: ", JLabel.CENTER);
+		dslabel= new JLabel("输入业务表名: ", JLabel.CENTER);
 		north2.add(dslabel);
 		dslabel.setFont(font);
 		
@@ -110,9 +111,9 @@ public class SearchComponent {
 		cbx.setFont(font);
 		
 		//生成数据库配置及代码按钮
-		JButton genCodeBtn = new JButton("生成代码");
-		genCodeBtn.setFont(font);
-		genCodeBtn.setPreferredSize(new Dimension(90, 35));
+		//JButton genCodeBtn = new JButton("生成代码");
+//		genCodeBtn.setFont(font);
+//		genCodeBtn.setPreferredSize(new Dimension(90, 35));
 		//选择模式后事件  查询表名，将选择表名的下拉框选项重新设置
 		cbx2.addActionListener(new ActionListener() {
 			@Override
@@ -137,7 +138,7 @@ public class SearchComponent {
         //cbx.setPopupVisible(true);
 		
 		
-		
+		FlowSearchComponentNorth _this = this;
 		
 		//选择表名事件 选择后加载表格
 		cbx.addActionListener(new ActionListener() {
@@ -145,71 +146,37 @@ public class SearchComponent {
 			public void actionPerformed(ActionEvent e) {
 				Item item = (Item) cbx.getSelectedItem();
 				if(item!=null) {
-					grid.setComp(item.getKey(),(String) cbx2.getSelectedItem());
+					grid.setComp(item.getKey(),(String) cbx2.getSelectedItem(),_this);
 				}
 			}
 		});
 		//第一次默认加载表
-		Item item = (Item) cbx.getSelectedItem();
-		if(item!=null) {
-			grid.setComp(item.getKey(),(String) cbx2.getSelectedItem());
-		}
+//		Item item = (Item) cbx.getSelectedItem();
+//		if(item!=null) {
+//			grid.setComp(item.getKey(),(String) cbx2.getSelectedItem(),this);
+//		}
 		
 		
-		north2.add(genCodeBtn);
-		genCodeBtn.addActionListener(new ActionListener() {
-	         public void actionPerformed(ActionEvent e) {     
-	             //生成配置
-	        	 List<HashMap<String, String>> tmd = grid.editorGrid.genTableMetaData();
-	        	 Item item = (Item) cbx.getSelectedItem();
-	        	 try {
-	        		 //生成代码
-					new Gencode().gencode(new TableMetaDataConfig(item.getKey(),item.getValue(), tmd, grid.editorGrid));
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(MainApp.mainFrame, e1.getMessage());    
-					e1.printStackTrace();
-				}
-	            
-	         }
-	      });
-		
-		genCodeBtn.setBorder(MainApp.lineBorder);
-		
-		
-		
-		JCheckBox flowCheckBox = new JCheckBox("流程配置",false);
-		north2.add(flowCheckBox);
-		flowCheckBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                	//附表设置
-					FlowSearchComponentNorth flowSearchComponentNorth = new FlowSearchComponentNorth();
-					if(MainApp.debugbBorder!=null) {
-						flowSearchComponentNorth.setBorder(MainApp.debugbBorder);
-					}
-					//添加South面板
-					MainApp.addSouth();
-					MainApp.south.add(flowSearchComponentNorth,BorderLayout.NORTH);
-					//流程模型配置
-				    FlowComponentCenter fc = new FlowComponentCenter();
-				    if(MainApp.debugbBorder!=null) {
-				    	fc.setBorder(MainApp.debugbBorder);
-				    }
-				    MainApp.south.add(fc,BorderLayout.CENTER);
-				    MainApp.mainFrame.setSize(MainApp.MAIN_WIDTH, 1000);
-                } else {
-                	//移除South面板
-                	MainApp.mainFrame.remove(MainApp.south);
-                	MainApp.mainFrame.setSize(MainApp.MAIN_WIDTH, MainApp.MAIN_HEIGHT);
-                	
-                }
-                //组件发生变化，更新ui
-                MainApp.south.updateUI();
-                
-            }
-        });
-		
+//		north2.add(genCodeBtn);
+//		genCodeBtn.addActionListener(new ActionListener() {
+//	         public void actionPerformed(ActionEvent e) {     
+//	             //生成配置
+//	        	 List<HashMap<String, String>> tmd = grid.editorGrid.genTableMetaData();
+//	        	 Item item = (Item) cbx.getSelectedItem();
+//	        	 try {
+//	        		 //生成代码
+//					new Gencode().gencode(new TableMetaDataConfig(item.getKey(),item.getValue(), tmd, grid.editorGrid));
+//				} catch (Exception e1) {
+//					JOptionPane.showMessageDialog(MainApp.mainFrame, e1.getMessage());    
+//					e1.printStackTrace();
+//				}
+//	            
+//	         }
+//	      });
+//		
+//		genCodeBtn.setBorder(MainApp.lineBorder);
+		//高度
+		this.setPreferredSize(new Dimension(-1, 365));
 	}
 	//查询表
 	public void search(String sch) {

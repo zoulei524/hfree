@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -29,7 +31,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -42,7 +43,6 @@ import javax.swing.ListModel;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.PopupMenuEvent;
@@ -59,6 +59,8 @@ import javax.swing.table.TableModel;
 import me.zoulei.Constants;
 import me.zoulei.MainApp;
 import me.zoulei.backend.templete.grid.TableMetaDataConfig;
+import me.zoulei.ui.components.south.FlowComponentCenter;
+import me.zoulei.ui.components.south.FlowSearchComponentNorth;
 import me.zoulei.ui.frame.AutoCompletion;
 
 /**
@@ -81,6 +83,10 @@ public class EditorGrid extends JPanel {
     public TableColumn column;
     private boolean headerEditable = false;
     private boolean tableEditable = false;
+    /**
+     * 是否流程业务表
+     */
+    private boolean isFlowBusinessTable = false;
     ////是否有增删改查功能的控件
     public JCheckBox crudCheckBox;
     ////是否有分页功能的控件
@@ -127,7 +133,18 @@ public class EditorGrid extends JPanel {
         init();
     }
 
-    public void init() {
+    public EditorGrid(String tablename, String owner, boolean isFlowBusinessTable) {
+		this.isFlowBusinessTable = isFlowBusinessTable;
+		try {
+    		//* 传入表名tablename  获取数据库表的各种信息 字段名column_name 字段备注comments 字段类型data_type 字段长度data_length 主键p
+    		tableMetaData = new TableMetaDataConfig(tablename,owner,"").getTableMetaData();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        init();
+	}
+
+	public void init() {
     	Object[][] tableDate = new Object[7][tableMetaData.size()];
     	String[] colnames = new String[tableMetaData.size()];
     	for(int i = 0; i<tableMetaData.size(); i++ ) {
@@ -270,26 +287,30 @@ public class EditorGrid extends JPanel {
 		logCheckBox = new JCheckBox("维护日志（未开发）",false);
 		toolBar.add(logCheckBox);
 		
-		//添加间隙
-		toolBar.add(Box.createHorizontalStrut(350));
-		//输入包名 2024年1月22日16:39:05
-		JLabel label_1 = new JLabel("请输入包名：");
-		toolBar.add(label_1);
-		packageInput = new JTextField(Constants.OUTPUT_PACKAGE, 62); 
-		//packageInput.setMaximumSize(packageInput.getPreferredSize());
-		toolBar.add(packageInput);
-		packageInput.addFocusListener(new FocusListener(){
+		
+		if(!isFlowBusinessTable) {
+			//添加间隙
+			toolBar.add(Box.createHorizontalStrut(350));
+			//输入包名 2024年1月22日16:39:05
+			JLabel label_1 = new JLabel("请输入包名：");
+			toolBar.add(label_1);
+			packageInput = new JTextField(Constants.OUTPUT_PACKAGE, 62); 
+			//packageInput.setMaximumSize(packageInput.getPreferredSize());
+			toolBar.add(packageInput);
+			packageInput.addFocusListener(new FocusListener(){
 
-			@Override
-			public void focusGained(FocusEvent e) {
-			}
+				@Override
+				public void focusGained(FocusEvent e) {
+				}
 
-			@Override
-			public void focusLost(FocusEvent e) {
-				Constants.OUTPUT_PACKAGE = packageInput.getText();
-			}
-			
-		});
+				@Override
+				public void focusLost(FocusEvent e) {
+					Constants.OUTPUT_PACKAGE = packageInput.getText();
+				}
+				
+			});
+		}
+		
 		
         scrollPane = new JScrollPane( table );
         //scrollPane.setBorder(new EmptyBorder(0, 14, 0, 14));
