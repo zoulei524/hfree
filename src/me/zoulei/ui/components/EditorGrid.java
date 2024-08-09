@@ -128,7 +128,7 @@ public class EditorGrid extends JPanel {
     }
 
     public void init() {
-    	Object[][] tableDate = new Object[8][tableMetaData.size()];
+    	Object[][] tableDate = new Object[7][tableMetaData.size()];
     	String[] colnames = new String[tableMetaData.size()];
     	for(int i = 0; i<tableMetaData.size(); i++ ) {
     		HashMap<String, String> metaData = tableMetaData.get(i);
@@ -151,7 +151,7 @@ public class EditorGrid extends JPanel {
     		//表单控件类型
     		tableDate[6][i] = "文本";
     		
-    		tableDate[7][i] = "否";
+    		//tableDate[7][i] = "否";
     		
     		if("1".equals(p)) {//主键
     			tableDate[3][i] = ItemEnum.B.toString();
@@ -170,10 +170,10 @@ public class EditorGrid extends JPanel {
             	//第一行是字段名，第二行宽，通过拖拉改变，不可编辑。
             	if(row==0||row==1||row==2)return false;
             	//维护日志勾选才可维护
-            	if(row==7&&!logCheckBox.isSelected()) {
-            		JOptionPane.showMessageDialog(MainApp.mainFrame, "请先勾选日志维护复选框");  
-            		return false;
-            	}
+//            	if(row==7&&!logCheckBox.isSelected()) {
+//            		JOptionPane.showMessageDialog(MainApp.mainFrame, "请先勾选日志维护复选框");  
+//            		return false;
+//            	}
                 if (tableEditable) return true;
                 return false;
             }
@@ -409,7 +409,7 @@ public class EditorGrid extends JPanel {
         //表单控件类型 文本、公务员常用时间控件、codetype
         headers.add("表单控件类型(单选)");
         //记日志
-        headers.add("code_table_col脚本");
+        //headers.add("code_table_col脚本");
 
         ListModel<Object> lm = new AbstractListModel<Object>() {
 
@@ -628,8 +628,8 @@ public class EditorGrid extends JPanel {
     			}
     		}
     		//2024年3月4日10:35:08  加上日志sql脚本
-    		String islog = this.table.getValueAt(7, c).toString();
-    		field.put("islog", islog);
+    		//String islog = this.table.getValueAt(7, c).toString();
+    		field.put("islog", "是");
     	}
     	return tmd;
     }
@@ -711,14 +711,14 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 		    }
 		});
 		
-		jbox6 = new JComboBox<String>(new String[] {"是","否"});
-		jbox6.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boxcell.stopCellEditing();
-			}
-		});
-		jbox6.setSelectedIndex(1);
+//		jbox6 = new JComboBox<String>(new String[] {"是","否"});
+//		jbox6.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				boxcell.stopCellEditing();
+//			}
+//		});
+//		jbox6.setSelectedIndex(1);
 		
 		//实现搜索
 		AutoCompletion.enable(jbox5);
@@ -746,9 +746,9 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 			case 6:
 				String v6 = jbox5.getSelectedItem().toString();
 				return v6;
-			case 7:
-				String v7 = jbox6.getSelectedItem().toString();
-				return v7;
+//			case 7:
+//				String v7 = jbox6.getSelectedItem().toString();
+//				return v7;
 			default:
 				return this.textfield.getText().toString();
 		}
@@ -768,8 +768,8 @@ class JBoxTestCell extends AbstractCellEditor implements TableCellEditor {
 				return this.jbox4;
 			case 6:
 				return this.jbox5;
-			case 7:
-				return this.jbox6;
+//			case 7:
+//				return this.jbox6;
 			default:
 				JTextField result = new JTextField();
 				result.setText(value==null?"":value.toString());   

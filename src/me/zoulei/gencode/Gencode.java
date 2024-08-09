@@ -38,12 +38,15 @@ public class Gencode {
 		GenEntity genEntity = new GenEntity(config);  
         //System.out.println(genEntity.getEntity_content());
         //System.out.println(genEntity.getJson_content());
+		
+		//dao层
+				GenDao dao = new GenDao(config);
+		
 		//控制层代码
 		GenCTL ctl = new GenCTL(config);
 		//服务层
 		GenService serv = new GenService(config);
-		//dao层
-		GenDao dao = new GenDao(config);
+		
 		//xml层
 		GenXml xml = new GenXml(config);
 		
@@ -69,7 +72,7 @@ public class Gencode {
 		codemap.put("  ExcelExp   ", new String[] {serv.getCodeexcel(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Dao     ", new String[] {dao.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Xml     ", new String[] {xml.getCode(), SyntaxConstants.SYNTAX_STYLE_XML});
-		if(config.isAddLog())
+		//if(config.isAddLog())
 			codemap.put("    SQL     ", new String[] {sql.getCode(), SyntaxConstants.SYNTAX_STYLE_SQL});
 		
 		

@@ -15,7 +15,7 @@ import me.zoulei.MainApp;
  */
 @Data
 public class GridComponent {
-	EditorGrid editorGrid;
+	public EditorGrid editorGrid;
 	public void setComp(String tablename,String owner) {
 		if(this.editorGrid!=null) {
 			MainApp.mainFrame.remove(this.editorGrid);
