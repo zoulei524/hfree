@@ -202,6 +202,34 @@ public class Gencode2Files {
 		    template.process(params, result);
 		    result.close();
 		    is.close();
+		    
+		    //流程2024年8月12日09:01:24
+//		    if(config.isFlow()) {
+//		    	
+//		    }
+		    is = this.getClass().getResourceAsStream("ftl/enum2.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			//输出目录
+			new File(javadir + "/enums").mkdir();
+			File enumM0213file = new File(javadir + "/enums/" + initcap(name) + "M0213Enum.java");
+			result = new FileWriter(enumM0213file);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+		    
+		    is = this.getClass().getResourceAsStream("ftl/enum3.ftl");
+			tpl = IOUtils.toString(is,"utf-8");
+			template = new Template("ctl", tpl, new Configuration(new Version("2.3.30")) );
+			//输出目录
+			new File(javadir + "/enums").mkdir();
+			File enumY60060file = new File(javadir + "/enums/" + initcap(name) + params.get("entity") +"60Enum.java");
+			result = new FileWriter(enumY60060file);
+		    template.process(params, result);
+		    result.close();
+		    is.close();
+		    
+		    
 			/*****enums********************************/
 		    
 		    

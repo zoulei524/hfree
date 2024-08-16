@@ -82,13 +82,16 @@ CREATE TABLE "HY_ZGGL_ZZGB"."${tablename2}"
 "A0107" VARCHAR2(20),
 "A0192A" VARCHAR2(20),
 */
-
+"${tablename2}91" VARCHAR2(128),
+"${tablename2}92" DATE,
 "${tablename2}99" VARCHAR2(20),
 NOT CLUSTER PRIMARY KEY("${tablename2}00"))  ;
 
 COMMENT ON TABLE "HY_ZGGL_ZZGB"."${tablename2}" IS '${comment2}';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename2}"."${tablename}00" IS '业务主表主键';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename2}"."${tablename2}00" IS '主键';
+COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename2}"."${tablename2}91" IS '创建用户';
+COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename2}"."${tablename2}92" IS '创建时间';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename2}"."${tablename2}99" IS '有效标识';
 
 /*

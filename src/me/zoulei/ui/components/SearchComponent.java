@@ -51,7 +51,10 @@ public class SearchComponent {
 			removeComponents.forEach(c->{
 				MainApp.north.remove(c);
 			});
-			MainApp.south.removeAll();
+			if(MainApp.south != null) {
+				MainApp.mainFrame.remove(MainApp.south);
+				MainApp.south = null;
+			}
 			MainApp.mainFrame.remove(this.grid.getEditorGrid());
 			MainApp.mainFrame.getContentPane().repaint();
 		}

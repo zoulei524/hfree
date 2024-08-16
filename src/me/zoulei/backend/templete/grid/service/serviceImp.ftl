@@ -55,14 +55,25 @@
 	@Transactional
 	public void save${entity}Info(JSONObject pageData) {
 		JSONObject ${tablename}form = pageData.getJSONObject("${tablename}EntityData");
+		
+//		String ${config.pk} = pageData.getString("${config.pk}");
+//      String orgname = currentUserService.getUserOrg().getOrgname();//b0101
+//      String b0111 = currentUserService.getUserOrg().getB0111();//机构id
+//		String userid = currentUserService.getCurrentUserId();//用户id
+//		String username = currentUserService.getCurrentUserName();//用户名
+
 		//${entity} ${tablename} = JSON.parseObject(${tablename}form.toJSONString(), ${entity}.class);
 		//${entity} ${tablename} = ${tablename}form.toJavaObject(${entity}.class);
 		${entity} ${tablename} = hybean.pageElementToBean(${tablename}form, ${entity}.class);
+		//${entity}Dto ${tablename}Dto = hybean.pageElementToBean(${tablename}form, ${entity}Dto.class);
   		if(StringUtil.isEmpty(${tablename}.get${config.pkU}())) {
   			${tablename}.set${config.pkU}(UUIDGenerator.generate());
+//		    ${config.pk} = IDGenertor.uuidgenerate();
+
+  			
   			session.save(${tablename});
   		}else {
-  			session.saveOrUpdate(${tablename});
+  			session.update(${tablename});
   		}
 	}
 	

@@ -64,7 +64,8 @@
 	@RequestMapping("/get${entity}List")
 	public ResponseMessage get${entity}List(@RequestBody JSONObject pageData ${otherParams}) {
 		try {
-			List<${entity}> ${tablename}List = service.get${entity}List(pageData);
+			//List<${entity}> ${tablename}List = service.get${entity}List(pageData);
+			List<${entity}Dto> ${tablename}List = dao.get${entity}DtoList(pageData);
 			pageData.put("tableData", ${tablename}List);
 			return ResponseMessage.ok(pageData);
 		} catch (Exception e) {

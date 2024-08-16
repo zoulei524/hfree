@@ -27,6 +27,7 @@ import com.insigma.sys.common.CurrentUserService;
 
 import ${config.outputpackage}.entity.${entity};
 import ${config.outputpackage}.dto.${entity}Dto;
+import ${config.outputpackage}.dao.${name}Dao;
 import ${config.outputpackage}.service.${name}Service;
 
 /**
@@ -45,6 +46,9 @@ public class ${name}Controller {
 	
 	@Autowired
 	private ${name}Service service;
+	
+	@Autowired
+	private ${name}Dao dao;
 
 ${content}
 
