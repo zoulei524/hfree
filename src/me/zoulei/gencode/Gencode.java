@@ -12,6 +12,7 @@ import me.zoulei.backend.templete.grid.dao.GenDao;
 import me.zoulei.backend.templete.grid.entity.GenEntity;
 import me.zoulei.backend.templete.grid.javascript.GenJS;
 import me.zoulei.backend.templete.grid.logsql.GenLogSQL;
+import me.zoulei.backend.templete.grid.other.GenOther;
 import me.zoulei.backend.templete.grid.service.GenService;
 import me.zoulei.backend.templete.grid.xml.GenXml;
 import me.zoulei.frontend.templete.grid.GenCSS;
@@ -73,8 +74,10 @@ public class Gencode {
 		codemap.put("    Dao     ", new String[] {dao.getCode(), SyntaxConstants.SYNTAX_STYLE_JAVA});
 		codemap.put("    Xml     ", new String[] {xml.getCode(), SyntaxConstants.SYNTAX_STYLE_XML});
 		//if(config.isAddLog())
-			codemap.put("    SQL     ", new String[] {sql.getCode(), SyntaxConstants.SYNTAX_STYLE_SQL});
+		codemap.put("    SQL     ", new String[] {sql.getCode(), SyntaxConstants.SYNTAX_STYLE_SQL});
 		
+		GenOther other = new GenOther(config);
+		codemap.put("    other     ", new String[] {other.getCode(), SyntaxConstants.SYNTAX_STYLE_TYPESCRIPT});
 		
 //		2024年2月1日14:50:42
 //		取消dep.ftl

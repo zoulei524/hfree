@@ -1,5 +1,7 @@
 package me.zoulei.dbc.ui.components.center;
 
+import org.apache.commons.lang.StringUtils;
+
 import me.zoulei.dbc.ui.components.north.DataSourceDBC;
 
 /**
@@ -35,6 +37,7 @@ public class SQLAdapterUtil {
 					+ " FROM information_schema.COLUMNS b"
 					+ " WHERE   b.table_schema = upper('%s') "
 					+ " and b.TABLE_NAME in(select TABLE_NAME from information_schema.tables where TABLE_TYPE='BASE TABLE' and table_schema = upper('%s') )"
+					+ (StringUtils.isNotEmpty(table)?" and b.TABLE_NAME in("+table+")":"")
 					+ "		ORDER BY b.table_name,b.ORDINAL_POSITION";
 		}else if(dbc.DBType.equals("达梦")||dbc.DBType.equals("oracle")) {
 			columnSQL = "select t.TABLE_NAME,t.column_name,\r\n"
@@ -70,20 +73,31 @@ public class SQLAdapterUtil {
 					+ "   and t.owner = c."+SCHEMA_NAME+"\r\n"
 					+ "   and t.owner = upper('%s')\r\n"
 					+ "   and t.TABLE_NAME in (select TABLE_NAME from all_tables where OWNER = upper('%s'))"
+					+ (StringUtils.isNotEmpty(table)?" and t.TABLE_NAME in("+table+")":"")
 					+ " ORDER BY t.TABLE_NAME,t.COLUMN_ID";
 		}
 		return columnSQL;
 	}
-	
-	
-	public static String getTableSQL(DataSourceDBC dbc) {
+	//选择的表格
+	public static String table = "";
+
+	public static String getTableSQL(DataSourceDBC dbc,String table) {
 		String tableSQL = "";
 		if(dbc.DBType.equals("mysql")) {
-			tableSQL = "SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA=upper('%s') and TABLE_TYPE='BASE TABLE'  order by table_name ";
+			tableSQL = "SELECT TABLE_NAME,TABLE_COMMENT FROM information_schema.TABLES "
+					+ " WHERE TABLE_SCHEMA=upper('%s') and TABLE_TYPE='BASE TABLE' "
+					+ (StringUtils.isNotEmpty(table)?" and table_name in("+table+")":"")
+					+ " order by table_name ";
 		}else if(dbc.DBType.equals("达梦")||dbc.DBType.equals("oracle")) {
-			tableSQL = "select c.TABLE_NAME,c.COMMENTS TABLE_COMMENT from all_tab_comments c,all_tables u  where c.OWNER=u.OWNER and c.TABLE_NAME=u.TABLE_NAME and c.OWNER = upper('%s')";
+			tableSQL = "select c.TABLE_NAME,c.COMMENTS TABLE_COMMENT from all_tab_comments c,all_tables u  "
+					+ " where c.OWNER=u.OWNER and c.TABLE_NAME=u.TABLE_NAME and c.OWNER = upper('%s')"
+					+ (StringUtils.isNotEmpty(table)?" and u.TABLE_NAME in("+table+")":"")
+					+ " order by u.TABLE_NAME ";
 		}
 		return tableSQL;
 	}
 	
+	public static String getTableSQL(DataSourceDBC dbc) {
+		return getTableSQL(dbc, table);
+	}
 }

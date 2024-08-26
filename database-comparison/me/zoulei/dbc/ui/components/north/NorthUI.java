@@ -11,10 +11,13 @@ import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import me.zoulei.MainApp;
 import me.zoulei.dbc.ui.components.MainPanel;
 import me.zoulei.dbc.ui.components.center.ExecCP;
 import me.zoulei.dbc.ui.components.center.ResultsLogUI;
@@ -92,11 +95,27 @@ public class NorthUI extends JPanel{
 	        	 caipinMap.put("版本","测试1.0.0");
 	        	 caipinMap.put("日期","2023年12月1日");
 	        	 caipinMap.put("作者","邹磊");
-	        	 caipinMap.put("联系方式","18042307016");        
+	        	 caipinMap.put("wx","18042307016");        
 	        	 String desc = "数据库表结构比对并生成相关日志。";
 	        	 VersionDialog d =new VersionDialog(MainPanel.mainFrame, true,caipinMap,360,320,desc);
 	        	 d.setVisible(true);
 	         }
+        });
+        
+        
+        JButton configButton = new JButton("选择表");
+        this.add(configButton);
+        configButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	try {
+					JDialog tableSelectUI = new TableSelectUI(dcc.schemaSelectComponent,dcc2.schemaSelectComponent);
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(MainPanel.mainFrame, "设置失败："+e1.getMessage());
+					e1.printStackTrace();
+					
+				}
+            }
         });
 	}
 
