@@ -175,7 +175,7 @@ ${config.codetype_json}
 		    };
 		    _this.$api.commonPost(url, param).then(function (res) {
 		        if (res.status == "0") {
-		            _this.${tablename}EntityData = res.data;
+		            _this.${tablename}EntityData = res.data.${tablename};
 					//弹出框是否禁用
 					for (let x in _this.${tablename}EntityData) {
 						if (_this.${tablename}EntityData[x].p) {

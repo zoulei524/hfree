@@ -8,6 +8,7 @@ CREATE TABLE "HY_ZGGL_ZZGB"."${tablename}"
 "B0111" VARCHAR2(200),
 "B0101" VARCHAR2(200),
 "${tablename}01" VARCHAR2(500),
+"${tablename}02" VARCHAR2(20),
 
 
 
@@ -39,6 +40,7 @@ COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."M0100" IS '业务模型编码';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."Y0000" IS '业务流程唯一编码';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}00" IS '业务唯一流水号';
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}01" IS '请示名称';
+COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}02" IS '上报时间yyyymmdd';
 
 /*
 COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}60" IS '业务状态';

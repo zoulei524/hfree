@@ -64,6 +64,15 @@
 	@RequestMapping("/get${entity}List")
 	public ResponseMessage get${entity}List(@RequestBody JSONObject pageData ${otherParams}) {
 		try {
+			//hygrid
+//			int page = pageData.get("page") == null?1:Integer.parseInt(pageData.getString("page"));
+//	        int size = pageData.get("size") == null?50:Integer.parseInt(pageData.getString("size"));
+//	        JSONArray dataCols = pageData.getJSONArray("dataCols");
+	        
+//	        String sql = dao.get${entity}ListSQL(pageData);
+//	        JSONObject jsonObject = gridTableService.pageQuery(sql,size,page,dataCols,pageData);
+//	        pageData.put("tableData",jsonObject);
+		
 			//List<${entity}> ${tablename}List = service.get${entity}List(pageData);
 			List<${entity}Dto> ${tablename}List = dao.get${entity}DtoList(pageData);
 			pageData.put("tableData", ${tablename}List);
@@ -87,9 +96,10 @@
 	@RequestMapping("/get${entity}InfoById")
 	public ResponseMessage get${entity}InfoById(@RequestBody JSONObject pageData) {
 		try {
-		    String ${config.pk} = pageData.getString("${config.pk}");
-		    ${entity} ${tablename} = service.get${entity}InfoById(${config.pk});
-		    return ResponseMessage.ok(${tablename});
+		    
+		    service.get${entity}InfoById(pageData);
+		    
+		    return ResponseMessage.ok(pageData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseMessage.error(e.getMessage());
@@ -109,7 +119,7 @@
 	public ResponseMessage save${entity}Info(@RequestBody JSONObject pageData) {
 		try {
 	        service.save${entity}Info(pageData);
-	        return ResponseMessage.ok();
+	        return ResponseMessage.ok(pageData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseMessage.error(e.getMessage());
@@ -128,9 +138,8 @@
 	@RequestMapping("/delete${entity}ById")
 	public ResponseMessage delete${entity}ById(@RequestBody JSONObject pageData) {
 		try {
-			String ${config.pk} = pageData.getString("${config.pk}");
-			service.delete${entity}ById(${config.pk});
-			return ResponseMessage.ok();
+			service.delete${entity}ById(pageData);
+			return ResponseMessage.ok(pageData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseMessage.error(e.getMessage());

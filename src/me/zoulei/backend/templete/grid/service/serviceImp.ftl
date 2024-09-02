@@ -37,9 +37,13 @@
 	 * ====================================================================================================
 	 */
 	@Override
-	public ${entity} get${entity}InfoById(String ${config.pk}) {
+	public void get${entity}InfoById(JSONObject pageData) {
+	
+		String ${config.pk} = pageData.getString("${config.pk}");
+	
 		${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
-		return ${tablename};
+		
+		pageData.put("${tablename}", ${tablename});
 	}
 	
 	/**
@@ -54,25 +58,41 @@
 	@Override
 	@Transactional
 	public void save${entity}Info(JSONObject pageData) {
-		JSONObject ${tablename}form = pageData.getJSONObject("${tablename}EntityData");
+//		JSONObject ${tablename}form = pageData.getJSONObject("${tablename}EntityData");
 		
-//		String ${config.pk} = pageData.getString("${config.pk}");
+		String ${config.pk} = pageData.getString("${config.pk}");
 //      String orgname = currentUserService.getUserOrg().getOrgname();//b0101
 //      String b0111 = currentUserService.getUserOrg().getB0111();//机构id
-//		String userid = currentUserService.getCurrentUserId();//用户id
+		String userid = currentUserService.getCurrentUserId();//用户id
 //		String username = currentUserService.getCurrentUserName();//用户名
 
-		//${entity} ${tablename} = JSON.parseObject(${tablename}form.toJSONString(), ${entity}.class);
-		//${entity} ${tablename} = ${tablename}form.toJavaObject(${entity}.class);
-		${entity} ${tablename} = hybean.pageElementToBean(${tablename}form, ${entity}.class);
-		//${entity}Dto ${tablename}Dto = hybean.pageElementToBean(${tablename}form, ${entity}Dto.class);
-  		if(StringUtil.isEmpty(${tablename}.get${config.pkU}())) {
-  			${tablename}.set${config.pkU}(UUIDGenerator.generate());
-//		    ${config.pk} = IDGenertor.uuidgenerate();
-
-  			
+		//${entity} ${tablename} = JSON.parseObject(pageData.toJSONString(), ${entity}.class);
+		//${entity} ${tablename} = pageData.toJavaObject(${entity}.class);
+		//${entity} ${tablename} = hybean.pageElementToBean(pageData, ${entity}.class);
+		${entity}Dto ${tablename}Dto = hybean.pageElementToBean(pageData, ${entity}Dto.class);
+  		if(StringUtil.isEmpty(${config.pk})) {
+			${entity} ${tablename} = new ${entity}();
+			BeanUtil.copyProperties(${tablename}Dto, ${tablename}, false);
+			${config.pk} = IDGenertor.uuidgenerate();
+			
+			${tablename}.set${config.pkU}(${config.pk});
+			
+			${tablename}.set${config.pkU}99("1");
+			
+			${tablename}.set${config.pkU}91(userid);
+			${tablename}.set${config.pkU}92(new Date());
+			${tablename}.set${config.pkU}93(userid);
+			${tablename}.set${config.pkU}94(new Date());
   			session.save(${tablename});
   		}else {
+  			${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
+  			
+  			//BeanUtil.copyProperties(${tablename}Dto, ${tablename}, false);
+  			//写上需要修改的列
+  			
+  			${tablename}.set${config.pkU}93(userid);
+			${tablename}.set${config.pkU}94(new Date());
+			
   			session.update(${tablename});
   		}
 	}
@@ -87,13 +107,24 @@
 	 * ====================================================================================================
 	 */
 	@Override
-	public void delete${entity}ById(String ${config.pk}) {
-		try {
-			${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
-			session.delete(${tablename});
-		} catch (Exception e) {
-			throw new ServiceException("删除失败！");
-		}
+	public void delete${entity}ById(JSONObject pageData) {
+	
+		//String ${config.pk} = pageData.getString("${config.pk}");
+		//${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
+		//session.delete(${tablename});
+		
+		String ${config.pk}s = pageData.getString("${config.pk}s");
+		//批量删除
+		if(StringUtil.isNotEmpty(${config.pk}s)) {
+        	String[] ${config.pk}Arr = ${config.pk}s.split(",");
+        	for (int i = 0; i < ${config.pk}Arr.length; i++) {
+        		String ${config.pk} = ${config.pk}Arr[i];
+        		${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
+    			session.delete(${tablename});
+    			//删除子表
+    			//session.executeUpdate("delete from ${tablename}x where ${config.pk}=?",new Object[] {${config.pk}});
+			}
+        }
 	}
 </#if>	
 

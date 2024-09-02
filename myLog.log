@@ -3582,3 +3582,39 @@ freemarker.core.NonHashException: [... Exception message was already printed; se
  me.zoulei.Config 2024-08-23 15:29:05,972 95
 - 检测配置完成。
  me.zoulei.Config 2024-08-23 15:29:05,972 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-08-29 16:36:56,597 26
+- 检查配置信息...
+ me.zoulei.Config 2024-08-29 16:36:56,602 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-08-29 16:36:56,602 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-08-29 16:36:56,602 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-08-29 16:36:56,607 95
+- 检测配置完成。
+ me.zoulei.Config 2024-08-29 16:36:56,607 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-08-30 15:51:04,560 26
+- 检查配置信息...
+ me.zoulei.Config 2024-08-30 15:51:04,563 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-08-30 15:51:04,563 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-08-30 15:51:04,563 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-08-30 15:51:04,566 95
+- 检测配置完成。
+ me.zoulei.Config 2024-08-30 15:51:04,566 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-08-31 15:37:29,836 26
+- 检查配置信息...
+ me.zoulei.Config 2024-08-31 15:37:29,839 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-08-31 15:37:29,839 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-08-31 15:37:29,840 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-08-31 15:37:29,844 95
+- 检测配置完成。
+ me.zoulei.Config 2024-08-31 15:37:29,844 107
