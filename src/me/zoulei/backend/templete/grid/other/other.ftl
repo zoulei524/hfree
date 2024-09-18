@@ -1,4 +1,4 @@
-{
+[
 <#list config.tableMetaData as item>
 	{
 		field: "${(item.column_name)?lower_case}",
@@ -17,5 +17,5 @@
 		showOverflowTooltip: true,
 	},
 </#list>
-}	
+]	
  

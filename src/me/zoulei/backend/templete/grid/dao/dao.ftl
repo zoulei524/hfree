@@ -17,7 +17,7 @@
 		SQLProcessor sqlPro = new SQLProcessor(session, this.getClass());
 		
 		Map<String,Object> params = new HashMap<>();
-		String sql = sqlPro.getSQLFromXml("get${entity}List", params);
+		String sql = sqlPro.getSQLFromXml("get${entity}List", pageData);
 		
 		//分页sql，不需要分页的注释该行代码。
 		${config.pagination?then('','//')}sql = this.getPageSql(pageData, sql);

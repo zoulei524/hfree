@@ -77,12 +77,12 @@
 			
 			${tablename}.set${config.pkU}(${config.pk});
 			
-			${tablename}.set${config.pkU}99("1");
+			${tablename}.set${entity}99("1");
 			
-			${tablename}.set${config.pkU}91(userid);
-			${tablename}.set${config.pkU}92(new Date());
-			${tablename}.set${config.pkU}93(userid);
-			${tablename}.set${config.pkU}94(new Date());
+			${tablename}.set${entity}91(userid);
+			${tablename}.set${entity}92(new Date());
+			${tablename}.set${entity}93(userid);
+			${tablename}.set${entity}94(new Date());
   			session.save(${tablename});
   		}else {
   			${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
@@ -90,8 +90,8 @@
   			//BeanUtil.copyProperties(${tablename}Dto, ${tablename}, false);
   			//写上需要修改的列
   			
-  			${tablename}.set${config.pkU}93(userid);
-			${tablename}.set${config.pkU}94(new Date());
+  			${tablename}.set${entity}93(userid);
+			${tablename}.set${entity}94(new Date());
 			
   			session.update(${tablename});
   		}

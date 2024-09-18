@@ -144,7 +144,7 @@ public class ExecCP extends Thread{
 		try {
 			activity.setStatus(10, "正在查询库1数据...");
 			String tableSQL1 = String.format(SQLAdapterUtil.getTableSQL(schema1.dbc), schema1.selectSchema);
-			String columnSQL1 = String.format(SQLAdapterUtil.getColumnSQL(schema1.dbc), schema1.selectSchema, schema1.selectSchema);
+			String columnSQL1 = String.format(SQLAdapterUtil.getColumnSQL(schema1.dbc), schema1.selectSchema, schema1.selectSchema, schema1.selectSchema, schema1.selectSchema, schema1.selectSchema);
 			//第一个数据库信息
 			CommQuery cq1 = new CommQuery(schema1.dbc);
 			List<HashMap<String, String>> tablelist1 = cq1.getListBySQL2(tableSQL1);
@@ -181,7 +181,7 @@ public class ExecCP extends Thread{
 			//第二个数据库信息
 			activity.setStatus(30, "正在查询库2数据...");
 			String tableSQL2 = String.format(SQLAdapterUtil.getTableSQL(schema2.dbc), schema2.selectSchema);
-			String columnSQL2 = String.format(SQLAdapterUtil.getColumnSQL(schema2.dbc), schema2.selectSchema, schema2.selectSchema);
+			String columnSQL2 = String.format(SQLAdapterUtil.getColumnSQL(schema2.dbc), schema2.selectSchema,schema2.selectSchema, schema2.selectSchema, schema2.selectSchema, schema2.selectSchema);
 			CommQuery cq2 = new CommQuery(schema2.dbc);
 			List<HashMap<String, String>> tablelist2 = cq2.getListBySQL2(tableSQL2);
 			List<HashMap<String, String>> columnlist2 = cq2.getListBySQL2(columnSQL2);

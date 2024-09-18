@@ -14,7 +14,11 @@ public class TestConstractor {
 
 	public static void main(String[] args) {
 		System.out.println(new TestConstractor("asadsa").a);
-
+		long a = 3;
+		int b = 7;
+		double x = b;
+		double c = a/x;
+		System.out.println(c);
 	}
 
 }

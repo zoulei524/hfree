@@ -1,3 +1,4 @@
+-- drop TABLE if exists "HY_ZGGL_ZZGB"."${tablename}";
 CREATE TABLE "HY_ZGGL_ZZGB"."${tablename}"
 (
 "${tablename}00" VARCHAR2(128) NOT NULL,
@@ -70,7 +71,7 @@ COMMENT ON COLUMN "HY_ZGGL_ZZGB"."${tablename}"."${tablename}99" IS '有效性�
 
 
 
-
+-- drop TABLE if exists "HY_ZGGL_ZZGB"."${tablename2}";
 CREATE TABLE "HY_ZGGL_ZZGB"."${tablename2}"
 (
 "${tablename2}00" VARCHAR2(128) NOT NULL,
