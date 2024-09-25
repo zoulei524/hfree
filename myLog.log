@@ -3834,3 +3834,135 @@ freemarker.core.NonHashException: [... Exception message was already printed; se
  me.zoulei.Config 2024-09-18 19:42:07,516 95
 - 检测配置完成。
  me.zoulei.Config 2024-09-18 19:42:07,516 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-20 14:40:55,761 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-20 14:40:55,763 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-20 14:40:55,764 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-20 14:40:55,764 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-20 14:40:55,797 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-20 14:40:55,797 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-20 14:45:11,921 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-20 14:45:11,923 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-20 14:45:11,924 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-20 14:45:11,924 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-20 14:45:11,926 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-20 14:45:11,927 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-21 15:38:53,778 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-21 15:38:53,782 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-21 15:38:53,782 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-21 15:38:53,783 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-21 15:38:53,814 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-21 15:38:53,814 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-23 11:02:10,098 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-23 11:02:10,104 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-23 11:02:10,105 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-23 11:02:10,105 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-23 11:02:10,136 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-23 11:02:10,136 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-24 09:05:20,016 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-24 09:05:20,019 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-24 09:05:20,020 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-24 09:05:20,020 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-24 09:05:20,050 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-24 09:05:20,050 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-24 09:05:55,411 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-24 09:05:55,414 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-24 09:05:55,414 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-24 09:05:55,414 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-24 09:05:55,417 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-24 09:05:55,417 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-24 09:16:07,993 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-24 09:16:07,995 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-24 09:16:07,996 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-24 09:16:07,996 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-24 09:16:07,999 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-24 09:16:07,999 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-24 10:00:18,329 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-24 10:00:18,332 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-24 10:00:18,332 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-24 10:00:18,332 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-24 10:00:18,336 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-24 10:00:18,336 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-24 18:23:51,904 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-24 18:23:51,908 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-24 18:23:51,908 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-24 18:23:51,908 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-24 18:23:51,940 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-24 18:23:51,940 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-25 16:28:08,910 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-25 16:28:08,913 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-25 16:28:08,913 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-25 16:28:08,914 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-25 16:28:08,949 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-25 16:28:08,949 107
+- D:\workspace2023\hfree
+ me.zoulei.Config 2024-09-25 19:08:09,277 26
+- 检查配置信息...
+ me.zoulei.Config 2024-09-25 19:08:09,281 27
+- dsProp目录已存在，用于放数据源配置文件
+ me.zoulei.Config 2024-09-25 19:08:09,281 32
+- 读取hfree.ini配置
+ me.zoulei.Config 2024-09-25 19:08:09,281 60
+- 资源目录已经存在。资源包括图标和4个公共类。
+ me.zoulei.Config 2024-09-25 19:08:09,284 95
+- 检测配置完成。
+ me.zoulei.Config 2024-09-25 19:08:09,284 107

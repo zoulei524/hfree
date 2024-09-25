@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.insigma.framework.exception.AppException;
+import com.insigma.odin.framework.AppException;
 
 import ${config.outputpackage}.entity.${entity};
 import ${config.outputpackage}.dto.${entity}Dto;

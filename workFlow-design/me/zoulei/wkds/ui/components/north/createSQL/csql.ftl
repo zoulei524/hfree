@@ -25,9 +25,9 @@ CREATE TABLE "HY_ZGGL_ZZGB"."${tablename}"
 "${tablename}68" VARCHAR2(20),
 */
 "${tablename}91" VARCHAR2(128),
-"${tablename}92" DATE,
+"${tablename}92" TIMESTAMP(0),
 "${tablename}93" VARCHAR2(128),
-"${tablename}94" DATE,
+"${tablename}94" TIMESTAMP(0),
 "${tablename}98" VARCHAR2(20),
 "${tablename}99" VARCHAR2(20),
 NOT CLUSTER PRIMARY KEY("${tablename}00"));
@@ -86,7 +86,7 @@ CREATE TABLE "HY_ZGGL_ZZGB"."${tablename2}"
 "A0192A" VARCHAR2(20),
 */
 "${tablename2}91" VARCHAR2(128),
-"${tablename2}92" DATE,
+"${tablename2}92" TIMESTAMP(0),
 "${tablename2}99" VARCHAR2(20),
 NOT CLUSTER PRIMARY KEY("${tablename2}00"))  ;
 

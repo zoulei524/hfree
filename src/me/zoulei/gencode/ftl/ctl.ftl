@@ -42,7 +42,7 @@ public class ${name}Controller {
 	private Log log = LogFactory.getLog(this.getClass());
 
 	@Autowired
-	private CurrentUserService currentUserService;
+	private CurrentUserService userService;
 	
 	@Autowired
 	private ${name}Service service;

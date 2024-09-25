@@ -15,14 +15,17 @@ import com.insigma.business.util.DownFileDirUtil;
 import com.insigma.business.util.StringUtil;
 import com.insigma.business.util.UUIDGenerator;
 import com.insigma.common.exception.ServiceException;
-import com.insigma.framework.exception.AppException;
+import com.insigma.odin.framework.AppException;
 import com.insigma.odin.framework.persistence.HBSession;
 import com.insigma.sys.common.CurrentUserService;
+import com.insigma.business.util.IDGenertor;
 
 import ${config.outputpackage}.entity.${entity};
 import ${config.outputpackage}.dto.${entity}Dto;
 import ${config.outputpackage}.dao.${name}Dao;
 import ${config.outputpackage}.service.${name}Service;
+
+import cn.hutool.core.bean.BeanUtil;
 
 /**
  * 
@@ -36,7 +39,7 @@ public class ${name}ServiceImpl implements ${name}Service {
 	private ${name}Dao dao;
 	
 	@Autowired
-	private CurrentUserService currentUserService;
+	private CurrentUserService userService;
 	
 	@Autowired
 	private HBSession session;

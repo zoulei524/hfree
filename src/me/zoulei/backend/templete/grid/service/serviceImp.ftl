@@ -57,14 +57,14 @@
 	 */
 	@Override
 	@Transactional
-	public void save${entity}Info(JSONObject pageData) {
+	public void save${entity}Info(JSONObject pageData)  throws AppException{
 //		JSONObject ${tablename}form = pageData.getJSONObject("${tablename}EntityData");
 		
 		String ${config.pk} = pageData.getString("${config.pk}");
-//      String orgname = currentUserService.getUserOrg().getOrgname();//b0101
-//      String b0111 = currentUserService.getUserOrg().getB0111();//机构id
-		String userid = currentUserService.getCurrentUserId();//用户id
-//		String username = currentUserService.getCurrentUserName();//用户名
+//      String orgname = userService.getUserOrg().getOrgname();//b0101
+//      String b0111 = userService.getUserOrg().getB0111();//机构id
+		String userid = userService.getCurrentUserId();//用户id
+//		String username = userService.getCurrentUserName();//用户名
 
 		//${entity} ${tablename} = JSON.parseObject(pageData.toJSONString(), ${entity}.class);
 		//${entity} ${tablename} = pageData.toJavaObject(${entity}.class);
@@ -77,7 +77,12 @@
 			
 			${tablename}.set${config.pkU}(${config.pk});
 			
-			${tablename}.set${entity}99("1");
+//			${tablename}.setB0101(orgname);
+//			${tablename}.setB0111(b0111);
+//			${tablename}.setY0000(${config.pk});
+			
+//			${tablename}.set${entity}60(${entity}60Enum.草稿.getCode());
+			${tablename}.set${entity}99(Consiants.String_1);
 			
 			${tablename}.set${entity}91(userid);
 			${tablename}.set${entity}92(new Date());
