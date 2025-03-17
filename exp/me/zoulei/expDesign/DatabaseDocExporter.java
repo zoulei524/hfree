@@ -12,7 +12,7 @@ public class DatabaseDocExporter {
     static class ColumnInfo {
         int seq;
         String columnName;
-        String comments;
+        String comments; 
         String dataType;
         int dataLength;
         boolean isPrimaryKey;
