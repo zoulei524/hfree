@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="exp"/>
 	<classpathentry kind="src" path="workFlow-design"/>
 	<classpathentry kind="src" path="database-comparison"/>
 	<classpathentry kind="src" path="RSyntax"/>
@@ -9,9 +10,7 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="lib/Dm7-18-Jdbc.jar"/>
 	<classpathentry kind="lib" path="lib/DmDialect-for-hibernate5.3-8.1.1.49.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.6.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker-2.3.30.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
 	<classpathentry kind="lib" path="lib/fastjson-1.2.83.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.44.jar"/>
 	<classpathentry kind="lib" path="lib/ojdbc6.jar"/>
@@ -21,5 +20,18 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/commons-lang-2.5.jar"/>
+	<classpathentry kind="lib" path="lib/poi-5.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-5.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-full-5.2.3.jar"/>
+	<classpathentry kind="lib" path="lib/poi-ooxml-lite-5.2.5.jar"/>
+	<classpathentry kind="lib" path="lib/poi-tl-1.12.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.16.1.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="lib/xmlbeans-5.2.0.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-api-2.17.2.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-to-slf4j-2.17.2.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.36.jar"/>
+	<classpathentry kind="lib" path="lib/commons-compress-1.25.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -89,6 +89,7 @@
 			${tablename}.set${entity}93(userid);
 			${tablename}.set${entity}94(new Date());
   			session.save(${tablename});
+			pageData.put("${config.pk}", ${config.pk});
   		}else {
   			${entity} ${tablename} = session.get(${entity}.class, ${config.pk});
   			

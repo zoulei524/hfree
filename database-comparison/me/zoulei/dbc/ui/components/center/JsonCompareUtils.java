@@ -12,7 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.Feature;
- 
+
 public class JsonCompareUtils {
     //标志位：对json报文中含有JsonArray类型的数据是否进行排序
     private static boolean isSort;
@@ -125,6 +125,12 @@ public class JsonCompareUtils {
             Map<String, Object> differenceMap = new LinkedHashMap<>();
             if (oldJsonMap.containsKey(k)) {
                 Object oldValue = oldJsonMap.get(k);
+                if(v==null) {
+                	v="";
+                }
+                if(oldValue==null) {
+                	oldValue="";
+                }
                 if (v.equals(oldValue)) {
                     oldJsonMap.remove(k);
                 } else {

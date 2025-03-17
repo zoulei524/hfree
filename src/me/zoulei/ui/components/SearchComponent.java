@@ -94,7 +94,7 @@ public class SearchComponent {
 		north2.add(msmscr);
 		msmscr.setBorder(MainApp.lineBorder);
 		//cbx2.setEditable(true);
-		cbx2.setSelectedItem("HY_GBGL_ZZGB");
+		//cbx2.setSelectedItem("HY_GBGL_ZZGB");
 		cbx2.setPreferredSize(new Dimension(200, 35));
 		cbx2.setFont(font);
 		
